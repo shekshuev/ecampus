@@ -1,0 +1,33 @@
+<.header>
+  Speciality {@speciality.id}
+  <:subtitle>This is a speciality record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/specialities/#{@speciality}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit speciality</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Code">{@speciality.code}</:item>
+  <:item title="Description">{@speciality.description}</:item>
+  <:item title="Title">{@speciality.title}</:item>
+</.list>
+
+<.back navigate={~p"/specialities"}>Back to specialities</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="speciality-modal"
+  show
+  on_cancel={JS.patch(~p"/specialities/#{@speciality}")}
+>
+  <.live_component
+    module={EcampusWeb.SpecialityLive.FormComponent}
+    id={@speciality.id}
+    title={@page_title}
+    action={@live_action}
+    speciality={@speciality}
+    patch={~p"/specialities/#{@speciality}"}
+  />
+</.modal>

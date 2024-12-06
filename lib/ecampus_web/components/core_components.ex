@@ -17,7 +17,7 @@ defmodule EcampusWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
-  import EcampusWeb.Gettext
+  use Gettext, backend: EcampusWeb.Gettext
 
   @doc """
   Renders a modal.

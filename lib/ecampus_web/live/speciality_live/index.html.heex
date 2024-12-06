@@ -1,0 +1,49 @@
+<.header>
+  Listing Specialities
+  <:actions>
+    <.link patch={~p"/specialities/new"}>
+      <.button>New Speciality</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="specialities"
+  rows={@streams.specialities}
+  row_click={fn {_id, speciality} -> JS.navigate(~p"/specialities/#{speciality}") end}
+>
+  <:col :let={{_id, speciality}} label="Id">{speciality.id}</:col>
+  <:col :let={{_id, speciality}} label="Code">{speciality.code}</:col>
+  <:col :let={{_id, speciality}} label="Description">{speciality.description}</:col>
+  <:col :let={{_id, speciality}} label="Title">{speciality.title}</:col>
+  <:action :let={{_id, speciality}}>
+    <div class="sr-only">
+      <.link navigate={~p"/specialities/#{speciality}"}>Show</.link>
+    </div>
+    <.link patch={~p"/specialities/#{speciality}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, speciality}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: speciality.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="speciality-modal"
+  show
+  on_cancel={JS.patch(~p"/specialities")}
+>
+  <.live_component
+    module={EcampusWeb.SpecialityLive.FormComponent}
+    id={@speciality.id || :new}
+    title={@page_title}
+    action={@live_action}
+    speciality={@speciality}
+    patch={~p"/specialities"}
+  />
+</.modal>

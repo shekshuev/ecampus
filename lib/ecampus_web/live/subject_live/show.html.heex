@@ -1,0 +1,36 @@
+<.header>
+  Subject {@subject.id}
+  <:subtitle>This is a subject record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/subjects/#{@subject}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit subject</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title">{@subject.title}</:item>
+  <:item title="Short title">{@subject.short_title}</:item>
+  <:item title="Description">{@subject.description}</:item>
+  <:item title="Prerequisites">{@subject.prerequisites}</:item>
+  <:item title="Objectives">{@subject.objectives}</:item>
+  <:item title="Required texts">{@subject.required_texts}</:item>
+</.list>
+
+<.back navigate={~p"/subjects"}>Back to subjects</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="subject-modal"
+  show
+  on_cancel={JS.patch(~p"/subjects/#{@subject}")}
+>
+  <.live_component
+    module={EcampusWeb.SubjectLive.FormComponent}
+    id={@subject.id}
+    title={@page_title}
+    action={@live_action}
+    subject={@subject}
+    patch={~p"/subjects/#{@subject}"}
+  />
+</.modal>

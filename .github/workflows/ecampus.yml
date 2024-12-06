@@ -1,134 +1,142 @@
 name: Ecampus Workflows
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  test:
-    services:
-      db:
-        image: postgres:12
-        ports: ["5432:5432"]
+    test:
+        services:
+            db:
+                image: postgres:12
+                ports: ["5432:5432"]
+                env:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: ecampus_test
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
         env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_HOSTNAME: localhost
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: ecampus_test
+        runs-on: ubuntu-24.04
 
-    runs-on: ubuntu-24.04
+        name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+        strategy:
+            matrix:
+                otp: ["25.0.4"]
+                elixir: ["1.14.1"]
+        steps:
+            - name: Set up Elixir
+              uses: erlef/setup-beam@v1
+              with:
+                  otp-version: ${{matrix.otp}}
+                  elixir-version: ${{matrix.elixir}}
 
-    name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        otp: ["25.0.4"]
-        elixir: ["1.14.1"]
-    steps:
-      - name: Set up Elixir
-        uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
+            - name: Checkout code
+              uses: actions/checkout@v3
 
-      - name: Checkout code
-        uses: actions/checkout@v3
+            - name: Cache deps
+              id: cache-deps
+              uses: actions/cache@v3
+              env:
+                  cache-name: cache-elixir-deps
+              with:
+                  path: deps
+                  key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-mix-${{ env.cache-name }}-
 
-      - name: Cache deps
-        id: cache-deps
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-elixir-deps
-        with:
-          path: deps
-          key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-${{ env.cache-name }}-
+            - name: Cache compiled build
+              id: cache-build
+              uses: actions/cache@v3
+              env:
+                  cache-name: cache-compiled-build
+              with:
+                  path: _build
+                  key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-mix-${{ env.cache-name }}-
+                      ${{ runner.os }}-mix-
 
-      - name: Cache compiled build
-        id: cache-build
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-compiled-build
-        with:
-          path: _build
-          key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-${{ env.cache-name }}-
-            ${{ runner.os }}-mix-
+            - name: Clean to rule out incremental build as a source of flakiness
+              if: github.run_attempt != '1'
+              run: |
+                  mix deps.clean --all
+                  mix clean
+              shell: sh
 
-      - name: Clean to rule out incremental build as a source of flakiness
-        if: github.run_attempt != '1'
-        run: |
-          mix deps.clean --all
-          mix clean
-        shell: sh
+            - name: Install dependencies
+              run: mix deps.get
 
-      - name: Install dependencies
-        run: mix deps.get
+            - name: Compiles without warnings
+              run: mix compile --warnings-as-errors
 
-      - name: Compiles without warnings
-        run: mix compile --warnings-as-errors
+            - name: Check Formatting
+              run: mix format --check-formatted
 
-      - name: Check Formatting
-        run: mix format --check-formatted
+            - name: Run tests
+              run: mix test
 
-      - name: Run tests
-        run: mix test
+    lint:
+        runs-on: ubuntu-24.04
 
-  lint:
-    runs-on: ubuntu-24.04
+        strategy:
+            matrix:
+                otp: ["25.0.4"]
+                elixir: ["1.14.1"]
 
-    strategy:
-      matrix:
-        otp: ["25.0.4"]
-        elixir: ["1.14.1"]
+        name: Lint on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
 
-    name: Lint on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+        steps:
+            - name: Check out source
+              uses: actions/checkout@v2
 
-    steps:
-      - name: Check out source
-        uses: actions/checkout@v2
+            - name: Set up Elixir
+              id: beam
+              uses: erlef/setup-beam@v1
+              with:
+                  otp-version: ${{matrix.otp}}
+                  elixir-version: ${{matrix.elixir}}
 
-      - name: Set up Elixir
-        id: beam
-        uses: erlef/setup-beam@v1
-        with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
+            - name: Restore PLT cache
+              id: plt_cache
+              uses: actions/cache/restore@v3
+              with:
+                  key: |
+                      plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+                  restore-keys: |
+                      plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
+                  path: |
+                      priv/plts
 
-      - name: Restore PLT cache
-        id: plt_cache
-        uses: actions/cache/restore@v3
-        with:
-          key: |
-            plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
-          path: |
-            priv/plts
+            - name: Install dependencies
+              run: mix deps.get
 
-      - name: Install dependencies
-        run: mix deps.get
+            - name: Create PLTs
+              if: steps.plt_cache.outputs.cache-hit != 'true'
+              run: mix dialyzer --plt
 
-      - name: Create PLTs
-        if: steps.plt_cache.outputs.cache-hit != 'true'
-        run: mix dialyzer --plt
+            - name: Save PLT cache
+              id: plt_cache_save
+              uses: actions/cache/save@v3
+              if: steps.plt_cache.outputs.cache-hit != 'true'
+              with:
+                  key: |
+                      plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
+                  path: |
+                      priv/plts
 
-      - name: Save PLT cache
-        id: plt_cache_save
-        uses: actions/cache/save@v3
-        if: steps.plt_cache.outputs.cache-hit != 'true'
-        with:
-          key: |
-            plt-${{ runner.os }}-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('**/mix.lock') }}
-          path: |
-            priv/plts
-
-      - name: Run dialyzer
-        run: mix dialyzer --format github --format dialyxir
+            - name: Run dialyzer
+              run: mix dialyzer --format github --format dialyxir
