@@ -1,0 +1,53 @@
+<.header>
+  Listing Lessons
+  <:actions>
+    <.link patch={~p"/lessons/new"}>
+      <.button>New Lesson</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="lessons"
+  rows={@streams.lessons}
+  row_click={fn {_id, lesson} -> JS.navigate(~p"/lessons/#{lesson}") end}
+>
+  <:col :let={{_id, lesson}} label="Id">{lesson.id}</:col>
+  <:col :let={{_id, lesson}} label="Title">{lesson.title}</:col>
+  <:col :let={{_id, lesson}} label="Topic">{lesson.topic}</:col>
+  <:col :let={{_id, lesson}} label="Objectives">{lesson.objectives}</:col>
+  <:col :let={{_id, lesson}} label="Is draft">{lesson.is_draft}</:col>
+  <:col :let={{_id, lesson}} label="Hours count">{lesson.hours_count}</:col>
+  <:col :let={{_id, lesson}} label="Sort order">{lesson.sort_order}</:col>
+  <:action :let={{_id, lesson}}>
+    <div class="sr-only">
+      <.link navigate={~p"/lessons/#{lesson}"}>Show</.link>
+    </div>
+    <.link patch={~p"/lessons/#{lesson}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, lesson}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: lesson.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="lesson-modal"
+  show
+  on_cancel={JS.patch(~p"/lessons")}
+>
+  <.live_component
+    module={EcampusWeb.LessonLive.FormComponent}
+    id={@lesson.id || :new}
+    title={@page_title}
+    action={@live_action}
+    lesson={@lesson}
+    subjects={@subjects}
+    patch={~p"/lessons"}
+  />
+</.modal>

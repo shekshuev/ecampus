@@ -1,4 +1,8 @@
 defmodule Ecampus.Subjects.Subject do
+  @moduledoc """
+  The Subject context.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 
