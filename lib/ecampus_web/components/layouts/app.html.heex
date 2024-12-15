@@ -1,32 +1,76 @@
-<header class="px-4 sm:px-6 lg:px-8">
-  <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <div class="flex items-center gap-4">
-      <a href="/">
-        <img src={~p"/images/logo.svg"} width="36" />
-      </a>
-      <p class="bg-brand/5 text-brand rounded-full px-2 font-medium leading-6">
-        v{Application.spec(:phoenix, :vsn)}
-      </p>
+<main class="flex flex-col justify-start min-h-screen min-w-screen">
+  <.flash_group flash={@flash} />
+  <div class="w-full flex flex-row justify-between items-center px-2 py-4">
+    <div class="flex flex-row gap-2 items-center">
+      e-Campus
     </div>
-    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-      <a href="https://twitter.com/elixirphoenix" class="hover:text-zinc-700">
-        @elixirphoenix
-      </a>
-      <a href="https://github.com/phoenixframework/phoenix" class="hover:text-zinc-700">
-        GitHub
-      </a>
-      <a
-        href="https://hexdocs.pm/phoenix/overview.html"
-        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
-      >
-        Get Started <span aria-hidden="true">&rarr;</span>
-      </a>
+    <div class="dropdown dropdown-end">
+      <button class="btn btn-ghost"><.icon name="hero-swatch" /></button>
+      <div class="dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+        <%= if @current_user do %>
+          <div class="px-6">
+            <p>{@current_user.email}</p>
+          </div>
+        <% end %>
+        <ul class="menu">
+          <%= if @current_user do %>
+            <li>
+              <.link href={~p"/users/settings"} class="link link-hover">
+                Settings
+              </.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_out"} method="delete" class="link link-hover">
+                Log out
+              </.link>
+            </li>
+          <% else %>
+            <li>
+              <.link href={~p"/users/register"} class="link link-hover">
+                Register
+              </.link>
+            </li>
+            <li>
+              <.link href={~p"/users/log_in"} class="link link-hover">
+                Log in
+              </.link>
+            </li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
-</header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
-    <.flash_group flash={@flash} />
-    {@inner_content}
+  <div class="flex-1 flex flex-row">
+    <%= if @current_user do %>
+      <div class="hidden sm:flex flex-col justify-between items-center pl-2">
+        <div class="flex flex-col justify-start gap-2 ">
+          <div class="tooltip tooltip-right" data-tip="Specialities">
+            <.link href={~p"/admin/specialities"} class="btn btn-ghost">
+              <.icon name="hero-swatch" />
+            </.link>
+          </div>
+          <div class="tooltip tooltip-right" data-tip="Groups">
+            <.link href={~p"/admin/groups"} class="btn btn-ghost">
+              <.icon name="hero-user-group" />
+            </.link>
+          </div>
+          <div class="tooltip tooltip-right" data-tip="Subjects">
+            <.link href={~p"/admin/subjects"} class="btn btn-ghost">
+              <.icon name="hero-square-3-stack-3d" />
+            </.link>
+          </div>
+          <div class="tooltip tooltip-right" data-tip="Lessons">
+            <.link href={~p"/admin/lessons"} class="btn btn-ghost">
+              <.icon name="hero-book-open" />
+            </.link>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div class="flex-1 max-h-[calc(100vh-3rem)] overflow-y-auto">
+      <div class="container h-full px-2 mx-auto">
+        {@inner_content}
+      </div>
+    </div>
   </div>
 </main>

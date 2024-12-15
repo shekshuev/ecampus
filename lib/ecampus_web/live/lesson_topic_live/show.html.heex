@@ -1,0 +1,41 @@
+<.header>
+  Lesson topic {@lesson_topic.id}
+  <:subtitle>This is a lesson_topic record from your database.</:subtitle>
+  <:actions>
+    <.link
+      patch={~p"/admin/lessons/#{@lesson_id}/topics/#{@lesson_topic}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit lesson_topic</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Title">{@lesson_topic.title}</:item>
+  <:item title="Sort order">{@lesson_topic.sort_order}</:item>
+  <:item title="Content">
+    <div class="prose">
+      {Map.get(@lesson_topic, "html_content")}
+    </div>
+  </:item>
+</.list>
+
+<.back navigate={~p"/admin/lessons/#{@lesson_id}/topics"}>Back to lesson_topics</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="lesson_topic-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/lessons/#{@lesson_id}/topics/#{@lesson_topic}")}
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.LessonTopicLive.FormComponent}
+    id={@lesson_topic.id}
+    action={@live_action}
+    lesson_topic={@lesson_topic}
+    lesson_id={@lesson_id}
+    patch={~p"/admin/lessons/#{@lesson_id}/topics/#{@lesson_topic}"}
+  />
+</.modal>

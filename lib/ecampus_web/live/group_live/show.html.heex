@@ -2,7 +2,7 @@
   Group {@group.id}
   <:subtitle>This is a group record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/groups/#{@group}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/admin/groups/#{@group}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit group</.button>
     </.link>
   </:actions>
@@ -16,21 +16,21 @@
   </:item>
 </.list>
 
-<.back navigate={~p"/groups"}>Back to groups</.back>
+<.back navigate={~p"/admin/groups"}>Back to groups</.back>
 
 <.modal
   :if={@live_action == :edit}
   id="group-modal"
   show
-  on_cancel={JS.patch(~p"/groups/#{@group}")}
+  on_cancel={JS.patch(~p"/admin/groups/#{@group}")}
 >
+  <:title>{@page_title}</:title>
   <.live_component
     module={EcampusWeb.GroupLive.FormComponent}
     id={@group.id}
-    title={@page_title}
     action={@live_action}
     group={@group}
     specialities={@specialities}
-    patch={~p"/groups/#{@group}"}
+    patch={~p"/admin/groups/#{@group}"}
   />
 </.modal>

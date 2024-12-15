@@ -68,30 +68,39 @@ defmodule EcampusWeb.Router do
       on_mount: [{EcampusWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+    end
 
-      live "/specialities", SpecialityLive.Index, :index
-      live "/specialities/new", SpecialityLive.Index, :new
-      live "/specialities/:id/edit", SpecialityLive.Index, :edit
-      live "/specialities/:id", SpecialityLive.Show, :show
-      live "/specialities/:id/show/edit", SpecialityLive.Show, :edit
+    live_session :require_admin,
+      on_mount: [{EcampusWeb.UserAuth, :ensure_authenticated}] do
+      live "/admin/specialities", SpecialityLive.Index, :index
+      live "/admin/specialities/new", SpecialityLive.Index, :new
+      live "/admin/specialities/:id/edit", SpecialityLive.Index, :edit
+      live "/admin/specialities/:id", SpecialityLive.Show, :show
+      live "/admin/specialities/:id/show/edit", SpecialityLive.Show, :edit
 
-      live "/groups", GroupLive.Index, :index
-      live "/groups/new", GroupLive.Index, :new
-      live "/groups/:id/edit", GroupLive.Index, :edit
-      live "/groups/:id", GroupLive.Show, :show
-      live "/groups/:id/show/edit", GroupLive.Show, :edit
+      live "/admin/groups", GroupLive.Index, :index
+      live "/admin/groups/new", GroupLive.Index, :new
+      live "/admin/groups/:id/edit", GroupLive.Index, :edit
+      live "/admin/groups/:id", GroupLive.Show, :show
+      live "/admin/groups/:id/show/edit", GroupLive.Show, :edit
 
-      live "/subjects", SubjectLive.Index, :index
-      live "/subjects/new", SubjectLive.Index, :new
-      live "/subjects/:id/edit", SubjectLive.Index, :edit
-      live "/subjects/:id", SubjectLive.Show, :show
-      live "/subjects/:id/show/edit", SubjectLive.Show, :edit
+      live "/admin/subjects", SubjectLive.Index, :index
+      live "/admin/subjects/new", SubjectLive.Index, :new
+      live "/admin/subjects/:id/edit", SubjectLive.Index, :edit
+      live "/admin/subjects/:id", SubjectLive.Show, :show
+      live "/admin/subjects/:id/show/edit", SubjectLive.Show, :edit
 
-      live "/lessons", LessonLive.Index, :index
-      live "/lessons/new", LessonLive.Index, :new
-      live "/lessons/:id/edit", LessonLive.Index, :edit
-      live "/lessons/:id", LessonLive.Show, :show
-      live "/lessons/:id/show/edit", LessonLive.Show, :edit
+      live "/admin/lessons", LessonLive.Index, :index
+      live "/admin/lessons/new", LessonLive.Index, :new
+      live "/admin/lessons/:id/edit", LessonLive.Index, :edit
+      live "/admin/lessons/:id", LessonLive.Show, :show
+      live "/admin/lessons/:id/show/edit", LessonLive.Show, :edit
+
+      live "/admin/lessons/:lesson_id/topics", LessonTopicLive.Index, :index
+      live "/admin/lessons/:lesson_id/topics/new", LessonTopicLive.Index, :new
+      live "/admin/lessons/:lesson_id/topics/:id/edit", LessonTopicLive.Index, :edit
+      live "/admin/lessons/:lesson_id/topics/:id", LessonTopicLive.Show, :show
+      live "/admin/lessons/:lesson_id/topics/:id/show/edit", LessonTopicLive.Show, :edit
     end
   end
 

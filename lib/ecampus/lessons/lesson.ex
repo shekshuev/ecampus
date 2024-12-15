@@ -13,7 +13,7 @@ defmodule Ecampus.Lessons.Lesson do
     field :is_draft, :boolean, default: false
     field :hours_count, :integer, default: 2
     field :sort_order, :integer, default: 0
-    belongs_to(:subject, Ecampus.Subjects.Subject)
+    belongs_to :subject, Ecampus.Subjects.Subject
 
     timestamps(type: :utc_datetime)
   end

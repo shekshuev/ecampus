@@ -3,9 +3,11 @@ defmodule Ecampus.LessonsTest do
 
   alias Ecampus.Lessons
   alias Ecampus.Lessons.Lesson
+  alias Ecampus.Lessons.LessonTopic
 
   import Ecampus.LessonsFixtures
   import Ecampus.SubjectsFixtures
+  import Ecampus.LessonsFixtures
 
   describe "lessons" do
     @invalid_attrs %{
@@ -95,8 +97,90 @@ defmodule Ecampus.LessonsTest do
     end
   end
 
+  describe "lesson_topics" do
+    @invalid_attrs %{title: nil, content: nil, sort_order: nil}
+
+    test "list_lesson_topics/0 returns all lesson_topics" do
+      lesson_topic = create_lesson_topic()
+      {:ok, %{list: list}} = Lessons.list_lesson_topics()
+      assert list == [lesson_topic]
+    end
+
+    test "get_lesson_topic!/1 returns the lesson_topic with given id" do
+      lesson_topic = create_lesson_topic()
+      assert Lessons.get_lesson_topic!(lesson_topic.id) == lesson_topic
+    end
+
+    test "create_lesson_topic/1 with valid data creates a lesson_topic" do
+      %{id: lesson_id} = create_lesson()
+
+      valid_attrs = %{
+        title: "some title",
+        content: "some content",
+        sort_order: 42,
+        lesson_id: lesson_id
+      }
+
+      assert {:ok, %LessonTopic{} = lesson_topic} = Lessons.create_lesson_topic(valid_attrs)
+      assert lesson_topic.title == valid_attrs.title
+      assert lesson_topic.content == valid_attrs.content
+      assert lesson_topic.sort_order == valid_attrs.sort_order
+      assert lesson_topic.lesson_id == valid_attrs.lesson_id
+    end
+
+    test "create_lesson_topic/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Lessons.create_lesson_topic(@invalid_attrs)
+    end
+
+    test "update_lesson_topic/2 with valid data updates the lesson_topic" do
+      lesson_topic = create_lesson_topic()
+      %{id: lesson_id} = create_lesson()
+
+      update_attrs = %{
+        title: "some updated title",
+        content: "some updated content",
+        sort_order: 43,
+        lesson_id: lesson_id
+      }
+
+      assert {:ok, %LessonTopic{} = lesson_topic} =
+               Lessons.update_lesson_topic(lesson_topic, update_attrs)
+
+      assert lesson_topic.title == update_attrs.title
+      assert lesson_topic.content == update_attrs.content
+      assert lesson_topic.sort_order == update_attrs.sort_order
+      assert lesson_topic.lesson_id == update_attrs.lesson_id
+    end
+
+    test "update_lesson_topic/2 with invalid data returns error changeset" do
+      lesson_topic = create_lesson_topic()
+
+      assert {:error, %Ecto.Changeset{}} =
+               Lessons.update_lesson_topic(lesson_topic, @invalid_attrs)
+
+      assert lesson_topic == Lessons.get_lesson_topic!(lesson_topic.id)
+    end
+
+    test "delete_lesson_topic/1 deletes the lesson_topic" do
+      lesson_topic = create_lesson_topic()
+      assert {:ok, %LessonTopic{}} = Lessons.delete_lesson_topic(lesson_topic)
+      assert_raise Ecto.NoResultsError, fn -> Lessons.get_lesson_topic!(lesson_topic.id) end
+    end
+
+    test "change_lesson_topic/1 returns a lesson_topic changeset" do
+      lesson_topic = create_lesson_topic()
+      assert %Ecto.Changeset{} = Lessons.change_lesson_topic(lesson_topic)
+    end
+  end
+
   defp create_lesson() do
     %{id: subject_id} = subject_fixture()
     lesson_fixture(%{subject_id: subject_id})
+  end
+
+  defp create_lesson_topic() do
+    %{id: subject_id} = subject_fixture()
+    %{id: lesson_id} = lesson_fixture(%{subject_id: subject_id})
+    lesson_topic_fixture(%{lesson_id: lesson_id})
   end
 end

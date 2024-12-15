@@ -7,11 +7,6 @@ defmodule EcampusWeb.GroupLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.header>
-        {@title}
-        <:subtitle>Use this form to manage group records in your database.</:subtitle>
-      </.header>
-
       <.simple_form
         for={@form}
         id="group-form"

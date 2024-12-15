@@ -2,7 +2,7 @@
   Subject {@subject.id}
   <:subtitle>This is a subject record from your database.</:subtitle>
   <:actions>
-    <.link patch={~p"/subjects/#{@subject}/show/edit"} phx-click={JS.push_focus()}>
+    <.link patch={~p"/admin/subjects/#{@subject}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit subject</.button>
     </.link>
   </:actions>
@@ -17,20 +17,20 @@
   <:item title="Required texts">{@subject.required_texts}</:item>
 </.list>
 
-<.back navigate={~p"/subjects"}>Back to subjects</.back>
+<.back navigate={~p"/admin/subjects"}>Back to subjects</.back>
 
 <.modal
   :if={@live_action == :edit}
   id="subject-modal"
   show
-  on_cancel={JS.patch(~p"/subjects/#{@subject}")}
+  on_cancel={JS.patch(~p"/admin/subjects/#{@subject}")}
 >
+  <:title>{@page_title}</:title>
   <.live_component
     module={EcampusWeb.SubjectLive.FormComponent}
     id={@subject.id}
-    title={@page_title}
     action={@live_action}
     subject={@subject}
-    patch={~p"/subjects/#{@subject}"}
+    patch={~p"/admin/subjects/#{@subject}"}
   />
 </.modal>

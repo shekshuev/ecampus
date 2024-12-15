@@ -1,7 +1,7 @@
 <.header>
   Listing Subjects
   <:actions>
-    <.link patch={~p"/subjects/new"}>
+    <.link patch={~p"/admin/subjects/new"}>
       <.button>New Subject</.button>
     </.link>
   </:actions>
@@ -10,16 +10,16 @@
 <.table
   id="subjects"
   rows={@streams.subjects}
-  row_click={fn {_id, subject} -> JS.navigate(~p"/subjects/#{subject}") end}
+  row_click={fn {_id, subject} -> JS.navigate(~p"/admin/subjects/#{subject}") end}
 >
   <:col :let={{_id, subject}} label="Id">{subject.id}</:col>
   <:col :let={{_id, subject}} label="Title">{subject.title}</:col>
   <:col :let={{_id, subject}} label="Short title">{subject.short_title}</:col>
   <:action :let={{_id, subject}}>
     <div class="sr-only">
-      <.link navigate={~p"/subjects/#{subject}"}>Show</.link>
+      <.link navigate={~p"/admin/subjects/#{subject}"}>Show</.link>
     </div>
-    <.link patch={~p"/subjects/#{subject}/edit"}>Edit</.link>
+    <.link patch={~p"/admin/subjects/#{subject}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, subject}}>
     <.link
@@ -35,14 +35,14 @@
   :if={@live_action in [:new, :edit]}
   id="subject-modal"
   show
-  on_cancel={JS.patch(~p"/subjects")}
+  on_cancel={JS.patch(~p"/admin/subjects")}
 >
+  <:title>{@page_title}</:title>
   <.live_component
     module={EcampusWeb.SubjectLive.FormComponent}
     id={@subject.id || :new}
-    title={@page_title}
     action={@live_action}
     subject={@subject}
-    patch={~p"/subjects"}
+    patch={~p"/admin/subjects"}
   />
 </.modal>

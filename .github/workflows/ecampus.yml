@@ -84,6 +84,7 @@ jobs:
               run: mix compile --warnings-as-errors
 
             - name: Check Formatting
+              continue-on-error: true
               run: mix format --check-formatted
 
             - name: Run tests

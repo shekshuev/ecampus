@@ -7,11 +7,6 @@ defmodule EcampusWeb.LessonLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.header>
-        {@title}
-        <:subtitle>Use this form to manage lesson records in your database.</:subtitle>
-      </.header>
-
       <.simple_form
         for={@form}
         id="lesson-form"

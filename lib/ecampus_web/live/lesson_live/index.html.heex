@@ -1,7 +1,7 @@
 <.header>
   Listing Lessons
   <:actions>
-    <.link patch={~p"/lessons/new"}>
+    <.link patch={~p"/admin/lessons/new"}>
       <.button>New Lesson</.button>
     </.link>
   </:actions>
@@ -10,7 +10,7 @@
 <.table
   id="lessons"
   rows={@streams.lessons}
-  row_click={fn {_id, lesson} -> JS.navigate(~p"/lessons/#{lesson}") end}
+  row_click={fn {_id, lesson} -> JS.navigate(~p"/admin/lessons/#{lesson}") end}
 >
   <:col :let={{_id, lesson}} label="Id">{lesson.id}</:col>
   <:col :let={{_id, lesson}} label="Title">{lesson.title}</:col>
@@ -21,9 +21,9 @@
   <:col :let={{_id, lesson}} label="Sort order">{lesson.sort_order}</:col>
   <:action :let={{_id, lesson}}>
     <div class="sr-only">
-      <.link navigate={~p"/lessons/#{lesson}"}>Show</.link>
+      <.link navigate={~p"/admin/lessons/#{lesson}"}>Show</.link>
     </div>
-    <.link patch={~p"/lessons/#{lesson}/edit"}>Edit</.link>
+    <.link patch={~p"/admin/lessons/#{lesson}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, lesson}}>
     <.link
@@ -39,15 +39,15 @@
   :if={@live_action in [:new, :edit]}
   id="lesson-modal"
   show
-  on_cancel={JS.patch(~p"/lessons")}
+  on_cancel={JS.patch(~p"/admin/lessons")}
 >
+  <:title>{@page_title}</:title>
   <.live_component
     module={EcampusWeb.LessonLive.FormComponent}
     id={@lesson.id || :new}
-    title={@page_title}
     action={@live_action}
     lesson={@lesson}
     subjects={@subjects}
-    patch={~p"/lessons"}
+    patch={~p"/admin/lessons"}
   />
 </.modal>
