@@ -1,0 +1,41 @@
+<.header>
+  Class {@class.id}
+  <:subtitle>This is a class record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/admin/classes/#{@class}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit class</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Begin date">{@class.begin_date}</:item>
+  <:item title="End date">{@class.end_date}</:item>
+  <:item title="Classroom">{@class.classroom}</:item>
+  <:item title="Lesson">
+    {(@class.lesson && @class.lesson.title) || "No Lesson"}
+  </:item>
+  <:item title="Group">
+    {(@class.group && @class.group.title) || "No Group"}
+  </:item>
+</.list>
+
+<.back navigate={~p"/admin/classes"}>Back to classes</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="class-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/classes/#{@class}")}
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.ClassLive.FormComponent}
+    id={@class.id}
+    action={@live_action}
+    class={@class}
+    lessons={@lessons}
+    groups={@groups}
+    patch={~p"/admin/classes/#{@class}"}
+  />
+</.modal>

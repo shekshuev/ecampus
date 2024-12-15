@@ -1,0 +1,51 @@
+<.header>
+  Listing Classes
+  <:actions>
+    <.link patch={~p"/admin/classes/new"}>
+      <.button>New Class</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="classes"
+  rows={@streams.classes}
+  row_click={fn {_id, class} -> JS.navigate(~p"/admin/classes/#{class}") end}
+>
+  <:col :let={{_id, class}} label="ID">{class.id}</:col>
+  <:col :let={{_id, class}} label="Begin date">{class.begin_date}</:col>
+  <:col :let={{_id, class}} label="End date">{class.end_date}</:col>
+  <:col :let={{_id, class}} label="Classroom">{class.classroom}</:col>
+  <:action :let={{_id, class}}>
+    <div class="sr-only">
+      <.link navigate={~p"/admin/classes/#{class}"}>Show</.link>
+    </div>
+    <.link patch={~p"/admin/classes/#{class}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, class}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: class.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="class-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/classes")}
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.ClassLive.FormComponent}
+    id={@class.id || :new}
+    action={@live_action}
+    class={@class}
+    lessons={@lessons}
+    groups={@groups}
+    patch={~p"/admin/classes"}
+  />
+</.modal>
