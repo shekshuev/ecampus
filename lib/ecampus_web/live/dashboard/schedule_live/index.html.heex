@@ -1,0 +1,30 @@
+<.header>
+  Listing Classes
+</.header>
+
+<div class="pb-8">
+  <.calendar
+    calendar_days={@calendar_days}
+    classes_by_date={@classes_by_date}
+    current_date={@current_date}
+    today={@today}
+  />
+</div>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="class-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/classes")}
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.ClassLive.FormComponent}
+    id={@class.id || :new}
+    action={@live_action}
+    class={@class}
+    lessons={@lessons}
+    groups={@groups}
+    patch={~p"/admin/classes"}
+  />
+</.modal>

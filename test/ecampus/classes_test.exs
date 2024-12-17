@@ -19,9 +19,9 @@ defmodule Ecampus.ClassesTest do
       assert list == [class]
     end
 
-    test "get_class!/1 returns the class with given id" do
+    test "get_class/1 returns the class with given id" do
       class = create_class()
-      assert Classes.get_class!(class.id) == class
+      assert Classes.get_class(class.id) == class
     end
 
     test "create_class/1 with valid data creates a class" do
@@ -72,13 +72,13 @@ defmodule Ecampus.ClassesTest do
     test "update_class/2 with invalid data returns error changeset" do
       class = create_class()
       assert {:error, %Ecto.Changeset{}} = Classes.update_class(class, @invalid_attrs)
-      assert class == Classes.get_class!(class.id)
+      assert class == Classes.get_class(class.id)
     end
 
     test "delete_class/1 deletes the class" do
       class = create_class()
       assert {:ok, %Class{}} = Classes.delete_class(class)
-      assert_raise Ecto.NoResultsError, fn -> Classes.get_class!(class.id) end
+      assert nil == Classes.get_class(class.id)
     end
 
     test "change_class/1 returns a class changeset" do

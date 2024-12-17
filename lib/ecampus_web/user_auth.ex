@@ -216,6 +216,23 @@ defmodule EcampusWeb.UserAuth do
     end
   end
 
+  @doc """
+  Used for routes that require the user to be admin.
+  """
+  def require_authenticated_admin(conn, _opts) do
+    case conn.assigns[:current_user] do
+      %{role: :admin} ->
+        conn
+
+      _ ->
+        conn
+        |> put_flash(:error, "You must be an admin to access this page.")
+        |> maybe_store_return_to()
+        |> redirect(to: ~p"/users/log_in")
+        |> halt()
+    end
+  end
+
   defp put_token_in_session(conn, token) do
     conn
     |> put_session(:user_token, token)

@@ -158,14 +158,14 @@ defmodule Ecampus.Lessons do
 
   ## Examples
 
-      iex> get_lesson_topic!(123)
+      iex> get_lesson_topic(123)
       %LessonTopic{}
 
-      iex> get_lesson_topic!(456)
-      ** (Ecto.NoResultsError)
+      iex> get_lesson_topic(456)
+      nil
 
   """
-  def get_lesson_topic!(id), do: Repo.get!(LessonTopic, id) |> Repo.preload(:lesson)
+  def get_lesson_topic(id), do: Repo.get(LessonTopic, id) |> Repo.preload(:lesson)
 
   @doc """
   Creates a lesson_topic.

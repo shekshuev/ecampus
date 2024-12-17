@@ -29,7 +29,7 @@ defmodule EcampusWeb.ClassLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Class")
-    |> assign(:class, Classes.get_class!(id))
+    |> assign(:class, Classes.get_class(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -51,7 +51,7 @@ defmodule EcampusWeb.ClassLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    class = Classes.get_class!(id)
+    class = Classes.get_class(id)
     {:ok, _} = Classes.delete_class(class)
 
     {:noreply, stream_delete(socket, :classes, class)}

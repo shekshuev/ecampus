@@ -17,7 +17,7 @@ defmodule EcampusWeb.ClassLive.Show do
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:lessons, Lessons.list_lessons())
      |> assign(:groups, Groups.list_groups())
-     |> assign(:class, Classes.get_class!(id))}
+     |> assign(:class, Classes.get_class(id))}
   end
 
   defp page_title(:show), do: "Show Class"

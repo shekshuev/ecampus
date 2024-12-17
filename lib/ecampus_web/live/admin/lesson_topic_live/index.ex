@@ -24,7 +24,7 @@ defmodule EcampusWeb.LessonTopicLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Lesson topic")
-    |> assign(:lesson_topic, Lessons.get_lesson_topic!(id))
+    |> assign(:lesson_topic, Lessons.get_lesson_topic(id))
   end
 
   defp apply_action(socket, :new, _params) do
@@ -46,7 +46,7 @@ defmodule EcampusWeb.LessonTopicLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    lesson_topic = Lessons.get_lesson_topic!(id)
+    lesson_topic = Lessons.get_lesson_topic(id)
     {:ok, _} = Lessons.delete_lesson_topic(lesson_topic)
 
     {:noreply, stream_delete(socket, :lesson_topics, lesson_topic)}

@@ -1,0 +1,27 @@
+<.header>
+  Listing Classes
+</.header>
+
+<.list>
+  <:item title="Title">{@class.lesson.title}</:item>
+  <:item title="Topic">{@class.lesson.topic}</:item>
+  <:item title="Objectives">{@class.lesson.objectives}</:item>
+  <:item title="Hours count">{@class.lesson.hours_count}</:item>
+  <:item title="Subject">
+    {(@class.lesson.subject && @class.lesson.subject.title) || "No Subject"}
+  </:item>
+</.list>
+
+<div class="mt-5">
+  <.table
+    id="lesson_topics"
+    rows={@lesson_topics}
+    row_click={
+      fn lesson_topic ->
+        JS.navigate("/dashboard/classes/#{@class.id}/topics/#{lesson_topic.id}")
+      end
+    }
+  >
+    <:col :let={lesson_topic} label="Lesson topics">{lesson_topic.title}</:col>
+  </.table>
+</div>

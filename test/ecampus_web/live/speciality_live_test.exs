@@ -19,7 +19,7 @@ defmodule EcampusWeb.SpecialityLiveTest do
   end
 
   setup %{conn: conn} do
-    user = user_fixture()
+    user = user_fixture(%{role: :admin})
     conn = log_in_user(conn, user)
 
     %{conn: conn, user: user}

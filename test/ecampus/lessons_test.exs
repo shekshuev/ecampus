@@ -106,9 +106,9 @@ defmodule Ecampus.LessonsTest do
       assert list == [lesson_topic]
     end
 
-    test "get_lesson_topic!/1 returns the lesson_topic with given id" do
+    test "get_lesson_topic/1 returns the lesson_topic with given id" do
       lesson_topic = create_lesson_topic()
-      assert Lessons.get_lesson_topic!(lesson_topic.id) == lesson_topic
+      assert Lessons.get_lesson_topic(lesson_topic.id) == lesson_topic
     end
 
     test "create_lesson_topic/1 with valid data creates a lesson_topic" do
@@ -158,13 +158,13 @@ defmodule Ecampus.LessonsTest do
       assert {:error, %Ecto.Changeset{}} =
                Lessons.update_lesson_topic(lesson_topic, @invalid_attrs)
 
-      assert lesson_topic == Lessons.get_lesson_topic!(lesson_topic.id)
+      assert lesson_topic == Lessons.get_lesson_topic(lesson_topic.id)
     end
 
     test "delete_lesson_topic/1 deletes the lesson_topic" do
       lesson_topic = create_lesson_topic()
       assert {:ok, %LessonTopic{}} = Lessons.delete_lesson_topic(lesson_topic)
-      assert_raise Ecto.NoResultsError, fn -> Lessons.get_lesson_topic!(lesson_topic.id) end
+      assert nil == Lessons.get_lesson_topic(lesson_topic.id)
     end
 
     test "change_lesson_topic/1 returns a lesson_topic changeset" do

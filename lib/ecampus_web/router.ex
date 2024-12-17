@@ -72,7 +72,7 @@ defmodule EcampusWeb.Router do
   end
 
   scope "/admin", EcampusWeb do
-    pipe_through [:browser, :require_authenticated_user]
+    pipe_through [:browser, :require_authenticated_admin]
 
     live_session :require_admin,
       on_mount: [{EcampusWeb.UserAuth, :ensure_authenticated}] do
@@ -111,6 +111,18 @@ defmodule EcampusWeb.Router do
       live "/classes/:id/edit", ClassLive.Index, :edit
       live "/classes/:id", ClassLive.Show, :show
       live "/classes/:id/show/edit", ClassLive.Show, :edit
+    end
+  end
+
+  scope "/dashboard", EcampusWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :require_authenticated_student,
+      on_mount: [{EcampusWeb.UserAuth, :ensure_authenticated}] do
+      live "/", Dashboard.Index, :index
+      live "/schedule", Dashboard.ScheduleLive.Index, :index
+      live "/classes/:id", Dashboard.ClassLive.Index, :index
+      live "/classes/:class_id/topics/:id", Dashboard.ClassLive.Topic, :topic
     end
   end
 

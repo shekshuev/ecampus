@@ -13,7 +13,7 @@ defmodule EcampusWeb.LessonTopicLive.Show do
   @impl true
   def handle_params(%{"id" => id, "lesson_id" => lesson_id}, _, socket) do
     lesson_topic =
-      id |> Lessons.get_lesson_topic!() |> parse_markdown()
+      id |> Lessons.get_lesson_topic() |> parse_markdown()
 
     {:noreply,
      socket
@@ -58,7 +58,7 @@ defmodule EcampusWeb.LessonTopicLive.Show do
   def handle_event("reload", _params, socket) do
     lesson_topic =
       socket.assigns.lesson_topic.id
-      |> Lessons.get_lesson_topic!()
+      |> Lessons.get_lesson_topic()
       |> parse_markdown()
 
     {:noreply,
