@@ -21,18 +21,6 @@ defmodule EcampusWeb.ClassLiveTest do
   }
   @invalid_attrs %{begin_date: nil, end_date: nil, classroom: nil}
 
-  defp create_lesson(_) do
-    %{id: subject_id} = subject_fixture()
-    lesson = lesson_fixture(%{subject_id: subject_id})
-    %{lesson: lesson}
-  end
-
-  defp create_group(_) do
-    %{id: speciality_id} = speciality_fixture()
-    group = group_fixture(%{speciality_id: speciality_id})
-    %{group: group}
-  end
-
   defp create_class(_) do
     %{id: subject_id} = subject_fixture()
     %{id: lesson_id} = lesson_fixture(%{subject_id: subject_id})

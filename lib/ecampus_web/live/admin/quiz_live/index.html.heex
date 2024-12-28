@@ -1,0 +1,48 @@
+<.header>
+  Listing Quizzes
+  <:actions>
+    <.link patch={~p"/admin/lessons/#{@lesson_id}/quizzes/new"}>
+      <.button>New Quiz</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="quizzes"
+  rows={@streams.quizzes}
+  row_click={fn {_id, quiz} -> JS.navigate(~p"/admin/lessons/#{@lesson_id}/quizzes/#{quiz}") end}
+>
+  <:col :let={{_id, quiz}} label="ID">{quiz.id}</:col>
+  <:col :let={{_id, quiz}} label="Title">{quiz.title}</:col>
+  <:action :let={{_id, quiz}}>
+    <div class="sr-only">
+      <.link navigate={~p"/admin/lessons/#{@lesson_id}/quizzes/#{quiz}"}>Show</.link>
+    </div>
+    <.link patch={~p"/admin/lessons/#{@lesson_id}/quizzes/#{quiz}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, quiz}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: quiz.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="quiz-modal"
+  show
+  on_cancel={JS.patch(~p"/admin/lessons/#{@lesson_id}/quizzes")}
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.QuizLive.FormComponent}
+    id={@quiz.id || :new}
+    action={@live_action}
+    lesson_id={@lesson_id}
+    quiz={@quiz}
+    patch={~p"/admin/lessons/#{@lesson_id}/quizzes"}
+  />
+</.modal>

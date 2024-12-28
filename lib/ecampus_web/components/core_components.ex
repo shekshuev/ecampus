@@ -268,6 +268,8 @@ defmodule EcampusWeb.CoreComponents do
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :errors, :list, default: []
+  attr :error, :boolean, default: false
+  attr :success, :boolean, default: false
   attr :checked, :boolean, doc: "the checked flag for checkbox inputs"
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
@@ -304,7 +306,11 @@ defmodule EcampusWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="checkbox"
+          class={[
+            "checkbox",
+            (@errors != [] || @error) && "checkbox-error",
+            @success && "checkbox-success"
+          ]}
           {@rest}
         />
         <span class="label-text">{@label}</span>

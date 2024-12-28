@@ -106,6 +106,29 @@ defmodule EcampusWeb.Router do
       live "/lessons/:lesson_id/topics/:id", LessonTopicLive.Show, :show
       live "/lessons/:lesson_id/topics/:id/show/edit", LessonTopicLive.Show, :edit
 
+      live "/lessons/:lesson_id/quizzes", QuizLive.Index, :index
+      live "/lessons/:lesson_id/quizzes/new", QuizLive.Index, :new
+      live "/lessons/:lesson_id/quizzes/:id/edit", QuizLive.Index, :edit
+      live "/lessons/:lesson_id/quizzes/:id", QuizLive.Show, :show
+      live "/lessons/:lesson_id/quizzes/:id/show/edit", QuizLive.Show, :edit
+
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions", QuestionLive.Index, :index
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/new", QuestionLive.Index, :new
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:id/edit", QuestionLive.Index, :edit
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:id", QuestionLive.Show, :show
+
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:id/show/edit",
+           QuestionLive.Show,
+           :edit
+
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:question_id/show/answers/new",
+           QuestionLive.Show,
+           :new_answer
+
+      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:question_id/show/answers/:id/edit",
+           QuestionLive.Show,
+           :edit_answer
+
       live "/classes", ClassLive.Index, :index
       live "/classes/new", ClassLive.Index, :new
       live "/classes/:id/edit", ClassLive.Index, :edit

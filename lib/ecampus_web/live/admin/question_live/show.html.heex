@@ -1,0 +1,100 @@
+<.header>
+  Question {@question.id}
+  <:subtitle>This is a question record from your database.</:subtitle>
+  <:actions>
+    <.link
+      patch={
+        ~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}/show/edit"
+      }
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit question</.button>
+    </.link>
+    <.link
+      patch={
+        ~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}/show/answers/new"
+      }
+      phx-click={JS.push_focus()}
+    >
+      <.button>New answer</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Type">{@question.type}</:item>
+  <:item title="Title">{@question.title}</:item>
+  <:item title="Subtitle">{@question.subtitle}</:item>
+  <:item title="Grade">{@question.grade}</:item>
+  <:item title="Show correct answer">{@question.show_correct_answer}</:item>
+</.list>
+
+<div class="mt-5">
+  <.table id="questions" rows={@question.answers}>
+    <:col :let={answer} label="ID">{answer.id}</:col>
+    <:col :let={answer} label="Title">{answer.title}</:col>
+    <:col :let={answer} label="Subtitle">{answer.subtitle}</:col>
+    <:col :let={answer} label="Is correct">{answer.is_correct}</:col>
+    <:col :let={answer} :if={@question.type == :sequence} label="Sequence order number">
+      {answer.sequence_order_number}
+    </:col>
+
+    <:action :let={answer}>
+      <.link patch={
+        ~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}/show/answers/#{answer}/edit"
+      }>
+        Edit
+      </.link>
+    </:action>
+    <:action :let={answer}>
+      <.link
+        phx-click={JS.push("delete", value: %{id: answer.id}) |> hide("##{answer.id}")}
+        data-confirm="Are you sure?"
+      >
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</div>
+
+<.back navigate={~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions"}>
+  Back to questions
+</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="question-modal"
+  show
+  on_cancel={
+    JS.patch(~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}")
+  }
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.QuestionLive.FormComponent}
+    id={@question.id}
+    action={@live_action}
+    question={@question}
+    quiz_id={@quiz_id}
+    patch={~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}"}
+  />
+</.modal>
+
+<.modal
+  :if={@live_action in [:new_answer, :edit_answer]}
+  id="answer-modal"
+  show
+  on_cancel={
+    JS.patch(~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}")
+  }
+>
+  <:title>{@page_title}</:title>
+  <.live_component
+    module={EcampusWeb.QuestionLive.AnswerFormComponent}
+    id={@answer.id || :new}
+    action={@live_action}
+    answer={@answer}
+    question={@question}
+    patch={~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question.id}"}
+  />
+</.modal>

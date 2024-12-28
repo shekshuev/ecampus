@@ -70,7 +70,6 @@ defmodule EcampusWeb.LessonTopicLiveTest do
 
     test "updates lesson_topic in listing", %{
       conn: conn,
-      lesson: lesson,
       lesson_topic: lesson_topic
     } do
       {:ok, index_live, _html} = live(conn, ~p"/admin/lessons/#{lesson_topic.lesson_id}/topics")

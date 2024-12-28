@@ -8,6 +8,9 @@
     <.link patch={~p"/admin/lessons/#{@lesson}/topics"} phx-click={JS.push_focus()}>
       <.button>Lesson topics</.button>
     </.link>
+    <.link patch={~p"/admin/lessons/#{@lesson}/quizzes"} phx-click={JS.push_focus()}>
+      <.button>Quizzes</.button>
+    </.link>
   </:actions>
 </.header>
 
