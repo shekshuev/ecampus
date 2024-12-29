@@ -298,7 +298,7 @@ defmodule EcampusWeb.CoreComponents do
 
     ~H"""
     <div>
-      <label class="label cursor-pointer flex items-center gap-4">
+      <label class="label justify-start cursor-pointer flex items-center gap-4">
         <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
         <input
           type="checkbox"

@@ -95,6 +95,15 @@ defmodule Ecampus.Quizzes do
         )
     )
     |> Repo.preload(questions: [:answers, :answered_questions])
+    |> detect_started()
+  end
+
+  defp detect_started(quiz) do
+    if length(quiz.questions) > 0 && length(Enum.at(quiz.questions, 0).answered_questions) > 0 do
+      Map.put(quiz, :started, true)
+    else
+      Map.put(quiz, :started, false)
+    end
   end
 
   def start_quiz(%{
@@ -189,6 +198,20 @@ defmodule Ecampus.Quizzes do
         grade: max(0, points_per_answer * (correct_count - incorrect_count)),
         correct: correct_ids
       })
+    end
+  end
+
+  defp apply_answer(%{type: :sequence} = question, %{answer_ids: answer_ids} = answer) do
+    correct_ids =
+      question.answers
+      |> Enum.filter(& &1.is_correct)
+      |> Enum.sort(&(&1.sequence_order_number < &2.sequence_order_number))
+      |> Enum.map(& &1.id)
+
+    if answer_ids == correct_ids do
+      Map.merge(answer, %{grade: question.grade, correct: answer_ids})
+    else
+      Map.merge(answer, %{grade: 0, correct: correct_ids})
     end
   end
 
