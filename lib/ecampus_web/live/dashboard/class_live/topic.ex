@@ -169,7 +169,7 @@ defmodule EcampusWeb.Dashboard.ClassLive.Topic do
           <.input name="question-id" type="hidden" value={@question.id} />
           <.input name="quiz-id" type="hidden" value={@quiz.id} />
           <h3 class="card-title my-0">{@question.title}</h3>
-          <p class="text-sm">{@question.subtitle}</p>
+          <div class="prose">{raw(@question.subtitle)}</div>
           <%= if @question.type == :multiple do %>
             <.input name="question-type" type="hidden" value={:multiple} />
             <%= for answer <- @question.answers do %>
@@ -366,7 +366,7 @@ defmodule EcampusWeb.Dashboard.ClassLive.Topic do
     quiz_html =
       render_quiz(%{
         quiz: quiz,
-        question: question,
+        question: %{question | subtitle: Earmark.as_html!(question.subtitle)},
         question_index: question_index,
         sequences: sequences,
         has_answer: has_answer?(question),

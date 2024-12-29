@@ -22,7 +22,7 @@ defmodule EcampusWeb.QuestionLive.FormComponent do
           options={Ecto.Enum.values(Ecampus.Quizzes.Question, :type)}
         />
         <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:subtitle]} type="text" label="Subtitle" />
+        <.input field={@form[:subtitle]} type="textarea" label="Subtitle" rows="12" />
         <.input field={@form[:grade]} type="number" label="Grade" />
         <.input field={@form[:quiz_id]} type="hidden" value={@quiz_id} />
         <.input field={@form[:show_correct_answer]} type="checkbox" label="Show correct answer" />
