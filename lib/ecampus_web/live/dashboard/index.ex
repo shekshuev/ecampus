@@ -15,6 +15,6 @@ defmodule EcampusWeb.Dashboard.Index do
     {:ok,
      socket
      |> assign(:incoming, Classes.get_incoming_class())
-     |> assign(:stats, Classes.get_stats())}
+     |> assign(:stats, Classes.get_stats(socket.assigns.current_user.id))}
   end
 end

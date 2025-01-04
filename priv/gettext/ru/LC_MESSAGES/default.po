@@ -309,3 +309,28 @@ msgstr "Всего занятий"
 #, elixir-autogen, elixir-format
 msgid "Total lessons regardless of subjects"
 msgstr "Общее количество занятий независимо от предметов"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Actual score"
+msgstr "Фактический результат"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:91
+#, elixir-autogen, elixir-format
+msgid "Last quizzes results"
+msgstr "Результаты последних тестов"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:93
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Lesson title"
+msgstr "Учебные вопросы занятия"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:94
+#, elixir-autogen, elixir-format
+msgid "Max score"
+msgstr "Максимальный результат"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:101
+#, elixir-autogen, elixir-format
+msgid "Quizzes success rate"
+msgstr "Процент успеха по тестам"

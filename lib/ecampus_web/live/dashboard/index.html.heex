@@ -86,4 +86,26 @@
       </div>
     </div>
   </div>
+  <div class="card bg-base-100 shadow col-span-2">
+    <div class="card-body">
+      <h2 class="card-title">{gettext("Last quizzes results")}</h2>
+      <.table id="last_quizzes" rows={@stats.last_quizzes}>
+        <:col :let={last_quiz} label={gettext("Lesson title")}>{last_quiz.lesson_title}</:col>
+        <:col :let={last_quiz} label={gettext("Max score")}>{last_quiz.max_score}</:col>
+        <:col :let={last_quiz} label={gettext("Actual score")}>{last_quiz.actual_score}</:col>
+      </.table>
+    </div>
+  </div>
+  <div class="card bg-base-100 shadow ">
+    <div class="card-body flex flex-col items-center gap-2">
+      <h2 class="card-title">{gettext("Quizzes success rate")}</h2>
+      <div
+        class="radial-progress"
+        style={"--value:#{@stats.total_score}; --size:8rem; "}
+        role="progressbar"
+      >
+        {@stats.total_score}%
+      </div>
+    </div>
+  </div>
 </div>

@@ -9,6 +9,10 @@ defmodule Ecampus.Classes do
   import Ecampus.Pagination
 
   alias Ecampus.Classes.Class
+  alias Ecampus.Lessons.Lesson
+  alias Ecampus.Quizzes.Quiz
+  alias Ecampus.Quizzes.Question
+  alias Ecampus.Quizzes.AnsweredQuestion
 
   @doc """
   Returns the list of classes.
@@ -100,7 +104,7 @@ defmodule Ecampus.Classes do
       |> Repo.one()
       |> Repo.preload([:lesson, :group, lesson: [:subject]])
 
-  def get_stats() do
+  def get_stats(user_id) do
     query =
       from c in Class,
         select: %{
@@ -117,7 +121,84 @@ defmodule Ecampus.Classes do
         0
       end
 
-    Map.put(stats, :percentage, percentage)
+    stats = Map.put(stats, :percentage, percentage)
+
+    query =
+      from l in Lesson,
+        join: c in Class,
+        on: c.lesson_id == l.id,
+        join: q in Quiz,
+        on: q.lesson_id == l.id,
+        left_join: aq in AnsweredQuestion,
+        on: aq.quiz_id == q.id and aq.user_id == ^user_id,
+        left_join:
+          max_scores in subquery(
+            from quest in Question,
+              group_by: quest.quiz_id,
+              select: %{
+                quiz_id: quest.quiz_id,
+                max_score: coalesce(sum(quest.grade), 0)
+              }
+          ),
+        on: max_scores.quiz_id == q.id,
+        where: c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz,
+        group_by: [c.id, l.id, max_scores.max_score],
+        order_by: [desc: c.end_date],
+        limit: 5,
+        select: %{
+          lesson_title: l.title,
+          max_score: coalesce(max_scores.max_score, 0),
+          actual_score: fragment("COALESCE(SUM((?->>'grade')::numeric), 0)", aq.answer)
+        }
+
+    last_quizzes = Repo.all(query)
+
+    stats = Map.put(stats, :last_quizzes, last_quizzes)
+
+    query =
+      from q in Quiz,
+        join: l in Lesson,
+        on: q.lesson_id == l.id,
+        join: c in Class,
+        on: c.lesson_id == l.id,
+        join: quest in Question,
+        on: quest.quiz_id == q.id,
+        left_join: aq in AnsweredQuestion,
+        on: aq.quiz_id == q.id and aq.user_id == ^user_id,
+        where: c.end_date < ^NaiveDateTime.local_now(),
+        group_by: q.id,
+        select: %{
+          max_score: coalesce(sum(quest.grade), 0),
+          actual_score:
+            fragment(
+              """
+                COALESCE(SUM(CASE WHEN ? IS NOT NULL THEN (?->>'grade')::numeric ELSE 0 END), 0)
+              """,
+              aq.answer,
+              aq.answer
+            )
+        }
+
+    results = Repo.all(query)
+
+    total_max_score =
+      Enum.reduce(results, 0, fn %{max_score: max_score}, acc -> acc + max_score end)
+
+    total_actual_score =
+      Enum.reduce(results, 0, fn %{actual_score: actual_score}, acc ->
+        acc + Decimal.to_integer(actual_score)
+      end)
+
+    total_score =
+      if total_max_score > 0 do
+        Float.round(total_actual_score * 100 / total_max_score, 2)
+      else
+        0
+      end
+
+    stats = Map.put(stats, :total_score, total_score)
+
+    stats
   end
 
   @doc """

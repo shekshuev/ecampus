@@ -309,3 +309,28 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Total lessons regardless of subjects"
 msgstr ""
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:95
+#, elixir-autogen, elixir-format
+msgid "Actual score"
+msgstr ""
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:91
+#, elixir-autogen, elixir-format
+msgid "Last quizzes results"
+msgstr ""
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:93
+#, elixir-autogen, elixir-format
+msgid "Lesson title"
+msgstr ""
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:94
+#, elixir-autogen, elixir-format
+msgid "Max score"
+msgstr ""
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:101
+#, elixir-autogen, elixir-format
+msgid "Quizzes success rate"
+msgstr ""
