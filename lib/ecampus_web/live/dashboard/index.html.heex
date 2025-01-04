@@ -1,5 +1,17 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr">
-  <div></div>
+  <div class="card bg-base-100 shadow">
+    <div class="card-body flex flex-col justify-between">
+      <h2 class="card-title">{gettext("Hello")}, {@current_user.email}!</h2>
+      <div class="card-actions justify-end">
+        <.link href={~p"/users/settings"}>
+          <button class="btn btn-ghost">{gettext("Settings")}</button>
+        </.link>
+        <.link href={~p"/users/log_out"} method="delete">
+          <button class="btn btn-ghost">{gettext("Log out")}</button>
+        </.link>
+      </div>
+    </div>
+  </div>
   <%= if @incoming == nil do %>
     <div class="card bg-base-100 shadow">
       <div class="card-body">

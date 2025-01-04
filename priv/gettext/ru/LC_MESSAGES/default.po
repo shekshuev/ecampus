@@ -52,6 +52,7 @@ msgid "close"
 msgstr "Закрыть"
 
 #: lib/ecampus_web/components/layouts/app.html.heex:19
+#: lib/ecampus_web/live/dashboard/index.html.heex:7
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Настройки"
@@ -62,6 +63,7 @@ msgid "Log in"
 msgstr "Войти"
 
 #: lib/ecampus_web/components/layouts/app.html.heex:24
+#: lib/ecampus_web/live/dashboard/index.html.heex:10
 #, elixir-autogen, elixir-format
 msgid "Log out"
 msgstr "Выйти"
@@ -258,12 +260,12 @@ msgstr "Спасибо за отзыв!"
 msgid "Lesson is not available now"
 msgstr "Урок сейчас не доступен"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:23
+#: lib/ecampus_web/live/dashboard/index.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Next class"
 msgstr "Следующее занятие"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:8
+#: lib/ecampus_web/live/dashboard/index.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "No incoming classes"
 msgstr "Нет ближайших занятий"
@@ -272,3 +274,38 @@ msgstr "Нет ближайших занятий"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "To dashboard"
 msgstr "В дэшборд"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:70
+#, elixir-autogen, elixir-format
+msgid "Calculated based on the lesson end date"
+msgstr "Рассчитывается на основе даты окончания урока"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Hello"
+msgstr "Привет"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:67
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Lesson passed"
+msgstr "Пройдено занятий"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:85
+#, elixir-autogen, elixir-format
+msgid "Percentage of all lessons"
+msgstr "Процент от всех занятий"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:83
+#, elixir-autogen, elixir-format
+msgid "Progress"
+msgstr "Прогресс"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:75
+#, elixir-autogen, elixir-format
+msgid "Total lessons"
+msgstr "Всего занятий"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:78
+#, elixir-autogen, elixir-format
+msgid "Total lessons regardless of subjects"
+msgstr "Общее количество занятий независимо от предметов"
