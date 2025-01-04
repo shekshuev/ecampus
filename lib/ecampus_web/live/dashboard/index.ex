@@ -12,6 +12,9 @@ defmodule EcampusWeb.Dashboard.Index do
   def mount(_params, %{"locale" => locale} = _session, socket) do
     Gettext.put_locale(EcampusWeb.Gettext, locale)
 
-    {:ok, socket |> assign(:incoming, Classes.get_incoming_class())}
+    {:ok,
+     socket
+     |> assign(:incoming, Classes.get_incoming_class())
+     |> assign(:stats, Classes.get_stats())}
   end
 end

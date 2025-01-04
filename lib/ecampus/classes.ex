@@ -100,6 +100,26 @@ defmodule Ecampus.Classes do
       |> Repo.one()
       |> Repo.preload([:lesson, :group, lesson: [:subject]])
 
+  def get_stats() do
+    query =
+      from c in Class,
+        select: %{
+          completed_lessons: fragment("COUNT(*) FILTER (WHERE ? < NOW())", c.end_date),
+          total_lessons: count(c.id)
+        }
+
+    stats = Repo.one(query)
+
+    percentage =
+      if stats.total_lessons > 0 do
+        round(stats.completed_lessons * 100 / stats.total_lessons)
+      else
+        0
+      end
+
+    Map.put(stats, :percentage, percentage)
+  end
+
   @doc """
   Creates a class.
 

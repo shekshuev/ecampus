@@ -1,6 +1,7 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr">
+  <div></div>
   <%= if @incoming == nil do %>
-    <div class="card bg-base-100 shadow-xl">
+    <div class="card bg-base-100 shadow">
       <div class="card-body">
         <div class="flex flex-col items-center justify-center gap-2 h-full">
           <span class="hero-face-frown w-16 h-16" />
@@ -12,7 +13,7 @@
     </div>
   <% else %>
     <.link patch={~p"/dashboard/classes/#{@incoming.id}"}>
-      <div class="card image-full shadow-lg hover:shadow-xl active:shadow-md hover:cursor-pointer transition-all">
+      <div class="card image-full shadow hover:shadow-md active:shadow-sm hover:cursor-pointer transition-all">
         <figure>
           <img src="images/bg.jpg" alt="subject picture" />
         </figure>
@@ -48,7 +49,29 @@
     </.link>
   <% end %>
 
-  <div></div>
-  <div></div>
-  <div></div>
+  <div class="col-span-2">
+    <div class="stats grid-cols-3 shadow w-full h-full">
+      <div class="stat block">
+        <div class="stat-title h-1/3">{gettext("Lesson passed")}</div>
+        <div class="stat-value text-5xl text-primary h-1/3">{@stats.completed_lessons}</div>
+        <div class="stat-desc text-wrap h-1/3">
+          {gettext("Calculated based on the lesson end date")}
+        </div>
+      </div>
+
+      <div class="stat block">
+        <div class="stat-title h-1/3">{gettext("Total lessons")}</div>
+        <div class="stat-value text-5xl text-secondary h-1/3">{@stats.total_lessons}</div>
+        <div class="stat-desc text-wrap h-1/3">
+          {gettext("Total lessons regardless of subjects")}
+        </div>
+      </div>
+
+      <div class="stat block">
+        <div class="stat-title h-1/3">{gettext("Progress")}</div>
+        <div class="stat-value text-5xl text-primary h-1/3">{@stats.percentage}%</div>
+        <div class="stat-desc text-wrap h-1/3">{gettext("Percentage of all lessons")}</div>
+      </div>
+    </div>
+  </div>
 </div>
