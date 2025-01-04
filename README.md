@@ -36,6 +36,7 @@ POSTGRES_PORT=5432
 POSTGRES_HOSTNAME=localhost
 PHX_SERVER=true
 MIX_ENV=prod
+DEFAULT_LOCALE=en
 ```
 
 3. **Run the Application**

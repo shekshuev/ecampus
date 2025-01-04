@@ -24,5 +24,6 @@ defmodule EcampusWeb.Plugs.SetLocale do
   end
 
   defp check_locale(locale) when locale in @supported_locales, do: locale
-  defp check_locale(_), do: "en"
+
+  defp check_locale(_), do: System.get_env("DEFAULT_LOCALE", "en")
 end
