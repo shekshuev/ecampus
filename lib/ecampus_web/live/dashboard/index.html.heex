@@ -1,3 +1,54 @@
-<.header>
-  {gettext("Dashboard")}
-</.header>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+  <%= if @incoming == nil do %>
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <div class="flex flex-col items-center justify-center gap-2 h-full">
+          <span class="hero-face-frown w-16 h-16" />
+          <.header>
+            {gettext("No incoming classes")}
+          </.header>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <.link patch={~p"/dashboard/classes/#{@incoming.id}"}>
+      <div class="card image-full shadow-lg hover:shadow-xl active:shadow-md hover:cursor-pointer transition-all">
+        <figure>
+          <img src="images/bg.jpg" alt="subject picture" />
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">
+            {@incoming.lesson.subject.title}
+          </h2>
+          <div class="badge badge-outline">{gettext("Next class")}</div>
+          <p class="flex items-center gap-2">
+            <span class="hero-map-pin" />{@incoming.classroom}
+          </p>
+          <p class="flex items-center gap-2">
+            <span class="hero-calendar" />
+            {Calendar.strftime(
+              @incoming.begin_date,
+              "%d.%m.%Y"
+            )}
+          </p>
+          <p class="flex items-center gap-2">
+            <span class="hero-clock" />
+            {Calendar.strftime(
+              @incoming.begin_date,
+              "%H:%M"
+            ) <>
+              " - " <>
+              Calendar.strftime(
+                @incoming.end_date,
+                "%H:%M"
+              )}
+          </p>
+        </div>
+      </div>
+    </.link>
+  <% end %>
+
+  <div></div>
+  <div></div>
+  <div></div>
+</div>

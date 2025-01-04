@@ -72,7 +72,6 @@ msgid "Register"
 msgstr "Зарегистрироваться"
 
 #: lib/ecampus_web/components/layouts/app.html.heex:47
-#: lib/ecampus_web/live/dashboard/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Dashboard"
 msgstr "Дэшборд"
@@ -259,7 +258,17 @@ msgstr "Спасибо за отзыв!"
 msgid "Lesson is not available now"
 msgstr "Урок сейчас не доступен"
 
+#: lib/ecampus_web/live/dashboard/index.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Next class"
+msgstr "Следующее занятие"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "No incoming classes"
+msgstr "Нет ближайших занятий"
+
 #: lib/ecampus_web/live/dashboard/class_live/index.html.heex:8
 #, elixir-autogen, elixir-format, fuzzy
-msgid "To schedule"
-msgstr "К расписанию"
+msgid "To dashboard"
+msgstr "В дэшборд"

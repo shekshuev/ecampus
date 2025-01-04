@@ -65,8 +65,6 @@ defmodule Ecampus.Classes do
   @doc """
   Gets a single class.
 
-  Raises `Ecto.NoResultsError` if the Class does not exist.
-
   ## Examples
 
       iex> get_class(123)
@@ -78,6 +76,29 @@ defmodule Ecampus.Classes do
   """
   def get_class(id),
     do: Repo.get(Class, id) |> Repo.preload([:lesson, :group, lesson: [:subject]])
+
+  @spec get_incoming_class() ::
+          nil | [%{optional(atom()) => any()}] | %{optional(atom()) => any()}
+  @doc """
+  Gets a incoming one class for current date
+
+  ## Examples
+
+      iex> get_class()
+      %Class{}
+
+      iex> get_class()
+      nil
+
+  """
+  def get_incoming_class(),
+    do:
+      Class
+      |> where([c], c.begin_date >= ^NaiveDateTime.local_now())
+      |> order_by([c], asc: c.begin_date)
+      |> limit(1)
+      |> Repo.one()
+      |> Repo.preload([:lesson, :group, lesson: [:subject]])
 
   @doc """
   Creates a class.
