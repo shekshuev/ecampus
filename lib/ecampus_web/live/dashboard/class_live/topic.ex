@@ -26,6 +26,11 @@ defmodule EcampusWeb.Dashboard.ClassLive.Topic do
     %{group_id: group_id} = socket.assigns[:current_user]
 
     case {class, topic} do
+      {%{available: false}, _} ->
+        {:noreply,
+         socket
+         |> push_navigate(to: ~p"/dashboard/classes/#{class_id}")}
+
       {%{group: %{id: ^group_id}}, %{lesson_id: ^lesson_id}} ->
         {:noreply,
          socket

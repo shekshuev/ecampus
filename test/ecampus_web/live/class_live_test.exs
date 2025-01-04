@@ -12,12 +12,14 @@ defmodule EcampusWeb.ClassLiveTest do
   @create_attrs %{
     begin_date: "2024-12-13T11:48:00Z",
     end_date: "2024-12-13T11:48:00Z",
-    classroom: "some classroom"
+    classroom: "some classroom",
+    available: true
   }
   @update_attrs %{
     begin_date: "2024-12-14T11:48:00Z",
     end_date: "2024-12-14T11:48:00Z",
-    classroom: "some updated classroom"
+    classroom: "some updated classroom",
+    available: true
   }
   @invalid_attrs %{begin_date: nil, end_date: nil, classroom: nil}
 

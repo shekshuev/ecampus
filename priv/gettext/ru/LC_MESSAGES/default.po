@@ -89,82 +89,82 @@ msgstr "Файлы"
 msgid "Program"
 msgstr "Учебная программа"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:9
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "Hours count"
 msgstr "Количество часов"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:25
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Lesson topics"
 msgstr "Учебные вопросы занятия"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:11
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "No subject"
 msgstr "Предмет не указан"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:8
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "Objectives"
 msgstr "Цели занятия"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:10
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Subject"
 msgstr "Предмет"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:6
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr "Название"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:7
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Topic"
 msgstr "Тема"
 
-#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:2
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:13
 #, elixir-autogen, elixir-format
 msgid "Class info"
 msgstr "Информация о занятии"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:380
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:385
 #, elixir-autogen, elixir-format
 msgid "Begin"
 msgstr "Начать"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:543
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:548
 #, elixir-autogen, elixir-format
 msgid "Next"
 msgstr "Далее"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:476
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:481
 #, elixir-autogen, elixir-format
 msgid "No item selected"
 msgstr "Ничего не выбрано"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:499
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:504
 #, elixir-autogen, elixir-format
 msgid "No items left"
 msgstr "Нет элементов для выбора"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:496
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:501
 #, elixir-autogen, elixir-format
 msgid "Please select in correct order"
 msgstr "Выберите в правильном порядке"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:528
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:533
 #, elixir-autogen, elixir-format
 msgid "Prev"
 msgstr "Назад"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:464
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:469
 #, elixir-autogen, elixir-format
 msgid "Right answer"
 msgstr "Правильный ответ"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:533
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:538
 #, elixir-autogen, elixir-format
 msgid "Submit"
 msgstr "Ответить"
@@ -199,17 +199,17 @@ msgstr "Специальности"
 msgid "Subjects"
 msgstr "Предметы"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:440
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:445
 #, elixir-autogen, elixir-format
 msgid "Correct answer!"
 msgstr "Ответ правильный!"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:442
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:447
 #, elixir-autogen, elixir-format
 msgid "Please, wait for manual answer check"
 msgstr "Пожалуйста, подождите проверки ответа"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:438
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:443
 #, elixir-autogen, elixir-format
 msgid "Wrong answer"
 msgstr "Неверный ответ"
@@ -249,7 +249,17 @@ msgstr "Систему университетского образования �
 msgid "and"
 msgstr "и"
 
-#: lib/ecampus_web/live/dashboard/class_live/topic.ex:372
+#: lib/ecampus_web/live/dashboard/class_live/topic.ex:377
 #, elixir-autogen, elixir-format
 msgid "Thanks for feedback!"
 msgstr "Спасибо за отзыв!"
+
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Lesson is not available now"
+msgstr "Урок сейчас не доступен"
+
+#: lib/ecampus_web/live/dashboard/class_live/index.html.heex:8
+#, elixir-autogen, elixir-format, fuzzy
+msgid "To schedule"
+msgstr "К расписанию"

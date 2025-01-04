@@ -33,7 +33,8 @@ defmodule Ecampus.ClassesTest do
         end_date: ~U[2024-12-13 11:48:00Z],
         classroom: "some classroom",
         lesson_id: lesson_id,
-        group_id: group_id
+        group_id: group_id,
+        available: true
       }
 
       assert {:ok, %Class{} = class} = Classes.create_class(valid_attrs)
@@ -58,7 +59,8 @@ defmodule Ecampus.ClassesTest do
         end_date: ~U[2024-12-14 11:48:00Z],
         classroom: "some updated classroom",
         lesson_id: lesson_id,
-        group_id: group_id
+        group_id: group_id,
+        available: true
       }
 
       assert {:ok, %Class{} = class} = Classes.update_class(class, update_attrs)
