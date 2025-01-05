@@ -82,8 +82,6 @@ defmodule Ecampus.Classes do
   def get_class(id),
     do: Repo.get(Class, id) |> Repo.preload([:lesson, :group, lesson: [:subject]])
 
-  @spec get_incoming_class() ::
-          nil | [%{optional(atom()) => any()}] | %{optional(atom()) => any()}
   @doc """
   Gets a incoming one class for current date
 
@@ -96,18 +94,22 @@ defmodule Ecampus.Classes do
       nil
 
   """
-  def get_incoming_class(),
+  def get_incoming_class(%{group_id: current_group_id}),
     do:
       Class
-      |> where([c], c.begin_date >= ^NaiveDateTime.local_now())
+      |> where(
+        [c],
+        c.begin_date >= ^NaiveDateTime.local_now() and c.group_id == ^current_group_id
+      )
       |> order_by([c], asc: c.begin_date)
       |> limit(1)
       |> Repo.one()
       |> Repo.preload([:lesson, :group, lesson: [:subject]])
 
-  def get_stats(user_id) do
+  def get_stats(%{id: current_user_id, group_id: current_group_id}) do
     query =
       from c in Class,
+        where: c.group_id == ^current_group_id,
         select: %{
           completed_lessons: fragment("COUNT(*) FILTER (WHERE ? < NOW())", c.end_date),
           total_lessons: count(c.id)
@@ -131,7 +133,7 @@ defmodule Ecampus.Classes do
         join: q in Quiz,
         on: q.lesson_id == l.id,
         left_join: aq in AnsweredQuestion,
-        on: aq.quiz_id == q.id and aq.user_id == ^user_id,
+        on: aq.quiz_id == q.id and aq.user_id == ^current_user_id,
         left_join:
           max_scores in subquery(
             from quest in Question,
@@ -142,7 +144,9 @@ defmodule Ecampus.Classes do
               }
           ),
         on: max_scores.quiz_id == q.id,
-        where: c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz,
+        where:
+          c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz and
+            c.group_id == ^current_group_id,
         group_by: [c.id, l.id, max_scores.max_score],
         order_by: [desc: c.end_date],
         limit: 5,
@@ -165,8 +169,10 @@ defmodule Ecampus.Classes do
         join: quest in Question,
         on: quest.quiz_id == q.id,
         left_join: aq in AnsweredQuestion,
-        on: aq.quiz_id == q.id and aq.user_id == ^user_id,
-        where: c.end_date < ^NaiveDateTime.local_now(),
+        on: aq.quiz_id == q.id and aq.user_id == ^current_user_id,
+        where:
+          c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz and
+            c.group_id == ^current_group_id,
         group_by: q.id,
         select: %{
           max_score: coalesce(sum(quest.grade), 0),

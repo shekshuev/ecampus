@@ -14,8 +14,11 @@ defmodule EcampusWeb.Dashboard.Index do
 
     {:ok,
      socket
-     |> assign(:incoming, Classes.get_incoming_class())
-     |> assign(:stats, Classes.get_stats(socket.assigns.current_user.id))
+     |> assign(:incoming, Classes.get_incoming_class(socket.assigns.current_user))
+     |> assign(
+       :stats,
+       Classes.get_stats(socket.assigns.current_user)
+     )
      |> assign(:ranking, Classes.rank_students_in_group(socket.assigns.current_user.group_id))}
   end
 end
