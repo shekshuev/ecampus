@@ -202,6 +202,8 @@ defmodule Ecampus.Classes do
     stats
   end
 
+  def rank_students_in_group(nil), do: []
+
   def rank_students_in_group(current_group_id) do
     query =
       from u in User,

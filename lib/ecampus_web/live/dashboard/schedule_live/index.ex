@@ -1,5 +1,6 @@
 defmodule EcampusWeb.Dashboard.ScheduleLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Classes
   alias Ecampus.Classes.Class

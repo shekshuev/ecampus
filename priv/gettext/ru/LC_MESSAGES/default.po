@@ -52,7 +52,7 @@ msgid "close"
 msgstr "Закрыть"
 
 #: lib/ecampus_web/components/layouts/app.html.heex:19
-#: lib/ecampus_web/live/dashboard/index.html.heex:7
+#: lib/ecampus_web/live/dashboard/index.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Настройки"
@@ -63,7 +63,7 @@ msgid "Log in"
 msgstr "Войти"
 
 #: lib/ecampus_web/components/layouts/app.html.heex:24
-#: lib/ecampus_web/live/dashboard/index.html.heex:10
+#: lib/ecampus_web/live/dashboard/index.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Log out"
 msgstr "Выйти"
@@ -170,17 +170,17 @@ msgstr "Правильный ответ"
 msgid "Submit"
 msgstr "Ответить"
 
-#: lib/ecampus_web/components/layouts/app.html.heex:87
+#: lib/ecampus_web/components/layouts/app.html.heex:88
 #, elixir-autogen, elixir-format
 msgid "Classes"
 msgstr "Занятия"
 
-#: lib/ecampus_web/components/layouts/app.html.heex:72
+#: lib/ecampus_web/components/layouts/app.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "Groups"
 msgstr "Группы"
 
-#: lib/ecampus_web/components/layouts/app.html.heex:82
+#: lib/ecampus_web/components/layouts/app.html.heex:83
 #, elixir-autogen, elixir-format
 msgid "Lessons"
 msgstr "Материалы занятий"
@@ -190,12 +190,12 @@ msgstr "Материалы занятий"
 msgid "Schedule"
 msgstr "Расписание"
 
-#: lib/ecampus_web/components/layouts/app.html.heex:67
+#: lib/ecampus_web/components/layouts/app.html.heex:68
 #, elixir-autogen, elixir-format
 msgid "Specialities"
 msgstr "Специальности"
 
-#: lib/ecampus_web/components/layouts/app.html.heex:77
+#: lib/ecampus_web/components/layouts/app.html.heex:78
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Subjects"
 msgstr "Предметы"
@@ -260,12 +260,12 @@ msgstr "Спасибо за отзыв!"
 msgid "Lesson is not available now"
 msgstr "Урок сейчас не доступен"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:37
+#: lib/ecampus_web/live/dashboard/index.html.heex:49
 #, elixir-autogen, elixir-format
 msgid "Next class"
 msgstr "Следующее занятие"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:21
+#: lib/ecampus_web/live/dashboard/index.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "No incoming classes"
 msgstr "Нет ближайших занятий"
@@ -275,77 +275,92 @@ msgstr "Нет ближайших занятий"
 msgid "To dashboard"
 msgstr "В дэшборд"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:74
+#: lib/ecampus_web/live/dashboard/index.html.heex:86
 #, elixir-autogen, elixir-format
 msgid "Calculated based on the lesson end date"
 msgstr "Рассчитывается на основе даты окончания урока"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:4
+#: lib/ecampus_web/live/dashboard/index.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Hello"
 msgstr "Привет"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:71
+#: lib/ecampus_web/live/dashboard/index.html.heex:83
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Lesson passed"
 msgstr "Пройдено занятий"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:90
+#: lib/ecampus_web/live/dashboard/index.html.heex:102
 #, elixir-autogen, elixir-format
 msgid "Percentage of all lessons"
 msgstr "Процент от всех занятий"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:87
+#: lib/ecampus_web/live/dashboard/index.html.heex:99
 #, elixir-autogen, elixir-format
 msgid "Progress"
 msgstr "Прогресс"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:79
+#: lib/ecampus_web/live/dashboard/index.html.heex:91
 #, elixir-autogen, elixir-format
 msgid "Total lessons"
 msgstr "Всего занятий"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:82
+#: lib/ecampus_web/live/dashboard/index.html.heex:94
 #, elixir-autogen, elixir-format
 msgid "Total lessons regardless of subjects"
 msgstr "Общее количество занятий независимо от предметов"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:101
+#: lib/ecampus_web/live/dashboard/index.html.heex:113
 #, elixir-autogen, elixir-format
 msgid "Actual score"
 msgstr "Фактический результат"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:97
+#: lib/ecampus_web/live/dashboard/index.html.heex:109
 #, elixir-autogen, elixir-format
 msgid "Last quizzes results"
 msgstr "Результаты последних тестов"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:99
+#: lib/ecampus_web/live/dashboard/index.html.heex:111
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Lesson title"
 msgstr "Занятие"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:100
+#: lib/ecampus_web/live/dashboard/index.html.heex:112
 #, elixir-autogen, elixir-format
 msgid "Max score"
 msgstr "Максимальный результат"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:107
+#: lib/ecampus_web/live/dashboard/index.html.heex:119
 #, elixir-autogen, elixir-format
 msgid "Quizzes success rate"
 msgstr "Процент успеха по тестам"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:119
+#: lib/ecampus_web/live/dashboard/index.html.heex:131
 #, elixir-autogen, elixir-format
 msgid "My group"
 msgstr "Моя группа"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:123
+#: lib/ecampus_web/live/dashboard/index.html.heex:135
 #, elixir-autogen, elixir-format
 msgid "Score"
 msgstr "Балл"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:122
+#: lib/ecampus_web/live/dashboard/index.html.heex:134
 #, elixir-autogen, elixir-format
 msgid "User"
 msgstr "Пользователь"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Please select a group in settings"
+msgstr "Пожалуйста, укажите свою группу в настройках"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "To settings"
+msgstr "В настройки"
+
+#: lib/ecampus_web/live/dashboard/schedule_live/index.html.heex:2
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Classes schedule"
+msgstr "Расписание занятий"
