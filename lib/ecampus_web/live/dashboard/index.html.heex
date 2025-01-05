@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 ">
   <div class="card bg-base-200 shadow ">
     <div class="card-body flex flex-col justify-between">
       <h2 class="card-title">{gettext("Hello")}, {@current_user.email}!</h2>
@@ -111,6 +111,18 @@
         role="progressbar"
       >
         {@stats.total_score}%
+      </div>
+    </div>
+  </div>
+  <div></div>
+  <div class="card bg-base-200 shadow col-span-2">
+    <div class="card-body ">
+      <h2 class="card-title">{gettext("My group")}</h2>
+      <div class="max-h-48 overflow-y-auto">
+        <.table id="last_quizzes" rows={@ranking}>
+          <:col :let={user} label={gettext("User")}>{user.email}</:col>
+          <:col :let={user} label={gettext("Score")}>{user.score}</:col>
+        </.table>
       </div>
     </div>
   </div>

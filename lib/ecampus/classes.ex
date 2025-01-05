@@ -13,6 +13,7 @@ defmodule Ecampus.Classes do
   alias Ecampus.Quizzes.Quiz
   alias Ecampus.Quizzes.Question
   alias Ecampus.Quizzes.AnsweredQuestion
+  alias Ecampus.Accounts.User
 
   @doc """
   Returns the list of classes.
@@ -199,6 +200,75 @@ defmodule Ecampus.Classes do
     stats = Map.put(stats, :total_score, total_score)
 
     stats
+  end
+
+  def rank_students_in_group(current_group_id) do
+    query =
+      from u in User,
+        where: u.group_id == ^current_group_id,
+        join: c in Class,
+        on: c.group_id == u.group_id,
+        join: l in Lesson,
+        on: c.lesson_id == l.id,
+        join: q in Quiz,
+        on: q.lesson_id == l.id,
+        join: quest in Question,
+        on: quest.quiz_id == q.id,
+        left_join: aq in AnsweredQuestion,
+        on: aq.quiz_id == q.id and aq.user_id == u.id,
+        group_by: [u.id, q.id],
+        select: %{
+          user_id: u.id,
+          email: u.email,
+          max_score: coalesce(sum(quest.grade), 0),
+          actual_score:
+            fragment(
+              """
+              COALESCE(SUM(CASE WHEN ? IS NOT NULL THEN (?->>'grade')::numeric ELSE 0 END), 0)
+              """,
+              aq.answer,
+              aq.answer
+            )
+        }
+
+    results = Repo.all(query)
+
+    student_scores =
+      results
+      |> Enum.group_by(& &1.user_id)
+      |> Enum.map(fn {user_id, scores} ->
+        total_max_score = Enum.sum(Enum.map(scores, & &1.max_score))
+
+        total_actual_score =
+          Enum.sum(
+            Enum.map(scores, fn %{actual_score: actual_score} ->
+              Decimal.to_integer(actual_score)
+            end)
+          )
+
+        total_score =
+          if total_max_score > 0 do
+            Float.round(total_actual_score * 100 / total_max_score, 2)
+          else
+            0
+          end
+
+        %{user_id: user_id, email: scores |> hd() |> Map.get(:email), score: total_score}
+      end)
+
+    (student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++
+       student_scores ++ student_scores ++ student_scores ++ student_scores ++ student_scores)
+    |> Enum.sort_by(& &1.score, :desc)
   end
 
   @doc """
