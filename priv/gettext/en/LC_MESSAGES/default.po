@@ -364,3 +364,8 @@ msgstr ""
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Classes schedule"
 msgstr ""
+
+#: lib/ecampus_web/components/section_under_development.ex:12
+#, elixir-autogen, elixir-format
+msgid "Section is under development"
+msgstr ""
