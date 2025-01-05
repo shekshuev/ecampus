@@ -256,18 +256,7 @@ defmodule Ecampus.Classes do
         %{user_id: user_id, email: scores |> hd() |> Map.get(:email), score: total_score}
       end)
 
-    (student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++
-       student_scores ++ student_scores ++ student_scores ++ student_scores ++ student_scores)
+    student_scores
     |> Enum.sort_by(& &1.score, :desc)
   end
 

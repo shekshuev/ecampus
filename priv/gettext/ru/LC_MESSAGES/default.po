@@ -260,7 +260,7 @@ msgstr "Спасибо за отзыв!"
 msgid "Lesson is not available now"
 msgstr "Урок сейчас не доступен"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:36
+#: lib/ecampus_web/live/dashboard/index.html.heex:37
 #, elixir-autogen, elixir-format
 msgid "Next class"
 msgstr "Следующее занятие"
@@ -275,7 +275,7 @@ msgstr "Нет ближайших занятий"
 msgid "To dashboard"
 msgstr "В дэшборд"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:70
+#: lib/ecampus_web/live/dashboard/index.html.heex:74
 #, elixir-autogen, elixir-format
 msgid "Calculated based on the lesson end date"
 msgstr "Рассчитывается на основе даты окончания урока"
@@ -285,52 +285,67 @@ msgstr "Рассчитывается на основе даты окончани
 msgid "Hello"
 msgstr "Привет"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:67
+#: lib/ecampus_web/live/dashboard/index.html.heex:71
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Lesson passed"
 msgstr "Пройдено занятий"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:85
+#: lib/ecampus_web/live/dashboard/index.html.heex:90
 #, elixir-autogen, elixir-format
 msgid "Percentage of all lessons"
 msgstr "Процент от всех занятий"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:83
+#: lib/ecampus_web/live/dashboard/index.html.heex:87
 #, elixir-autogen, elixir-format
 msgid "Progress"
 msgstr "Прогресс"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:75
+#: lib/ecampus_web/live/dashboard/index.html.heex:79
 #, elixir-autogen, elixir-format
 msgid "Total lessons"
 msgstr "Всего занятий"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:78
+#: lib/ecampus_web/live/dashboard/index.html.heex:82
 #, elixir-autogen, elixir-format
 msgid "Total lessons regardless of subjects"
 msgstr "Общее количество занятий независимо от предметов"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:95
+#: lib/ecampus_web/live/dashboard/index.html.heex:101
 #, elixir-autogen, elixir-format
 msgid "Actual score"
 msgstr "Фактический результат"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:91
+#: lib/ecampus_web/live/dashboard/index.html.heex:97
 #, elixir-autogen, elixir-format
 msgid "Last quizzes results"
 msgstr "Результаты последних тестов"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:93
+#: lib/ecampus_web/live/dashboard/index.html.heex:99
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Lesson title"
-msgstr "Учебные вопросы занятия"
+msgstr "Занятие"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:94
+#: lib/ecampus_web/live/dashboard/index.html.heex:100
 #, elixir-autogen, elixir-format
 msgid "Max score"
 msgstr "Максимальный результат"
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:101
+#: lib/ecampus_web/live/dashboard/index.html.heex:107
 #, elixir-autogen, elixir-format
 msgid "Quizzes success rate"
 msgstr "Процент успеха по тестам"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:119
+#, elixir-autogen, elixir-format
+msgid "My group"
+msgstr "Моя группа"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:123
+#, elixir-autogen, elixir-format
+msgid "Score"
+msgstr "Балл"
+
+#: lib/ecampus_web/live/dashboard/index.html.heex:122
+#, elixir-autogen, elixir-format
+msgid "User"
+msgstr "Пользователь"
