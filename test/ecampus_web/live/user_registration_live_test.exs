@@ -48,14 +48,12 @@ defmodule EcampusWeb.UserRegistrationLiveTest do
       assert redirected_to(conn) == ~p"/"
 
       # Now do a logged in request and assert on the menu
-      # TODO update assertions after page changes
 
-      # conn = get(conn, "/")
-      # response = html_response(conn, 200)
+      conn = get(conn, "/")
+      response = html_response(conn, 200)
 
-      # assert response =~ email
-      # assert response =~ "Settings"
-      # assert response =~ "Log out"
+      assert response =~ "Welcome to eCampus"
+      assert response =~ "To Dashboard"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do

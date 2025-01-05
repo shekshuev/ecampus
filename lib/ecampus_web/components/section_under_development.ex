@@ -1,4 +1,7 @@
 defmodule EcampusWeb.SectionUnderDevelopment do
+  @moduledoc """
+  Live component to use for hide empty sections
+  """
   use EcampusWeb, :live_component
 
   use Gettext, backend: EcampusWeb.Gettext
