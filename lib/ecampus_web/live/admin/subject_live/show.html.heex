@@ -9,6 +9,17 @@
 </.header>
 
 <.list>
+  <:item title="Cover">
+    <%= if @subject.cover do %>
+      <img
+        src={Ecampus.Uploaders.SubjectCover.url({@subject.cover, @subject})}
+        alt="Preview Image"
+        class="w-32 h-32 object-cover"
+      />
+    <% else %>
+      <span>No cover available</span>
+    <% end %>
+  </:item>
   <:item title="Title">{@subject.title}</:item>
   <:item title="Short title">{@subject.short_title}</:item>
   <:item title="Description">{@subject.description}</:item>

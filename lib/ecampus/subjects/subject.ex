@@ -13,6 +13,7 @@ defmodule Ecampus.Subjects.Subject do
     field :prerequisites, :string
     field :objectives, :string
     field :required_texts, :string
+    field :cover, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -26,7 +27,8 @@ defmodule Ecampus.Subjects.Subject do
       :description,
       :prerequisites,
       :objectives,
-      :required_texts
+      :required_texts,
+      :cover
     ])
     |> validate_required([
       :title,

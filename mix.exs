@@ -64,7 +64,8 @@ defmodule Ecampus.MixProject do
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:earmark, "~> 1.4"},
-      {:ex_cldr_calendars, "~> 1.23"}
+      {:ex_cldr_calendars, "~> 1.23"},
+      {:waffle, "~> 1.1.9"}
     ]
   end
 
