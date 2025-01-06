@@ -227,6 +227,8 @@ defmodule Ecampus.Classes do
         group_by: [u.id, q.id],
         select: %{
           user_id: u.id,
+          last_name: u.last_name,
+          first_name: u.first_name,
           email: u.email,
           max_score: coalesce(sum(quest.grade), 0),
           actual_score:
@@ -261,7 +263,30 @@ defmodule Ecampus.Classes do
             0
           end
 
-        %{user_id: user_id, email: scores |> hd() |> Map.get(:email), score: total_score}
+        user_data = scores |> hd()
+
+        name =
+          case {user_data.last_name, user_data.first_name} do
+            {nil, _} ->
+              user_data.email
+
+            {"", _} ->
+              user_data.email
+
+            {_, nil} ->
+              user_data.email
+
+            {_, ""} ->
+              user_data.email
+
+            {last_name, first_name} when is_binary(last_name) and is_binary(first_name) ->
+              "#{last_name} #{String.first(first_name)}."
+
+            _ ->
+              user_data.email
+          end
+
+        %{user_id: user_id, name: name, score: total_score}
       end)
 
     student_scores

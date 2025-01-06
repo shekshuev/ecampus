@@ -6,12 +6,48 @@ defmodule EcampusWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header class="text-center">
+    <.header>
       Account Settings
-      <:subtitle>Manage your account email address and password settings</:subtitle>
     </.header>
 
-    <div class="space-y-12 divide-y">
+    <div>
+      <div>
+        <.simple_form
+          for={@personal_data_form}
+          id="personal_data_form"
+          phx-submit="update_personal_data"
+        >
+          <.input
+            field={@personal_data_form[:first_name]}
+            type="text"
+            name="first_name"
+            label="First name"
+            value={@current_user.first_name}
+          />
+          <.input
+            field={@personal_data_form[:middle_name]}
+            type="text"
+            name="middle_name"
+            label="Middle name"
+            value={@current_user.middle_name}
+          />
+          <.input
+            field={@personal_data_form[:last_name]}
+            type="text"
+            name="last_name"
+            label="Last name"
+            value={@current_user.last_name}
+          />
+          <:actions>
+            <.button phx-disable-with="Changing...">
+              Change Personal Data
+            </.button>
+          </:actions>
+        </.simple_form>
+      </div>
+    </div>
+
+    <div>
       <div>
         <.simple_form for={@group_form} id="group_form" phx-submit="update_group">
           <.input
@@ -20,12 +56,12 @@ defmodule EcampusWeb.UserSettingsLive do
             type="select"
             label="Group"
             options={Enum.map(@groups, &{&1.title, &1.id})}
-            value={@current_group_id}
+            value={@current_user.group_id}
             prompt="Select a group"
-            disabled={@current_group_id != nil}
+            disabled={@current_user.group_id != nil}
           />
           <:actions>
-            <.button disabled={@current_group_id != nil} phx-disable-with="Changing...">
+            <.button disabled={@current_user.group_id != nil} phx-disable-with="Changing...">
               Change Group
             </.button>
           </:actions>
@@ -33,7 +69,7 @@ defmodule EcampusWeb.UserSettingsLive do
       </div>
     </div>
 
-    <div class="space-y-12 divide-y">
+    <div>
       <div>
         <.simple_form
           for={@email_form}
@@ -41,14 +77,19 @@ defmodule EcampusWeb.UserSettingsLive do
           phx-submit="update_email"
           phx-change="validate_email"
         >
-          <.input field={@email_form[:email]} type="email" label="Email" required />
+          <.input
+            field={@email_form[:email]}
+            type="email"
+            label="Email"
+            value={@current_user.email}
+            required
+          />
           <.input
             field={@email_form[:current_password]}
             name="current_password"
             id="current_password_for_email"
             type="password"
             label="Current password"
-            value={@email_form_current_password}
             required
           />
           <:actions>
@@ -70,7 +111,7 @@ defmodule EcampusWeb.UserSettingsLive do
             name={@password_form[:email].name}
             type="hidden"
             id="hidden_user_email"
-            value={@current_email}
+            value={@current_user.email}
           />
           <.input field={@password_form[:password]} type="password" label="New password" required />
           <.input
@@ -84,7 +125,6 @@ defmodule EcampusWeb.UserSettingsLive do
             type="password"
             label="Current password"
             id="current_password_for_password"
-            value={@current_password}
             required
           />
           <:actions>
@@ -114,26 +154,24 @@ defmodule EcampusWeb.UserSettingsLive do
     email_changeset = Accounts.change_user_email(user)
     password_changeset = Accounts.change_user_password(user)
     group_changeset = Accounts.change_user_group(user)
+    personal_data_changeset = Accounts.change_user_personal_data(user)
 
     groups = Groups.list_groups()
 
     socket =
       socket
       |> assign(:groups, groups)
-      |> assign(:current_password, nil)
-      |> assign(:email_form_current_password, nil)
-      |> assign(:current_email, user.email)
       |> assign(:email_form, to_form(email_changeset))
-      |> assign(:current_group_id, user.group_id)
       |> assign(:group_form, to_form(group_changeset))
       |> assign(:password_form, to_form(password_changeset))
+      |> assign(:personal_data_form, to_form(personal_data_changeset))
       |> assign(:trigger_submit, false)
 
     {:ok, socket}
   end
 
   def handle_event("validate_email", params, socket) do
-    %{"current_password" => password, "user" => user_params} = params
+    %{"user" => user_params} = params
 
     email_form =
       socket.assigns.current_user
@@ -141,7 +179,7 @@ defmodule EcampusWeb.UserSettingsLive do
       |> Map.put(:action, :validate)
       |> to_form()
 
-    {:noreply, assign(socket, email_form: email_form, email_form_current_password: password)}
+    {:noreply, assign(socket, email_form: email_form)}
   end
 
   def handle_event("update_email", params, socket) do
@@ -157,7 +195,7 @@ defmodule EcampusWeb.UserSettingsLive do
         )
 
         info = "A link to confirm your email change has been sent to the new address."
-        {:noreply, socket |> put_flash(:info, info) |> assign(email_form_current_password: nil)}
+        {:noreply, socket |> put_flash(:info, info)}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :email_form, to_form(Map.put(changeset, :action, :insert)))}
@@ -165,7 +203,7 @@ defmodule EcampusWeb.UserSettingsLive do
   end
 
   def handle_event("validate_password", params, socket) do
-    %{"current_password" => password, "user" => user_params} = params
+    %{"user" => user_params} = params
 
     password_form =
       socket.assigns.current_user
@@ -173,7 +211,7 @@ defmodule EcampusWeb.UserSettingsLive do
       |> Map.put(:action, :validate)
       |> to_form()
 
-    {:noreply, assign(socket, password_form: password_form, current_password: password)}
+    {:noreply, assign(socket, password_form: password_form)}
   end
 
   def handle_event("update_password", params, socket) do
@@ -200,8 +238,26 @@ defmodule EcampusWeb.UserSettingsLive do
     params = %{group_id: String.to_integer(group_id)}
 
     case Accounts.update_user_group(user, params) do
-      {:ok, user} ->
-        {:noreply, assign(socket, current_group_id: user.group_id)}
+      {:ok, _} ->
+        {:noreply, socket |> put_flash(:info, "Group selected successfully.")}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, group_form: to_form(changeset))}
+    end
+  end
+
+  def handle_event(
+        "update_personal_data",
+        %{"first_name" => first_name, "middle_name" => middle_name, "last_name" => last_name},
+        socket
+      ) do
+    user = socket.assigns.current_user
+
+    params = %{first_name: first_name, middle_name: middle_name, last_name: last_name}
+
+    case Accounts.update_user_personal_data(user, params) do
+      {:ok, _} ->
+        {:noreply, socket |> put_flash(:info, "Personal data changed successfully.")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, group_form: to_form(changeset))}

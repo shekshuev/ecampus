@@ -8,6 +8,9 @@ defmodule Ecampus.Accounts.User do
 
   schema "users" do
     field :email, :string
+    field :first_name, :string
+    field :middle_name, :string
+    field :last_name, :string
     field :password, :string, virtual: true, redact: true
     field :role, Ecto.Enum, values: [:admin, :teacher, :student]
     field :hashed_password, :string, redact: true
@@ -93,6 +96,15 @@ defmodule Ecampus.Accounts.User do
     else
       changeset
     end
+  end
+
+  @doc """
+  A user changeset for changing the first, middle and last names.
+
+  """
+  def personal_data_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:first_name, :middle_name, :last_name])
   end
 
   @doc """

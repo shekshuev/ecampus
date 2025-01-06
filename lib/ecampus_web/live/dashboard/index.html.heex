@@ -131,7 +131,7 @@
         <h2 class="card-title">{gettext("My group")}</h2>
         <div class="max-h-48 overflow-y-auto">
           <.table id="last_quizzes" rows={@ranking}>
-            <:col :let={user} label={gettext("User")}>{user.email}</:col>
+            <:col :let={user} label={gettext("User")}>{user.name}</:col>
             <:col :let={user} label={gettext("Score")}>{user.score}</:col>
           </.table>
         </div>
