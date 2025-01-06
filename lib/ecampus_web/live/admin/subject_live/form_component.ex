@@ -13,6 +13,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
+        multipart
       >
         <.input field={@form[:title]} type="text" label="Title" />
         <.input field={@form[:short_title]} type="text" label="Short title" />
@@ -20,6 +21,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
         <.input field={@form[:prerequisites]} type="text" label="Prerequisites" />
         <.input field={@form[:objectives]} type="text" label="Objectives" />
         <.input field={@form[:required_texts]} type="text" label="Required texts" />
+        <.live_file_input upload={@uploads[:cover]} />
         <:actions>
           <.button phx-disable-with="Saving...">Save Subject</.button>
         </:actions>
@@ -35,7 +37,8 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
      |> assign(assigns)
      |> assign_new(:form, fn ->
        to_form(Subjects.change_subject(subject))
-     end)}
+     end)
+     |> allow_upload(:cover, accept: ~w(.jpg .jpeg .png))}
   end
 
   @impl true
@@ -45,7 +48,16 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
   end
 
   def handle_event("save", %{"subject" => subject_params}, socket) do
-    save_subject(socket, socket.assigns.action, subject_params)
+    uploaded_files =
+      consume_uploaded_entries(socket, :cover, fn %{path: path}, entry ->
+        Ecampus.Uploaders.SubjectCover.store({path, entry})
+      end)
+
+    save_subject(
+      socket,
+      socket.assigns.action,
+      Map.put(subject_params, "cover", List.first(uploaded_files) || nil)
+    )
   end
 
   defp save_subject(socket, :edit, subject_params) do
