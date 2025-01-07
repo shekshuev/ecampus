@@ -10,21 +10,21 @@
 <.table
   id="classes"
   rows={@classes}
-  row_click={fn class -> JS.navigate(~p"/admin/classes/#{class}") end}
+  row_click={fn {_id, class} -> JS.navigate(~p"/admin/classes/#{class}") end}
 >
-  <:col :let={class} label="ID">{class.id}</:col>
-  <:col :let={class} label="Begin date">{class.begin_date}</:col>
-  <:col :let={class} label="End date">{class.end_date}</:col>
-  <:col :let={class} label="Classroom">{class.classroom}</:col>
-  <:action :let={class}>
+  <:col :let={{_id, class}} label="ID">{class.id}</:col>
+  <:col :let={{_id, class}} label="Begin date">{class.begin_date}</:col>
+  <:col :let={{_id, class}} label="End date">{class.end_date}</:col>
+  <:col :let={{_id, class}} label="Classroom">{class.classroom}</:col>
+  <:action :let={{_id, class}}>
     <div class="sr-only">
       <.link navigate={~p"/admin/classes/#{class}"}>Show</.link>
     </div>
     <.link patch={~p"/admin/classes/#{class}/edit"}>Edit</.link>
   </:action>
-  <:action :let={class}>
+  <:action :let={{id, class}}>
     <.link
-      phx-click={JS.push("delete", value: %{id: class.id}) |> hide("##{class.id}")}
+      phx-click={JS.push("delete", value: %{id: class.id}) |> hide("##{id}")}
       data-confirm="Are you sure?"
     >
       Delete
