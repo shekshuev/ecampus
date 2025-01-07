@@ -9,28 +9,73 @@
 
 <.table
   id="classes"
-  rows={@streams.classes}
-  row_click={fn {_id, class} -> JS.navigate(~p"/admin/classes/#{class}") end}
+  rows={@classes}
+  row_click={fn class -> JS.navigate(~p"/admin/classes/#{class}") end}
 >
-  <:col :let={{_id, class}} label="ID">{class.id}</:col>
-  <:col :let={{_id, class}} label="Begin date">{class.begin_date}</:col>
-  <:col :let={{_id, class}} label="End date">{class.end_date}</:col>
-  <:col :let={{_id, class}} label="Classroom">{class.classroom}</:col>
-  <:action :let={{_id, class}}>
+  <:col :let={class} label="ID">{class.id}</:col>
+  <:col :let={class} label="Begin date">{class.begin_date}</:col>
+  <:col :let={class} label="End date">{class.end_date}</:col>
+  <:col :let={class} label="Classroom">{class.classroom}</:col>
+  <:action :let={class}>
     <div class="sr-only">
       <.link navigate={~p"/admin/classes/#{class}"}>Show</.link>
     </div>
     <.link patch={~p"/admin/classes/#{class}/edit"}>Edit</.link>
   </:action>
-  <:action :let={{id, class}}>
+  <:action :let={class}>
     <.link
-      phx-click={JS.push("delete", value: %{id: class.id}) |> hide("##{id}")}
+      phx-click={JS.push("delete", value: %{id: class.id}) |> hide("##{class.id}")}
       data-confirm="Are you sure?"
     >
       Delete
     </.link>
   </:action>
 </.table>
+
+<div class="flex justify-center items-center my-4">
+  <div class="join">
+    <%= if @current_page > 1 do %>
+      <.link
+        patch={~p"/admin/classes?page=1&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {"<<"}
+      </.link>
+      <.link
+        patch={~p"/admin/classes?page=#{@current_page - 1}&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {"<"}
+      </.link>
+    <% end %>
+    <%= for page <- pagination_pages(@pagination.pages, @current_page) do %>
+      <%= if page == :ellipsis do %>
+        <span class="join-item btn btn-disabled">...</span>
+      <% else %>
+        <.link
+          patch={~p"/admin/classes?page=#{page}&page_size=#{@pagination.page_size}"}
+          class={if @current_page == page, do: "join-item btn btn-active", else: "join-item btn"}
+        >
+          {page}
+        </.link>
+      <% end %>
+    <% end %>
+    <%= if @current_page < @pagination.pages do %>
+      <.link
+        patch={~p"/admin/classes?page=#{@current_page + 1}&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {">"}
+      </.link>
+      <.link
+        patch={~p"/admin/classes?page=#{@pagination.pages}&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {">>"}
+      </.link>
+    <% end %>
+  </div>
+</div>
 
 <.modal
   :if={@live_action in [:new, :edit]}

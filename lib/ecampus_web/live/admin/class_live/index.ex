@@ -7,23 +7,45 @@ defmodule EcampusWeb.ClassLive.Index do
   alias Ecampus.Lessons
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, %{list: classes, pagination: pagination}} = Classes.list_classes()
+  def mount(params, _session, socket) do
+    page = Map.get(params, "page", 1)
+    page_size = Map.get(params, "page_size", 10)
+
+    {:ok, %{list: classes, pagination: pagination}} =
+      Classes.list_classes(%{"page" => page, "page_size" => page_size})
 
     lessons = Lessons.list_lessons()
     groups = Groups.list_groups()
 
-    {:ok,
-     socket
-     |> assign(:pagination, pagination)
-     |> assign(:lessons, lessons)
-     |> assign(:groups, groups)
-     |> stream(:classes, classes)}
+    {
+      :ok,
+      socket
+      |> assign(:pagination, pagination)
+      |> assign(:lessons, lessons)
+      |> assign(:groups, groups)
+      |> assign(:current_page, page)
+      |> assign(:classes, classes)
+    }
   end
 
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :index, %{"page" => page, "page_size" => page_size} = params) do
+    page = String.to_integer(page || "1")
+    page_size = String.to_integer(page_size || "10")
+
+    {:ok, %{list: classes, pagination: pagination}} =
+      Classes.list_classes(%{"page" => page, "page_size" => page_size})
+
+    socket
+    |> assign(:page_title, "Listing Classes")
+    |> assign(:pagination, pagination)
+    |> assign(:current_page, page)
+    |> assign(:params, params)
+    |> assign(:classes, classes)
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -45,8 +67,17 @@ defmodule EcampusWeb.ClassLive.Index do
   end
 
   @impl true
-  def handle_info({EcampusWeb.ClassLive.FormComponent, {:saved, class}}, socket) do
-    {:noreply, stream_insert(socket, :classes, class)}
+  def handle_info({EcampusWeb.ClassLive.FormComponent, {:saved, _}}, socket) do
+    %{page_size: page_size, page: page} = Map.get(socket.assigns, :pagination)
+
+    {:ok, %{list: classes, pagination: pagination}} =
+      Classes.list_classes(%{"page" => page, "page_size" => page_size})
+
+    {:noreply,
+     socket
+     |> assign(:pagination, pagination)
+     |> assign(:current_page, page)
+     |> assign(:classes, classes)}
   end
 
   @impl true
@@ -54,6 +85,31 @@ defmodule EcampusWeb.ClassLive.Index do
     class = Classes.get_class(id)
     {:ok, _} = Classes.delete_class(class)
 
-    {:noreply, stream_delete(socket, :classes, class)}
+    %{page_size: page_size, page: page} = Map.get(socket.assigns, :pagination)
+
+    {:ok, %{list: classes, pagination: pagination}} =
+      Classes.list_classes(%{"page" => page, "page_size" => page_size})
+
+    {:noreply,
+     socket
+     |> assign(:pagination, pagination)
+     |> assign(:current_page, page)
+     |> assign(:classes, classes)}
+  end
+
+  defp pagination_pages(total_pages, current_page) do
+    cond do
+      total_pages <= 7 ->
+        Enum.to_list(1..total_pages)
+
+      current_page < 4 ->
+        [1, 2, 3, 4, :ellipsis, total_pages - 1, total_pages]
+
+      current_page > total_pages - 3 ->
+        [1, 2, :ellipsis, total_pages - 3, total_pages - 2, total_pages - 1, total_pages]
+
+      true ->
+        [1, :ellipsis, current_page - 1, current_page, current_page + 1, :ellipsis, total_pages]
+    end
   end
 end
