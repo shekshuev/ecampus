@@ -24,7 +24,7 @@ defmodule EcampusWeb.ClassLive.Index do
       |> assign(:lessons, lessons)
       |> assign(:groups, groups)
       |> assign(:current_page, page)
-      |> assign(:classes, classes)
+      |> assign(:classes, classes |> Enum.map(fn class -> {"classes-#{class.id}", class} end))
     }
   end
 
@@ -45,7 +45,7 @@ defmodule EcampusWeb.ClassLive.Index do
     |> assign(:pagination, pagination)
     |> assign(:current_page, page)
     |> assign(:params, params)
-    |> assign(:classes, classes)
+    |> assign(:classes, classes |> Enum.map(fn class -> {"classes-#{class.id}", class} end))
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
@@ -77,7 +77,7 @@ defmodule EcampusWeb.ClassLive.Index do
      socket
      |> assign(:pagination, pagination)
      |> assign(:current_page, page)
-     |> assign(:classes, classes)}
+     |> assign(:classes, classes |> Enum.map(fn class -> {"classes-#{class.id}", class} end))}
   end
 
   @impl true
@@ -94,7 +94,7 @@ defmodule EcampusWeb.ClassLive.Index do
      socket
      |> assign(:pagination, pagination)
      |> assign(:current_page, page)
-     |> assign(:classes, classes)}
+     |> assign(:classes, classes |> Enum.map(fn class -> {"classes-#{class.id}", class} end))}
   end
 
   defp pagination_pages(total_pages, current_page) do
