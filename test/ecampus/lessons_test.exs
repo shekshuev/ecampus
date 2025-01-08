@@ -102,7 +102,7 @@ defmodule Ecampus.LessonsTest do
 
     test "list_lesson_topics/0 returns all lesson_topics" do
       lesson_topic = create_lesson_topic()
-      {:ok, %{list: list}} = Lessons.list_lesson_topics()
+      list = Lessons.list_lesson_topics()
       assert list == [lesson_topic]
     end
 

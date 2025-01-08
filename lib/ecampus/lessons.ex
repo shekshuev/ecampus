@@ -6,8 +6,6 @@ defmodule Ecampus.Lessons do
   import Ecto.Query, warn: false
   alias Ecampus.Repo
 
-  import Ecampus.Pagination
-
   alias Ecampus.Lessons.Lesson
 
   @doc """
@@ -124,31 +122,23 @@ defmodule Ecampus.Lessons do
 
   """
   def list_lesson_topics(params \\ %{}) do
-    filters = []
+    query = LessonTopic |> preload([:lesson])
 
-    filters =
-      params
-      |> Enum.reduce(filters, fn
+    query =
+      Enum.reduce(params, query, fn
         {"lesson_id", lesson_id}, acc ->
-          [%{field: :lesson_id, value: lesson_id} | acc]
+          from lt in acc, where: lt.lesson_id == ^lesson_id
 
         _, acc ->
           acc
       end)
 
-    LessonTopic
-    |> preload([:lesson])
-    |> Flop.validate_and_run(
-      %{
-        page: Map.get(params, "page", 1),
-        page_size: Map.get(params, "page_size", 10),
-        filters: filters,
-        order_by: [:sort_order, :id],
-        order_directions: [:asc, :asc]
-      },
-      for: LessonTopic
-    )
-    |> with_pagination()
+    query =
+      query
+      |> order_by([lt], asc: lt.sort_order)
+      |> order_by([lt], asc: lt.id)
+
+    Repo.all(query)
   end
 
   @doc """
