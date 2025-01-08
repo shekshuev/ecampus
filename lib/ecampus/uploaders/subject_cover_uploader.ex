@@ -1,4 +1,8 @@
 defmodule Ecampus.Uploaders.SubjectCover do
+  @moduledoc """
+  The uploader module for subject cover
+  """
+
   use Waffle.Definition
 
   @versions [:original]

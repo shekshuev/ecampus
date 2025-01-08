@@ -158,8 +158,6 @@ defmodule Ecampus.Classes do
 
     last_quizzes =
       Repo.all(query)
-      |> Enum.with_index()
-      |> Enum.map(fn {lq, idx} -> {"last_quizzes-#{idx}", lq} end)
 
     stats = Map.put(stats, :last_quizzes, last_quizzes)
 
@@ -249,53 +247,56 @@ defmodule Ecampus.Classes do
     student_scores =
       results
       |> Enum.group_by(& &1.user_id)
-      |> Enum.map(fn {user_id, scores} ->
-        total_max_score = Enum.sum(Enum.map(scores, & &1.max_score))
-
-        total_actual_score =
-          Enum.sum(
-            Enum.map(scores, fn %{actual_score: actual_score} ->
-              Decimal.to_integer(actual_score)
-            end)
-          )
-
-        total_score =
-          if total_max_score > 0 do
-            Float.round(total_actual_score * 100 / total_max_score, 2)
-          else
-            0
-          end
-
-        user_data = scores |> hd()
-
-        name =
-          case {user_data.last_name, user_data.first_name} do
-            {nil, _} ->
-              user_data.email
-
-            {"", _} ->
-              user_data.email
-
-            {_, nil} ->
-              user_data.email
-
-            {_, ""} ->
-              user_data.email
-
-            {last_name, first_name} when is_binary(last_name) and is_binary(first_name) ->
-              "#{last_name} #{String.first(first_name)}."
-
-            _ ->
-              user_data.email
-          end
-
-        %{user_id: user_id, name: name, score: total_score}
-      end)
+      |> Enum.map(fn param -> transform_students_to_student_scores(param) end)
 
     student_scores
     |> Enum.sort_by(& &1.score, :desc)
-    |> Enum.with_index()
-    |> Enum.map(fn {r, idx} -> {"ranking-#{idx}", r} end)
+  end
+
+  defp transform_students_to_student_scores({user_id, scores}) do
+    total_max_score =
+      scores
+      |> Enum.map(& &1.max_score)
+      |> Enum.sum()
+
+    total_actual_score =
+      scores
+      |> Enum.map(fn %{actual_score: actual_score} ->
+        Decimal.to_integer(actual_score)
+      end)
+      |> Enum.sum()
+
+    total_score =
+      if total_max_score > 0 do
+        Float.round(total_actual_score * 100 / total_max_score, 2)
+      else
+        0
+      end
+
+    user_data = scores |> hd()
+
+    name =
+      case {user_data.last_name, user_data.first_name} do
+        {nil, _} ->
+          user_data.email
+
+        {"", _} ->
+          user_data.email
+
+        {_, nil} ->
+          user_data.email
+
+        {_, ""} ->
+          user_data.email
+
+        {last_name, first_name} when is_binary(last_name) and is_binary(first_name) ->
+          "#{last_name} #{String.first(first_name)}."
+
+        _ ->
+          user_data.email
+      end
+
+    %{user_id: user_id, name: name, score: total_score}
   end
 
   @doc """
