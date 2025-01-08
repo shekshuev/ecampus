@@ -6,12 +6,10 @@ defmodule EcampusWeb.LessonTopicLive.Index do
 
   @impl true
   def mount(%{"lesson_id" => lesson_id}, _session, socket) do
-    {:ok, %{list: lesson_topics, pagination: pagination}} =
-      Lessons.list_lesson_topics(%{"lesson_id" => String.to_integer(lesson_id)})
+    lesson_topics = Lessons.list_lesson_topics(%{"lesson_id" => String.to_integer(lesson_id)})
 
     {:ok,
      socket
-     |> assign(:pagination, pagination)
      |> assign(:lesson_id, String.to_integer(lesson_id))
      |> stream(:lesson_topics, lesson_topics)}
   end
