@@ -28,12 +28,14 @@
       id="lesson_topics"
       rows={@lesson_topics}
       row_click={
-        fn lesson_topic ->
+        fn {_id, lesson_topic} ->
           JS.navigate("/dashboard/classes/#{@class.id}/topics/#{lesson_topic.id}")
         end
       }
     >
-      <:col :let={lesson_topic} label={gettext("Lesson topics")}>{lesson_topic.title}</:col>
+      <:col :let={{_id, lesson_topic}} label={gettext("Lesson topics")}>
+        {lesson_topic.title}
+      </:col>
     </.table>
   </div>
 <% end %>

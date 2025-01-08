@@ -24,7 +24,10 @@ defmodule EcampusWeb.Dashboard.ClassLive.Index do
         {:noreply,
          socket
          |> assign(:class, class)
-         |> assign(:lesson_topics, lesson_topics)}
+         |> assign(
+           :lesson_topics,
+           lesson_topics |> Enum.map(fn lt -> {"lesson_topics-#{lt.id}", lt} end)
+         )}
 
       _ ->
         {:noreply,
