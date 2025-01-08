@@ -1,10 +1,13 @@
 defmodule EcampusWeb.Dashboard.ClassLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
+
   alias Ecampus.Classes
   alias Ecampus.Lessons
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
     {:ok, socket}
   end
 
@@ -12,8 +15,7 @@ defmodule EcampusWeb.Dashboard.ClassLive.Index do
   def handle_params(%{"id" => id}, _, socket) do
     class = Classes.get_class(id)
 
-    {:ok, %{list: lesson_topics, pagination: pagination}} =
-      Lessons.list_lesson_topics(%{"lesson_id" => class.lesson_id})
+    lesson_topics = Lessons.list_lesson_topics(%{"lesson_id" => class.lesson_id})
 
     %{group_id: group_id} = socket.assigns[:current_user]
 
@@ -22,8 +24,10 @@ defmodule EcampusWeb.Dashboard.ClassLive.Index do
         {:noreply,
          socket
          |> assign(:class, class)
-         |> assign(:lesson_topics, lesson_topics)
-         |> assign(:pagination, pagination)}
+         |> assign(
+           :lesson_topics,
+           lesson_topics |> Enum.map(fn lt -> {"lesson_topics-#{lt.id}", lt} end)
+         )}
 
       _ ->
         {:noreply,

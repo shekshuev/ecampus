@@ -13,7 +13,8 @@ defmodule Ecampus.QuizzesFixtures do
       |> Enum.into(%{
         description: "some description",
         questions_per_attempt: 42,
-        title: "some title"
+        title: "some title",
+        type: :quiz
       })
       |> Ecampus.Quizzes.create_quiz()
 
@@ -31,7 +32,8 @@ defmodule Ecampus.QuizzesFixtures do
         show_correct_answer: true,
         subtitle: "some subtitle",
         title: "some title",
-        type: :multiple
+        type: :multiple,
+        sort_order: 0
       })
       |> Ecampus.Quizzes.create_question()
 
@@ -48,7 +50,8 @@ defmodule Ecampus.QuizzesFixtures do
         is_correct: true,
         sequence_order_number: 42,
         subtitle: "some subtitle",
-        title: "some title"
+        title: "some title",
+        sort_order: 0
       })
       |> Ecampus.Quizzes.create_answer()
 

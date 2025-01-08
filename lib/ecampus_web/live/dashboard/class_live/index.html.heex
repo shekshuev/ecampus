@@ -1,27 +1,41 @@
-<.header>
-  Listing Classes
-</.header>
+<%= if @class.available == false do %>
+  <div class="flex flex-col items-center justify-center gap-8 h-4/5">
+    <span class="hero-lock-closed w-16 h-16" />
+    <.header>
+      {gettext("Lesson is not available now")}
+    </.header>
+    <.link patch={~p"/dashboard"}>
+      <.button class="btn btn-neutral">{gettext("To dashboard")}</.button>
+    </.link>
+  </div>
+<% else %>
+  <.header>
+    {gettext("Class info")}
+  </.header>
 
-<.list>
-  <:item title="Title">{@class.lesson.title}</:item>
-  <:item title="Topic">{@class.lesson.topic}</:item>
-  <:item title="Objectives">{@class.lesson.objectives}</:item>
-  <:item title="Hours count">{@class.lesson.hours_count}</:item>
-  <:item title="Subject">
-    {(@class.lesson.subject && @class.lesson.subject.title) || "No Subject"}
-  </:item>
-</.list>
+  <.list>
+    <:item title={gettext("Title")}>{@class.lesson.title}</:item>
+    <:item title={gettext("Topic")}>{@class.lesson.topic}</:item>
+    <:item title={gettext("Objectives")}>{@class.lesson.objectives}</:item>
+    <:item title={gettext("Hours count")}>{@class.lesson.hours_count}</:item>
+    <:item title={gettext("Subject")}>
+      {(@class.lesson.subject && @class.lesson.subject.title) || gettext("No subject")}
+    </:item>
+  </.list>
 
-<div class="mt-5">
-  <.table
-    id="lesson_topics"
-    rows={@lesson_topics}
-    row_click={
-      fn lesson_topic ->
-        JS.navigate("/dashboard/classes/#{@class.id}/topics/#{lesson_topic.id}")
-      end
-    }
-  >
-    <:col :let={lesson_topic} label="Lesson topics">{lesson_topic.title}</:col>
-  </.table>
-</div>
+  <div class="mt-5">
+    <.table
+      id="lesson_topics"
+      rows={@lesson_topics}
+      row_click={
+        fn {_id, lesson_topic} ->
+          JS.navigate("/dashboard/classes/#{@class.id}/topics/#{lesson_topic.id}")
+        end
+      }
+    >
+      <:col :let={{_id, lesson_topic}} label={gettext("Lesson topics")}>
+        {lesson_topic.title}
+      </:col>
+    </.table>
+  </div>
+<% end %>

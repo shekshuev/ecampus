@@ -9,7 +9,7 @@
 
 <.table
   id="classes"
-  rows={@streams.classes}
+  rows={@classes}
   row_click={fn {_id, class} -> JS.navigate(~p"/admin/classes/#{class}") end}
 >
   <:col :let={{_id, class}} label="ID">{class.id}</:col>
@@ -31,6 +31,51 @@
     </.link>
   </:action>
 </.table>
+
+<div class="flex justify-center items-center my-4">
+  <div class="join">
+    <%= if @current_page > 1 do %>
+      <.link
+        patch={~p"/admin/classes?page=1&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {"<<"}
+      </.link>
+      <.link
+        patch={~p"/admin/classes?page=#{@current_page - 1}&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {"<"}
+      </.link>
+    <% end %>
+    <%= for page <- pagination_pages(@pagination.pages, @current_page) do %>
+      <%= if page == :ellipsis do %>
+        <span class="join-item btn btn-disabled">...</span>
+      <% else %>
+        <.link
+          patch={~p"/admin/classes?page=#{page}&page_size=#{@pagination.page_size}"}
+          class={if @current_page == page, do: "join-item btn btn-active", else: "join-item btn"}
+        >
+          {page}
+        </.link>
+      <% end %>
+    <% end %>
+    <%= if @current_page < @pagination.pages do %>
+      <.link
+        patch={~p"/admin/classes?page=#{@current_page + 1}&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {">"}
+      </.link>
+      <.link
+        patch={~p"/admin/classes?page=#{@pagination.pages}&page_size=#{@pagination.page_size}"}
+        class="join-item btn"
+      >
+        {">>"}
+      </.link>
+    <% end %>
+  </div>
+</div>
 
 <.modal
   :if={@live_action in [:new, :edit]}

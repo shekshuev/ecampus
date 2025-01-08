@@ -1,11 +1,9 @@
 <main class="flex flex-col justify-start min-h-screen min-w-screen">
   <.flash_group flash={@flash} />
   <div class="w-full flex flex-row justify-between items-center px-2 py-4 h-16">
-    <div class="flex flex-row gap-2 items-center">
-      <.link href={~p"/"} class="link no-underline">
-        e-Campus
-      </.link>
-    </div>
+    <.link href={~p"/"} class="link no-underline font-bold">
+      <img src="/images/logo-128.png" alt="logo" class="mx-3 inline h-8 w-8" /> eCampus
+    </.link>
     <div class="dropdown dropdown-end">
       <button class="btn btn-ghost"><.icon name="hero-bars-3" /></button>
       <div class="dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
@@ -18,23 +16,23 @@
           <%= if @current_user do %>
             <li>
               <.link href={~p"/users/settings"} class="link link-hover">
-                Settings
+                {gettext("Settings")}
               </.link>
             </li>
             <li>
               <.link href={~p"/users/log_out"} method="delete" class="link link-hover">
-                Log out
+                {gettext("Log out")}
               </.link>
             </li>
           <% else %>
             <li>
               <.link href={~p"/users/register"} class="link link-hover">
-                Register
+                {gettext("Register")}
               </.link>
             </li>
             <li>
               <.link href={~p"/users/log_in"} class="link link-hover">
-                Log in
+                {gettext("Log in")}
               </.link>
             </li>
           <% end %>
@@ -46,41 +44,53 @@
     <%= if @current_user do %>
       <div class="hidden sm:flex flex-col justify-between items-center pl-2 w-16">
         <div class="flex flex-col justify-start gap-2 ">
-          <div class="tooltip tooltip-right" data-tip="Dashboard">
+          <div class="tooltip tooltip-right" data-tip={gettext("Dashboard")}>
             <.link href={~p"/dashboard"} class="btn btn-ghost">
               <.icon name="hero-squares-2x2" />
             </.link>
           </div>
-          <div class="tooltip tooltip-right" data-tip="Schedule">
+          <div class="tooltip tooltip-right" data-tip={gettext("Program")}>
+            <.link href={~p"/dashboard/program"} class="btn btn-ghost">
+              <.icon name="hero-academic-cap" />
+            </.link>
+          </div>
+          <div class="tooltip tooltip-right" data-tip={gettext("Schedule")}>
             <.link href={~p"/dashboard/schedule"} class="btn btn-ghost">
               <.icon name="hero-calendar-days" />
             </.link>
           </div>
-          <div class="tooltip tooltip-right" data-tip="Specialities">
-            <.link href={~p"/admin/specialities"} class="btn btn-ghost">
-              <.icon name="hero-swatch" />
+          <div class="tooltip tooltip-right" data-tip={gettext("Files")}>
+            <.link href={~p"/dashboard/files"} class="btn btn-ghost">
+              <.icon name="hero-folder" />
             </.link>
           </div>
-          <div class="tooltip tooltip-right" data-tip="Groups">
-            <.link href={~p"/admin/groups"} class="btn btn-ghost">
-              <.icon name="hero-user-group" />
-            </.link>
-          </div>
-          <div class="tooltip tooltip-right" data-tip="Subjects">
-            <.link href={~p"/admin/subjects"} class="btn btn-ghost">
-              <.icon name="hero-square-3-stack-3d" />
-            </.link>
-          </div>
-          <div class="tooltip tooltip-right" data-tip="Lessons">
-            <.link href={~p"/admin/lessons"} class="btn btn-ghost">
-              <.icon name="hero-book-open" />
-            </.link>
-          </div>
-          <div class="tooltip tooltip-right" data-tip="Classes">
-            <.link href={~p"/admin/classes"} class="btn btn-ghost">
-              <.icon name="hero-calendar-days" />
-            </.link>
-          </div>
+          <%= if @current_user.role != :student do %>
+            <div class="tooltip tooltip-right" data-tip={gettext("Specialities")}>
+              <.link href={~p"/admin/specialities"} class="btn btn-ghost">
+                <.icon name="hero-swatch" />
+              </.link>
+            </div>
+            <div class="tooltip tooltip-right" data-tip={gettext("Groups")}>
+              <.link href={~p"/admin/groups"} class="btn btn-ghost">
+                <.icon name="hero-user-group" />
+              </.link>
+            </div>
+            <div class="tooltip tooltip-right" data-tip={gettext("Subjects")}>
+              <.link href={~p"/admin/subjects"} class="btn btn-ghost">
+                <.icon name="hero-square-3-stack-3d" />
+              </.link>
+            </div>
+            <div class="tooltip tooltip-right" data-tip={gettext("Lessons")}>
+              <.link href={~p"/admin/lessons"} class="btn btn-ghost">
+                <.icon name="hero-book-open" />
+              </.link>
+            </div>
+            <div class="tooltip tooltip-right" data-tip={gettext("Classes")}>
+              <.link href={~p"/admin/classes"} class="btn btn-ghost">
+                <.icon name="hero-calendar-days" />
+              </.link>
+            </div>
+          <% end %>
         </div>
       </div>
     <% end %>

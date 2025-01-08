@@ -16,6 +16,7 @@ defmodule EcampusWeb.QuestionLive.AnswerFormComponent do
       >
         <.input field={@form[:title]} type="text" label="Title" />
         <.input field={@form[:subtitle]} type="text" label="Subtitle" />
+        <.input field={@form[:sort_order]} type="number" label="Sort order" />
         <.input field={@form[:is_correct]} type="checkbox" label="Is correct" />
         <%= if @question.type == :sequence do %>
           <.input field={@form[:sequence_order_number]} type="number" label="Sequence order number" />

@@ -9,6 +9,7 @@ defmodule EcampusWeb.Layouts do
   `use EcampusWeb, :live_view`.
   """
   use EcampusWeb, :html
+  use Gettext, backend: EcampusWeb.Gettext
 
   embed_templates "layouts/*"
 end

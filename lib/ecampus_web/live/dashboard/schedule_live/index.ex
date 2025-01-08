@@ -1,11 +1,13 @@
 defmodule EcampusWeb.Dashboard.ScheduleLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Classes
   alias Ecampus.Classes.Class
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
     %{group_id: group_id} = socket.assigns[:current_user]
 
     {:ok, %{list: classes, pagination: pagination}} =
@@ -155,6 +157,9 @@ defmodule EcampusWeb.Dashboard.ScheduleLive.Index do
                 >
                   <.link patch={~p"/dashboard/classes/#{event.id}"}>
                     <div class="badge badge-primary badge-lg w-full text-nowrap text-left truncate cursor-pointer">
+                      <%= if event.available == false do %>
+                        <span class="hero-lock-closed" />
+                      <% end %>
                       {event.lesson.subject.short_title} {event.classroom}
                     </div>
                   </.link>

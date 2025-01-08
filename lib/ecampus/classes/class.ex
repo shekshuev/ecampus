@@ -16,6 +16,7 @@ defmodule Ecampus.Classes.Class do
     field :begin_date, :utc_datetime
     field :end_date, :utc_datetime
     field :classroom, :string
+    field :available, :boolean, default: false
     belongs_to :lesson, Ecampus.Lessons.Lesson
     belongs_to :group, Ecampus.Groups.Group
 
@@ -25,7 +26,7 @@ defmodule Ecampus.Classes.Class do
   @doc false
   def changeset(class, attrs) do
     class
-    |> cast(attrs, [:begin_date, :end_date, :classroom, :group_id, :lesson_id])
-    |> validate_required([:begin_date, :end_date, :classroom, :group_id, :lesson_id])
+    |> cast(attrs, [:begin_date, :end_date, :classroom, :group_id, :lesson_id, :available])
+    |> validate_required([:begin_date, :end_date, :classroom, :group_id, :lesson_id, :available])
   end
 end

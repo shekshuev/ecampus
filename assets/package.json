@@ -9,6 +9,7 @@
     "cssesc": "^3.0.0",
     "culori": "^3.3.0",
     "fastparse": "^1.1.2",
+    "highlight.js": "^11.11.1",
     "nanoid": "^3.3.8",
     "picocolors": "^1.1.1",
     "postcss": "^8.4.49",

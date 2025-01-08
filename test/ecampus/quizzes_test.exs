@@ -38,7 +38,8 @@ defmodule Ecampus.QuizzesTest do
         description: "some description",
         title: "some title",
         questions_per_attempt: 42,
-        lesson_id: lesson_id
+        lesson_id: lesson_id,
+        type: :quiz
       }
 
       assert {:ok, %Quiz{} = quiz} = Quizzes.create_quiz(valid_attrs)
@@ -60,7 +61,8 @@ defmodule Ecampus.QuizzesTest do
         description: "some updated description",
         title: "some updated title",
         questions_per_attempt: 43,
-        lesson_id: lesson_id
+        lesson_id: lesson_id,
+        type: :quiz
       }
 
       assert {:ok, %Quiz{} = quiz} = Quizzes.update_quiz(quiz, update_attrs)
@@ -111,7 +113,8 @@ defmodule Ecampus.QuizzesTest do
         subtitle: "some subtitle",
         grade: 42,
         show_correct_answer: true,
-        quiz_id: quiz_id
+        quiz_id: quiz_id,
+        sort_order: 0
       }
 
       assert {:ok, %Question{} = question} = Quizzes.create_question(valid_attrs)
@@ -137,7 +140,8 @@ defmodule Ecampus.QuizzesTest do
         subtitle: "some updated subtitle",
         grade: 43,
         show_correct_answer: false,
-        quiz_id: quiz_id
+        quiz_id: quiz_id,
+        sort_order: 0
       }
 
       assert {:ok, %Question{} = question} = Quizzes.update_question(question, update_attrs)
@@ -192,7 +196,8 @@ defmodule Ecampus.QuizzesTest do
         subtitle: "some subtitle",
         is_correct: true,
         sequence_order_number: 42,
-        question_id: question_id
+        question_id: question_id,
+        sort_order: 0
       }
 
       assert {:ok, %Answer{} = answer} = Quizzes.create_answer(valid_attrs)
@@ -216,7 +221,8 @@ defmodule Ecampus.QuizzesTest do
         subtitle: "some updated subtitle",
         is_correct: false,
         sequence_order_number: 43,
-        question_id: question_id
+        question_id: question_id,
+        sort_order: 0
       }
 
       assert {:ok, %Answer{} = answer} = Quizzes.update_answer(answer, update_attrs)

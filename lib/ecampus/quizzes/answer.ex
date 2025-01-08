@@ -11,6 +11,7 @@ defmodule Ecampus.Quizzes.Answer do
     field :subtitle, :string
     field :is_correct, :boolean, default: false
     field :sequence_order_number, :integer, default: 0
+    field :sort_order, :integer, default: 0
     belongs_to :question, Ecampus.Quizzes.Question
 
     timestamps(type: :utc_datetime)
@@ -19,7 +20,14 @@ defmodule Ecampus.Quizzes.Answer do
   @doc false
   def changeset(answer, attrs) do
     answer
-    |> cast(attrs, [:title, :subtitle, :is_correct, :sequence_order_number, :question_id])
-    |> validate_required([:title, :is_correct, :question_id])
+    |> cast(attrs, [
+      :title,
+      :subtitle,
+      :is_correct,
+      :sequence_order_number,
+      :question_id,
+      :sort_order
+    ])
+    |> validate_required([:title, :is_correct, :question_id, :sort_order])
   end
 end

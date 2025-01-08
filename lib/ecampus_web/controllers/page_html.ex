@@ -6,5 +6,7 @@ defmodule EcampusWeb.PageHTML do
   """
   use EcampusWeb, :html
 
+  use Gettext, backend: EcampusWeb.Gettext
+
   embed_templates "page_html/*"
 end

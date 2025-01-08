@@ -21,6 +21,16 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
+import hljs from "highlight.js";
+
+hljs.initHighlightingOnLoad();
+
+window.addEventListener("phx:page-loading-stop", info => {
+    document.querySelectorAll("pre code").forEach(block => {
+        hljs.highlightElement(block);
+    });
+    // NProgress.done();
+});
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 

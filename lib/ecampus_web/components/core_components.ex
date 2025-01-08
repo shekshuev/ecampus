@@ -324,7 +324,17 @@ defmodule EcampusWeb.CoreComponents do
     ~H"""
     <div>
       <.label for={@id}>{@label}</.label>
-      <select id={@id} name={@name} class="select select-bordered w-full" multiple={@multiple} {@rest}>
+      <select
+        id={@id}
+        name={@name}
+        class={[
+          "select select-bordered w-full",
+          (@errors != [] || @error) && "select-error",
+          @success && "select-success"
+        ]}
+        multiple={@multiple}
+        {@rest}
+      >
         <option :if={@prompt} value="">{@prompt}</option>
         {Phoenix.HTML.Form.options_for_select(@options, @value)}
       </select>
@@ -466,7 +476,7 @@ defmodule EcampusWeb.CoreComponents do
 
   def table(assigns) do
     assigns =
-      with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
+      with %{rows: _} <- assigns do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
       end
 

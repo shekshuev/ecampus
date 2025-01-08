@@ -9,6 +9,11 @@ defmodule Ecampus.Classes do
   import Ecampus.Pagination
 
   alias Ecampus.Classes.Class
+  alias Ecampus.Lessons.Lesson
+  alias Ecampus.Quizzes.Quiz
+  alias Ecampus.Quizzes.Question
+  alias Ecampus.Quizzes.AnsweredQuestion
+  alias Ecampus.Accounts.User
 
   @doc """
   Returns the list of classes.
@@ -37,6 +42,9 @@ defmodule Ecampus.Classes do
         {"lesson_id", value}, acc ->
           [%{field: :lesson_id, value: value} | acc]
 
+        {"group_id", nil}, acc ->
+          [%{field: :group_id, op: :empty, value: true} | acc]
+
         {"group_id", value}, acc ->
           [%{field: :group_id, value: value} | acc]
 
@@ -62,8 +70,6 @@ defmodule Ecampus.Classes do
   @doc """
   Gets a single class.
 
-  Raises `Ecto.NoResultsError` if the Class does not exist.
-
   ## Examples
 
       iex> get_class(123)
@@ -75,6 +81,223 @@ defmodule Ecampus.Classes do
   """
   def get_class(id),
     do: Repo.get(Class, id) |> Repo.preload([:lesson, :group, lesson: [:subject]])
+
+  @doc """
+  Gets a incoming one class for current date
+
+  ## Examples
+
+      iex> get_class()
+      %Class{}
+
+      iex> get_class()
+      nil
+
+  """
+  def get_incoming_class(%{group_id: current_group_id}),
+    do:
+      Class
+      |> where(
+        [c],
+        c.begin_date >= ^NaiveDateTime.local_now() and c.group_id == ^current_group_id
+      )
+      |> order_by([c], asc: c.begin_date)
+      |> limit(1)
+      |> Repo.one()
+      |> Repo.preload([:lesson, :group, lesson: [:subject]])
+
+  def get_stats(%{id: current_user_id, group_id: current_group_id}) do
+    query =
+      from c in Class,
+        where: c.group_id == ^current_group_id,
+        select: %{
+          completed_lessons: fragment("COUNT(*) FILTER (WHERE ? < NOW())", c.end_date),
+          total_lessons: count(c.id)
+        }
+
+    stats = Repo.one(query)
+
+    percentage =
+      if stats.total_lessons > 0 do
+        round(stats.completed_lessons * 100 / stats.total_lessons)
+      else
+        0
+      end
+
+    stats = Map.put(stats, :percentage, percentage)
+
+    query =
+      from l in Lesson,
+        join: c in Class,
+        on: c.lesson_id == l.id,
+        join: q in Quiz,
+        on: q.lesson_id == l.id,
+        left_join: aq in AnsweredQuestion,
+        on: aq.quiz_id == q.id and aq.user_id == ^current_user_id,
+        left_join:
+          max_scores in subquery(
+            from quest in Question,
+              group_by: quest.quiz_id,
+              select: %{
+                quiz_id: quest.quiz_id,
+                max_score: coalesce(sum(quest.grade), 0)
+              }
+          ),
+        on: max_scores.quiz_id == q.id,
+        where:
+          c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz and
+            c.group_id == ^current_group_id,
+        group_by: [c.id, l.id, max_scores.max_score],
+        order_by: [desc: c.end_date],
+        limit: 5,
+        select: %{
+          lesson_title: l.title,
+          max_score: coalesce(max_scores.max_score, 0),
+          actual_score: fragment("COALESCE(SUM((?->>'grade')::numeric), 0)", aq.answer)
+        }
+
+    last_quizzes =
+      Repo.all(query)
+
+    stats = Map.put(stats, :last_quizzes, last_quizzes)
+
+    query =
+      from q in Quiz,
+        join: l in Lesson,
+        on: q.lesson_id == l.id,
+        join: c in Class,
+        on: c.lesson_id == l.id,
+        join: quest in Question,
+        on: quest.quiz_id == q.id,
+        left_join: aq in AnsweredQuestion,
+        on: aq.quiz_id == q.id and aq.user_id == ^current_user_id,
+        where:
+          c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz and
+            c.group_id == ^current_group_id,
+        group_by: q.id,
+        select: %{
+          max_score: coalesce(sum(quest.grade), 0),
+          actual_score:
+            fragment(
+              """
+                COALESCE(SUM(CASE WHEN ? IS NOT NULL THEN (?->>'grade')::numeric ELSE 0 END), 0)
+              """,
+              aq.answer,
+              aq.answer
+            )
+        }
+
+    results = Repo.all(query)
+
+    total_max_score =
+      Enum.reduce(results, 0, fn %{max_score: max_score}, acc -> acc + max_score end)
+
+    total_actual_score =
+      Enum.reduce(results, 0, fn %{actual_score: actual_score}, acc ->
+        acc + Decimal.to_integer(actual_score)
+      end)
+
+    total_score =
+      if total_max_score > 0 do
+        Float.round(total_actual_score * 100 / total_max_score, 2)
+      else
+        0
+      end
+
+    stats = Map.put(stats, :total_score, total_score)
+
+    stats
+  end
+
+  def rank_students_in_group(nil), do: []
+
+  def rank_students_in_group(current_group_id) do
+    query =
+      from u in User,
+        where: u.group_id == ^current_group_id,
+        join: c in Class,
+        on: c.group_id == u.group_id,
+        join: l in Lesson,
+        on: c.lesson_id == l.id,
+        join: q in Quiz,
+        on: q.lesson_id == l.id,
+        join: quest in Question,
+        on: quest.quiz_id == q.id,
+        left_join: aq in AnsweredQuestion,
+        on: aq.quiz_id == q.id and aq.user_id == u.id,
+        group_by: [u.id, q.id],
+        select: %{
+          user_id: u.id,
+          last_name: u.last_name,
+          first_name: u.first_name,
+          email: u.email,
+          max_score: coalesce(sum(quest.grade), 0),
+          actual_score:
+            fragment(
+              """
+              COALESCE(SUM(CASE WHEN ? IS NOT NULL THEN (?->>'grade')::numeric ELSE 0 END), 0)
+              """,
+              aq.answer,
+              aq.answer
+            )
+        }
+
+    results = Repo.all(query)
+
+    student_scores =
+      results
+      |> Enum.group_by(& &1.user_id)
+      |> Enum.map(fn param -> transform_students_to_student_scores(param) end)
+
+    student_scores
+    |> Enum.sort_by(& &1.score, :desc)
+  end
+
+  defp transform_students_to_student_scores({user_id, scores}) do
+    total_max_score =
+      scores
+      |> Enum.map(& &1.max_score)
+      |> Enum.sum()
+
+    total_actual_score =
+      scores
+      |> Enum.map(fn %{actual_score: actual_score} ->
+        Decimal.to_integer(actual_score)
+      end)
+      |> Enum.sum()
+
+    total_score =
+      if total_max_score > 0 do
+        Float.round(total_actual_score * 100 / total_max_score, 2)
+      else
+        0
+      end
+
+    user_data = scores |> hd()
+
+    name =
+      case {user_data.last_name, user_data.first_name} do
+        {nil, _} ->
+          user_data.email
+
+        {"", _} ->
+          user_data.email
+
+        {_, nil} ->
+          user_data.email
+
+        {_, ""} ->
+          user_data.email
+
+        {last_name, first_name} when is_binary(last_name) and is_binary(first_name) ->
+          "#{last_name} #{String.first(first_name)}."
+
+        _ ->
+          user_data.email
+      end
+
+    %{user_id: user_id, name: name, score: total_score}
+  end
 
   @doc """
   Creates a class.

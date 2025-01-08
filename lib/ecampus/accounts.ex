@@ -188,6 +188,32 @@ defmodule Ecampus.Accounts do
   end
 
   @doc """
+  Returns an `%Ecto.Changeset{}` for changing the user group.
+
+  ## Examples
+
+      iex> change_user_group(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user_group(user, attrs \\ %{}) do
+    User.password_changeset(user, attrs)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for changing the user group.
+
+  ## Examples
+
+      iex> change_user_group(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  def change_user_personal_data(user, attrs \\ %{}) do
+    User.personal_data_changeset(user, attrs)
+  end
+
+  @doc """
   Updates the user password.
 
   ## Examples
@@ -213,6 +239,30 @@ defmodule Ecampus.Accounts do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  @doc """
+  Updates the user group.
+
+  """
+  def update_user_group(user, attrs) do
+    changeset =
+      user
+      |> User.group_changeset(attrs)
+
+    Repo.update(changeset)
+  end
+
+  @doc """
+  Updates the user first, middle and last name.
+
+  """
+  def update_user_personal_data(user, attrs) do
+    changeset =
+      user
+      |> User.personal_data_changeset(attrs)
+
+    Repo.update(changeset)
   end
 
   ## Session

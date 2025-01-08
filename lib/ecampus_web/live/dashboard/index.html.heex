@@ -1,3 +1,156 @@
-<.header>
-  Dashboard
-</.header>
+<%= if @current_user.group_id == nil do %>
+  <div class="flex flex-col items-center justify-center gap-8 h-4/5">
+    <span class="hero-user-group w-16 h-16" />
+    <.header>
+      {gettext("Please select a group in settings")}
+    </.header>
+    <.link patch={~p"/users/settings"}>
+      <.button class="btn btn-neutral">{gettext("To settings")}</.button>
+    </.link>
+  </div>
+<% else %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-min">
+    <div class="card bg-base-200 shadow ">
+      <div class="card-body flex flex-col justify-between">
+        <h2 class="card-title">{gettext("Hello")}, {@current_user.email}!</h2>
+        <div class="card-actions justify-end">
+          <.link href={~p"/users/settings"}>
+            <button class="btn btn-ghost">{gettext("Settings")}</button>
+          </.link>
+          <.link href={~p"/users/log_out"} method="delete">
+            <button class="btn btn-ghost">{gettext("Log out")}</button>
+          </.link>
+        </div>
+      </div>
+    </div>
+
+    <%= if @incoming == nil do %>
+      <div class="card bg-base-200 shadow">
+        <div class="card-body">
+          <div class="flex flex-col items-center justify-center gap-2 h-full">
+            <span class="hero-face-frown w-16 h-16" />
+            <.header>
+              {gettext("No incoming classes")}
+            </.header>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <.link patch={~p"/dashboard/classes/#{@incoming.id}"}>
+        <div class="card image-full h-full shadow hover:shadow-md active:shadow-sm hover:cursor-pointer transition-all">
+          <figure>
+            <%= if @incoming.lesson.subject.cover != nil do %>
+              <img
+                src={
+                  Ecampus.Uploaders.SubjectCover.url(
+                    {@incoming.lesson.subject.cover, @incoming.lesson.subject}
+                  )
+                }
+                alt="subject picture"
+              />
+            <% else %>
+              <img src="images/bg.jpg" alt="subject picture" />
+            <% end %>
+          </figure>
+          <div class="card-body flex flex-col justify-between">
+            <div class="flex flex-col gap-2">
+              <h2 class="card-title">
+                {@incoming.lesson.subject.title}
+              </h2>
+              <div class="badge badge-outline">{gettext("Next class")}</div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <p class="flex items-center gap-2">
+                <span class="hero-map-pin" />{@incoming.classroom}
+              </p>
+              <p class="flex items-center gap-2">
+                <span class="hero-calendar" />
+                {Calendar.strftime(
+                  @incoming.begin_date,
+                  "%d.%m.%Y"
+                )}
+              </p>
+              <p class="flex items-center gap-2">
+                <span class="hero-clock" />
+                {Calendar.strftime(
+                  @incoming.begin_date,
+                  "%H:%M"
+                ) <>
+                  " - " <>
+                  Calendar.strftime(
+                    @incoming.end_date,
+                    "%H:%M"
+                  )}
+              </p>
+            </div>
+          </div>
+        </div>
+      </.link>
+    <% end %>
+
+    <div class="sm:col-span-2">
+      <div class="stats stats-vertical sm:stats-horizontal bg-base-200 shadow  w-full h-full">
+        <div class="stat block min-h-48">
+          <div class="stat-title text-base-content h-1/3">{gettext("Lesson passed")}</div>
+          <div class="stat-value text-5xl text-primary h-1/3">{@stats.completed_lessons}</div>
+          <div class="stat-desc text-base-content text-wrap h-1/3">
+            {gettext("Calculated based on the lesson end date")}
+          </div>
+        </div>
+
+        <div class="stat block min-h-48">
+          <div class="stat-title text-base-content h-1/3">{gettext("Total lessons")}</div>
+          <div class="stat-value text-5xl text-secondary h-1/3">{@stats.total_lessons}</div>
+          <div class="stat-desc text-base-content text-wrap h-1/3">
+            {gettext("Total lessons regardless of subjects")}
+          </div>
+        </div>
+
+        <div class="stat block min-h-48">
+          <div class="stat-title text-base-content h-1/3">{gettext("Progress")}</div>
+          <div class="stat-value text-5xl text-primary h-1/3">{@stats.percentage}%</div>
+          <div class="stat-desc text-base-content text-wrap h-1/3">
+            {gettext("Percentage of all lessons")}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card bg-base-200 shadow sm:col-span-2">
+      <div class="card-body">
+        <h2 class="card-title">{gettext("Last quizzes results")}</h2>
+        <.table id="last_quizzes" rows={@stats.last_quizzes}>
+          <:col :let={{_id, last_quiz}} label={gettext("Lesson title")}>
+            {last_quiz.lesson_title}
+          </:col>
+          <:col :let={{_id, last_quiz}} label={gettext("Max score")}>{last_quiz.max_score}</:col>
+          <:col :let={{_id, last_quiz}} label={gettext("Actual score")}>
+            {last_quiz.actual_score}
+          </:col>
+        </.table>
+      </div>
+    </div>
+    <div class="card bg-base-200 shadow ">
+      <div class="card-body flex flex-col items-center gap-2">
+        <h2 class="card-title">{gettext("Quizzes success rate")}</h2>
+        <div
+          class="radial-progress"
+          style={"--value:#{@stats.total_score}; --size:8rem; "}
+          role="progressbar"
+        >
+          {@stats.total_score}%
+        </div>
+      </div>
+    </div>
+    <div class="card bg-base-200 shadow ">
+      <div class="card-body ">
+        <h2 class="card-title">{gettext("My group")}</h2>
+        <div class="max-h-48 overflow-y-auto">
+          <.table id="ranking" rows={@ranking}>
+            <:col :let={{_id, user}} label={gettext("User")}>{user.name}</:col>
+            <:col :let={{_id, user}} label={gettext("Score")}>{user.score}</:col>
+          </.table>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

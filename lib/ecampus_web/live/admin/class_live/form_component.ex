@@ -17,6 +17,7 @@ defmodule EcampusWeb.ClassLive.FormComponent do
         <.input field={@form[:begin_date]} type="datetime-local" label="Begin date" />
         <.input field={@form[:end_date]} type="datetime-local" label="End date" />
         <.input field={@form[:classroom]} type="text" label="Classroom" />
+        <.input field={@form[:available]} type="checkbox" label="Available" />
         <.input
           field={@form[:lesson_id]}
           type="select"

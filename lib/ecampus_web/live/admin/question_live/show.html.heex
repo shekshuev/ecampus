@@ -32,6 +32,7 @@
 <div class="mt-5">
   <.table id="questions" rows={@question.answers}>
     <:col :let={answer} label="ID">{answer.id}</:col>
+    <:col :let={answer} label="Sort order">{answer.sort_order}</:col>
     <:col :let={answer} label="Title">{answer.title}</:col>
     <:col :let={answer} label="Subtitle">{answer.subtitle}</:col>
     <:col :let={answer} label="Is correct">{answer.is_correct}</:col>

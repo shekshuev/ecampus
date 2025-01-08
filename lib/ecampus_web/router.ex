@@ -11,6 +11,7 @@ defmodule EcampusWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
+    plug EcampusWeb.Plugs.SetLocale
   end
 
   pipeline :api do
@@ -143,6 +144,8 @@ defmodule EcampusWeb.Router do
     live_session :require_authenticated_student,
       on_mount: [{EcampusWeb.UserAuth, :ensure_authenticated}] do
       live "/", Dashboard.Index, :index
+      live "/program", Dashboard.Program, :program
+      live "/files", Dashboard.Files, :files
       live "/schedule", Dashboard.ScheduleLive.Index, :index
       live "/classes/:id", Dashboard.ClassLive.Index, :index
       live "/classes/:class_id/topics/:id", Dashboard.ClassLive.Topic, :topic

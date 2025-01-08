@@ -24,6 +24,7 @@ defmodule EcampusWeb.QuestionLive.FormComponent do
         <.input field={@form[:title]} type="text" label="Title" />
         <.input field={@form[:subtitle]} type="textarea" label="Subtitle" rows="12" />
         <.input field={@form[:grade]} type="number" label="Grade" />
+        <.input field={@form[:sort_order]} type="number" label="Sort order" />
         <.input field={@form[:quiz_id]} type="hidden" value={@quiz_id} />
         <.input field={@form[:show_correct_answer]} type="checkbox" label="Show correct answer" />
         <:actions>

@@ -12,6 +12,7 @@ defmodule Ecampus.Quizzes.Quiz do
   }
 
   schema "quizzes" do
+    field :type, Ecto.Enum, values: [:quiz, :survey]
     field :description, :string
     field :title, :string
     field :questions_per_attempt, :integer
@@ -24,7 +25,7 @@ defmodule Ecampus.Quizzes.Quiz do
   @doc false
   def changeset(quiz, attrs) do
     quiz
-    |> cast(attrs, [:title, :description, :questions_per_attempt, :lesson_id])
-    |> validate_required([:title, :description, :questions_per_attempt, :lesson_id])
+    |> cast(attrs, [:title, :description, :questions_per_attempt, :lesson_id, :type])
+    |> validate_required([:title, :description, :questions_per_attempt, :lesson_id, :type])
   end
 end

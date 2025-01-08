@@ -8,6 +8,9 @@ defmodule Ecampus.Accounts.User do
 
   schema "users" do
     field :email, :string
+    field :first_name, :string
+    field :middle_name, :string
+    field :last_name, :string
     field :password, :string, virtual: true, redact: true
     field :role, Ecto.Enum, values: [:admin, :teacher, :student]
     field :hashed_password, :string, redact: true
@@ -96,6 +99,15 @@ defmodule Ecampus.Accounts.User do
   end
 
   @doc """
+  A user changeset for changing the first, middle and last names.
+
+  """
+  def personal_data_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:first_name, :middle_name, :last_name])
+  end
+
+  @doc """
   A user changeset for changing the email.
 
   It requires the email to change otherwise an error is added.
@@ -127,6 +139,16 @@ defmodule Ecampus.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password(opts)
+  end
+
+  @doc """
+  A user changeset for changing account group.
+  """
+  def group_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:group_id])
+    |> validate_required([:group_id])
+    |> foreign_key_constraint(:group_id, message: "Wrong group")
   end
 
   @doc """

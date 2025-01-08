@@ -14,6 +14,13 @@ defmodule EcampusWeb.QuizLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input
+          field={@form[:type]}
+          type="select"
+          label="Type"
+          prompt="Choose a value"
+          options={Ecto.Enum.values(Ecampus.Quizzes.Quiz, :type)}
+        />
         <.input field={@form[:title]} type="text" label="Title" />
         <.input field={@form[:description]} type="text" label="Description" />
         <.input field={@form[:lesson_id]} type="hidden" value={@lesson_id} />

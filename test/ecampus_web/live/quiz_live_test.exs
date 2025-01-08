@@ -11,13 +11,15 @@ defmodule EcampusWeb.QuizLiveTest do
     description: "some description",
     title: "some title",
     questions_per_attempt: 42,
-    lesson_id: nil
+    lesson_id: nil,
+    type: :quiz
   }
   @update_attrs %{
     description: "some updated description",
     title: "some updated title",
     questions_per_attempt: 43,
-    lesson_id: nil
+    lesson_id: nil,
+    type: :quiz
   }
   @invalid_attrs %{description: nil, title: nil, questions_per_attempt: nil, lesson_id: nil}
 
