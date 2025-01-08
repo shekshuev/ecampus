@@ -34,13 +34,15 @@
   <div class="join">
     <%= if @current_page > 1 do %>
       <.link
-        patch={~p"/admin/classes?page=1&page_size=#{@pagination.page_size}"}
+        patch={~p"/admin/lessons/#{@lesson_id}/quizzes?page=1&page_size=#{@pagination.page_size}"}
         class="join-item btn"
       >
         {"<<"}
       </.link>
       <.link
-        patch={~p"/admin/classes?page=#{@current_page - 1}&page_size=#{@pagination.page_size}"}
+        patch={
+          ~p"/admin/lessons/#{@lesson_id}/quizzes?page=#{@current_page - 1}&page_size=#{@pagination.page_size}"
+        }
         class="join-item btn"
       >
         {"<"}
@@ -51,7 +53,9 @@
         <span class="join-item btn btn-disabled">...</span>
       <% else %>
         <.link
-          patch={~p"/admin/classes?page=#{page}&page_size=#{@pagination.page_size}"}
+          patch={
+            ~p"/admin/lessons/#{@lesson_id}/quizzes?page=#{page}&page_size=#{@pagination.page_size}"
+          }
           class={if @current_page == page, do: "join-item btn btn-active", else: "join-item btn"}
         >
           {page}
@@ -60,13 +64,17 @@
     <% end %>
     <%= if @current_page < @pagination.pages do %>
       <.link
-        patch={~p"/admin/classes?page=#{@current_page + 1}&page_size=#{@pagination.page_size}"}
+        patch={
+          ~p"/admin/lessons/#{@lesson_id}/quizzes?page=#{@current_page + 1}&page_size=#{@pagination.page_size}"
+        }
         class="join-item btn"
       >
         {">"}
       </.link>
       <.link
-        patch={~p"/admin/classes?page=#{@pagination.pages}&page_size=#{@pagination.page_size}"}
+        patch={
+          ~p"/admin/lessons/#{@lesson_id}/quizzes?page=#{@pagination.pages}&page_size=#{@pagination.page_size}"
+        }
         class="join-item btn"
       >
         {">>"}
