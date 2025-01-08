@@ -73,7 +73,8 @@ defmodule EcampusWeb.QuestionLive.Index do
 
   @impl true
   def handle_info({EcampusWeb.QuestionLive.FormComponent, {:saved, _}}, socket) do
-    %{page_size: page_size, page: page, quiz_id: quiz_id} = Map.get(socket.assigns, :pagination)
+    %{page: page, page_size: page_size} = Map.get(socket.assigns, :pagination)
+    quiz_id = Map.get(socket.assigns, :quiz_id)
 
     {:ok, %{list: questions, pagination: pagination}} =
       Quizzes.list_questions(%{
@@ -94,7 +95,8 @@ defmodule EcampusWeb.QuestionLive.Index do
     question = Quizzes.get_question(id)
     {:ok, _} = Quizzes.delete_question(question)
 
-    %{page_size: page_size, page: page, quiz_id: quiz_id} = Map.get(socket.assigns, :pagination)
+    %{page: page, page_size: page_size} = Map.get(socket.assigns, :pagination)
+    quiz_id = Map.get(socket.assigns, :quiz_id)
 
     {:ok, %{list: questions, pagination: pagination}} =
       Quizzes.list_questions(%{
