@@ -156,7 +156,10 @@ defmodule Ecampus.Classes do
           actual_score: fragment("COALESCE(SUM((?->>'grade')::numeric), 0)", aq.answer)
         }
 
-    last_quizzes = Repo.all(query)
+    last_quizzes =
+      Repo.all(query)
+      |> Enum.with_index()
+      |> Enum.map(fn {lq, idx} -> {"last_quizzes-#{idx}", lq} end)
 
     stats = Map.put(stats, :last_quizzes, last_quizzes)
 
@@ -291,6 +294,8 @@ defmodule Ecampus.Classes do
 
     student_scores
     |> Enum.sort_by(& &1.score, :desc)
+    |> Enum.with_index()
+    |> Enum.map(fn {r, idx} -> {"ranking-#{idx}", r} end)
   end
 
   @doc """

@@ -108,9 +108,13 @@
       <div class="card-body">
         <h2 class="card-title">{gettext("Last quizzes results")}</h2>
         <.table id="last_quizzes" rows={@stats.last_quizzes}>
-          <:col :let={last_quiz} label={gettext("Lesson title")}>{last_quiz.lesson_title}</:col>
-          <:col :let={last_quiz} label={gettext("Max score")}>{last_quiz.max_score}</:col>
-          <:col :let={last_quiz} label={gettext("Actual score")}>{last_quiz.actual_score}</:col>
+          <:col :let={{_id, last_quiz}} label={gettext("Lesson title")}>
+            {last_quiz.lesson_title}
+          </:col>
+          <:col :let={{_id, last_quiz}} label={gettext("Max score")}>{last_quiz.max_score}</:col>
+          <:col :let={{_id, last_quiz}} label={gettext("Actual score")}>
+            {last_quiz.actual_score}
+          </:col>
         </.table>
       </div>
     </div>
@@ -130,9 +134,9 @@
       <div class="card-body ">
         <h2 class="card-title">{gettext("My group")}</h2>
         <div class="max-h-48 overflow-y-auto">
-          <.table id="last_quizzes" rows={@ranking}>
-            <:col :let={user} label={gettext("User")}>{user.name}</:col>
-            <:col :let={user} label={gettext("Score")}>{user.score}</:col>
+          <.table id="ranking" rows={@ranking}>
+            <:col :let={{_id, user}} label={gettext("User")}>{user.name}</:col>
+            <:col :let={{_id, user}} label={gettext("Score")}>{user.score}</:col>
           </.table>
         </div>
       </div>
