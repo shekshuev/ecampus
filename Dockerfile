@@ -45,5 +45,6 @@ RUN addgroup -g 1000 -S "${USER}" && adduser -s /bin/sh -u 1000 -G "${USER}" -h 
 USER "${USER}"
 
 COPY --from=build --chown="${USER}":"${USER}" /app/_build/"${MIX_ENV}"/rel/ecampus ./
+COPY --from=build --chown="${USER}":"${USER}" /app/priv/static ./priv/static
 
 CMD ["sh", "-c", "bin/ecampus eval Ecampus.Release.migrate && bin/ecampus start"]
