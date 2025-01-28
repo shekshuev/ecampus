@@ -109,7 +109,7 @@ defmodule Ecampus.Classes do
       |> Repo.one()
       |> Repo.preload([:lesson, :group, lesson: [:subject]])
 
-  def get_stats(%{id: current_user_id, group_id: current_group_id}) when is_nil(current_group_id),
+  def get_stats(%{id: _, group_id: current_group_id}) when is_nil(current_group_id),
     do: %{
       completed_lessons: 0,
       total_lessons: 0,
