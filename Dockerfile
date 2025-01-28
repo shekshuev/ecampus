@@ -1,7 +1,7 @@
 # build stage
 FROM hexpm/elixir:1.14.5-erlang-24.2.2-alpine-3.18.9 AS build
 
-RUN apk add --no-cache build-base git python3 curl
+RUN apk add --no-cache build-base git python3 curl nodejs npm
 
 WORKDIR /app
 
@@ -16,6 +16,11 @@ RUN mkdir config
 COPY config/config.exs config/${MIX_ENV}.exs config/
 
 RUN mix deps.compile
+
+COPY assets/ assets/
+RUN mix assets.setup
+RUN mix assets.build
+RUN mix phx.digest
 
 COPY priv priv
 COPY lib lib
