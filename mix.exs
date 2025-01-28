@@ -84,6 +84,7 @@ defmodule Ecampus.MixProject do
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind ecampus", "esbuild ecampus"],
       "assets.deploy": [
+        "cmd --cd assets npm ci",
         "tailwind ecampus --minify",
         "esbuild ecampus --minify",
         "phx.digest"
