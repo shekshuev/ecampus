@@ -94,6 +94,9 @@ defmodule Ecampus.Classes do
       nil
 
   """
+  def get_incoming_class(%{group_id: current_group_id}) when is_nil(current_group_id),
+    do: nil
+
   def get_incoming_class(%{group_id: current_group_id}),
     do:
       Class
@@ -105,6 +108,15 @@ defmodule Ecampus.Classes do
       |> limit(1)
       |> Repo.one()
       |> Repo.preload([:lesson, :group, lesson: [:subject]])
+
+  def get_stats(%{id: current_user_id, group_id: current_group_id}) when is_nil(current_group_id),
+    do: %{
+      completed_lessons: 0,
+      total_lessons: 0,
+      percentage: 0,
+      last_quizzes: [],
+      total_score: 0
+    }
 
   def get_stats(%{id: current_user_id, group_id: current_group_id}) do
     query =
