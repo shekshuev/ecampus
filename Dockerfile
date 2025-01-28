@@ -18,7 +18,7 @@ COPY config/config.exs config/${MIX_ENV}.exs config/
 RUN mix deps.compile
 
 COPY assets/ assets/
-RUN npm install
+RUN cd assets && npm install && cd ..
 RUN mix assets.setup
 RUN mix assets.build
 RUN mix phx.digest
