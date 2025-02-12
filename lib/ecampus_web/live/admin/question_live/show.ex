@@ -34,7 +34,10 @@ defmodule EcampusWeb.QuestionLive.Show do
      |> assign(:page_title, page_title(:show))
      |> assign(:quiz_id, quiz_id)
      |> assign(:lesson_id, lesson_id)
-     |> assign(:question, question)}
+     |> assign(:question, %{
+       question
+       | answers: question.answers |> Enum.map(fn a -> {"answers-#{a.id}", a} end)
+     })}
   end
 
   defp handle_edit(%{"id" => id, "quiz_id" => quiz_id, "lesson_id" => lesson_id}, socket) do
@@ -45,7 +48,10 @@ defmodule EcampusWeb.QuestionLive.Show do
      |> assign(:page_title, page_title(:edit))
      |> assign(:quiz_id, quiz_id)
      |> assign(:lesson_id, lesson_id)
-     |> assign(:question, question)}
+     |> assign(:question, %{
+       question
+       | answers: question.answers |> Enum.map(fn a -> {"answers-#{a.id}", a} end)
+     })}
   end
 
   defp handle_new_answer(
@@ -59,7 +65,10 @@ defmodule EcampusWeb.QuestionLive.Show do
      |> assign(:page_title, page_title(:new_answer))
      |> assign(:quiz_id, quiz_id)
      |> assign(:lesson_id, lesson_id)
-     |> assign(:question, question)
+     |> assign(:question, %{
+       question
+       | answers: question.answers |> Enum.map(fn a -> {"answers-#{a.id}", a} end)
+     })
      |> assign(:answer, %Answer{})}
   end
 
@@ -80,7 +89,10 @@ defmodule EcampusWeb.QuestionLive.Show do
      |> assign(:page_title, page_title(:edit_answer))
      |> assign(:quiz_id, quiz_id)
      |> assign(:lesson_id, lesson_id)
-     |> assign(:question, question)
+     |> assign(:question, %{
+       question
+       | answers: question.answers |> Enum.map(fn a -> {"answers-#{a.id}", a} end)
+     })
      |> assign(:answer, answer)}
   end
 
