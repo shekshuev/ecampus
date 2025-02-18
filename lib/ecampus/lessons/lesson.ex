@@ -14,6 +14,8 @@ defmodule Ecampus.Lessons.Lesson do
     field :hours_count, :integer, default: 2
     field :sort_order, :integer, default: 0
     belongs_to :subject, Ecampus.Subjects.Subject
+    has_many :quizzes, Ecampus.Quizzes.Quiz
+    has_many :lesson_topics, Ecampus.Lessons.LessonTopic
 
     timestamps(type: :utc_datetime)
   end

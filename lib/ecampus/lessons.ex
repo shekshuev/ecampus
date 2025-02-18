@@ -7,8 +7,16 @@ defmodule Ecampus.Lessons do
   alias Ecampus.Repo
 
   alias Ecampus.Lessons.Lesson
+  alias Ecampus.Quizzes.Quiz
+  alias Ecampus.Quizzes.Question
+  alias Ecampus.Quizzes.Answer
 
   @doc """
+  Returns the list of lessons for a given subject.
+
+  ## Examples
+
+  @doc \"""
   Returns the list of lessons.
 
   ## Examples
@@ -228,5 +236,98 @@ defmodule Ecampus.Lessons do
   """
   def change_lesson_topic(%LessonTopic{} = lesson_topic, attrs \\ %{}) do
     LessonTopic.changeset(lesson_topic, attrs)
+  end
+
+  def export_lesson(lesson_id) do
+    lesson = Repo.get!(Lesson, lesson_id) |> Repo.preload([:lesson_topics, :quizzes])
+    quizzes = Repo.preload(lesson.quizzes, questions: [:answers])
+
+    %{
+      title: lesson.title,
+      topic: lesson.topic,
+      objectives: lesson.objectives,
+      is_draft: lesson.is_draft,
+      hours_count: lesson.hours_count,
+      sort_order: lesson.sort_order,
+      subject_id: nil,
+      lesson_topics:
+        Enum.map(lesson.lesson_topics, fn topic ->
+          %{
+            title: topic.title,
+            content: topic.content,
+            sort_order: topic.sort_order
+          }
+        end),
+      quizzes:
+        Enum.map(quizzes, fn quiz ->
+          %{
+            title: quiz.title,
+            description: quiz.description,
+            questions_per_attempt: quiz.questions_per_attempt,
+            type: quiz.type,
+            questions:
+              Enum.map(quiz.questions, fn question ->
+                %{
+                  type: question.type,
+                  title: question.title,
+                  subtitle: question.subtitle,
+                  grade: question.grade,
+                  show_correct_answer: question.show_correct_answer,
+                  sort_order: question.sort_order,
+                  answers:
+                    Enum.map(question.answers, fn answer ->
+                      %{
+                        title: answer.title,
+                        subtitle: answer.subtitle,
+                        is_correct: answer.is_correct,
+                        sequence_order_number: answer.sequence_order_number,
+                        sort_order: answer.sort_order
+                      }
+                    end)
+                }
+              end)
+          }
+        end)
+    }
+    |> Jason.encode!()
+  end
+
+  def import_lesson(json_data, subject_id) do
+    {:ok, lesson_data} = Jason.decode(json_data)
+
+    Repo.transaction(fn ->
+      lesson =
+        %Lesson{}
+        |> Lesson.changeset(Map.put(lesson_data, "subject_id", subject_id))
+        |> Repo.insert!()
+
+      Enum.each(lesson_data["lesson_topics"], fn topic_data ->
+        %LessonTopic{}
+        |> LessonTopic.changeset(Map.put(topic_data, "lesson_id", lesson.id))
+        |> Repo.insert!()
+      end)
+
+      Enum.each(lesson_data["quizzes"], fn quiz_data ->
+        quiz =
+          %Quiz{}
+          |> Quiz.changeset(Map.put(quiz_data, "lesson_id", lesson.id))
+          |> Repo.insert!()
+
+        Enum.each(quiz_data["questions"], fn question_data ->
+          question =
+            %Question{}
+            |> Question.changeset(Map.put(question_data, "quiz_id", quiz.id))
+            |> Repo.insert!()
+
+          Enum.each(question_data["answers"], fn answer_data ->
+            %Answer{}
+            |> Answer.changeset(Map.put(answer_data, "question_id", question.id))
+            |> Repo.insert!()
+          end)
+        end)
+      end)
+
+      lesson.id
+    end)
   end
 end

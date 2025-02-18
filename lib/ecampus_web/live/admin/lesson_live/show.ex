@@ -18,6 +18,13 @@ defmodule EcampusWeb.LessonLive.Show do
      |> assign(:subjects, Subjects.list_subjects())}
   end
 
+  @impl true
+  def handle_event("export_lesson", _, socket) do
+    lesson_json = Lessons.export_lesson(socket.assigns.lesson.id)
+    lesson_json |> IO.inspect()
+    {:noreply, socket |> push_event("download", %{filename: "lesson.json", content: lesson_json})}
+  end
+
   defp page_title(:show), do: "Show Lesson"
   defp page_title(:edit), do: "Edit Lesson"
 end
