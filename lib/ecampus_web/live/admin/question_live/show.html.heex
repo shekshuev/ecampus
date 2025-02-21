@@ -40,7 +40,7 @@
       {answer.sequence_order_number}
     </:col>
 
-    <:action :let={{id, answer}}>
+    <:action :let={{_id, answer}}>
       <.link patch={
         ~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}/show/answers/#{answer.id}/edit"
       }>
