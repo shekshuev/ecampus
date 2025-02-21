@@ -21,7 +21,6 @@ defmodule EcampusWeb.LessonLive.Show do
   @impl true
   def handle_event("export_lesson", _, socket) do
     lesson_json = Lessons.export_lesson(socket.assigns.lesson.id)
-    lesson_json |> IO.inspect()
     {:noreply, socket |> push_event("download", %{filename: "lesson.json", content: lesson_json})}
   end
 
