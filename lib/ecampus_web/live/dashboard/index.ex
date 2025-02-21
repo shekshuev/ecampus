@@ -16,10 +16,10 @@ defmodule EcampusWeb.Dashboard.Index do
 
     stats = %{
       stats
-      | last_quizzes:
-          stats.last_quizzes
+      | lesson_quiz_stats:
+          stats.lesson_quiz_stats
           |> Enum.with_index()
-          |> Enum.map(fn {lq, idx} -> {"last_quizzes-#{idx}", lq} end)
+          |> Enum.map(fn {lq, idx} -> {"lesson_quiz_stats-#{idx}", lq} end)
     }
 
     ranking =

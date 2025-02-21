@@ -18,41 +18,53 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html";
 // Establish Phoenix Socket and LiveView configuration.
+import hljs from "highlight.js";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
-import hljs from "highlight.js";
 
 hljs.initHighlightingOnLoad();
 
-window.addEventListener("phx:page-loading-stop", info => {
-    document.querySelectorAll("pre code").forEach(block => {
-        hljs.highlightElement(block);
-    });
-    // NProgress.done();
+window.addEventListener("phx:page-loading-stop", (info) => {
+  document.querySelectorAll("pre code").forEach((block) => {
+    hljs.highlightElement(block);
+  });
+  // NProgress.done();
 });
 
-let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+window.addEventListener("phx:download", (event) => {
+  const blob = new Blob([event.detail.content], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = event.detail.filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+});
+
+let csrfToken = document
+  .querySelector("meta[name='csrf-token']")
+  .getAttribute("content");
 
 let Hooks = {};
 
 Hooks.Dialog = {
-    mounted() {
-        this.el.addEventListener("dialog-show", () => this.el.showModal());
-        this.el.addEventListener("dialog-hide", () => this.el.close());
-    },
+  mounted() {
+    this.el.addEventListener("dialog-show", () => this.el.showModal());
+    this.el.addEventListener("dialog-hide", () => this.el.close());
+  },
 };
 
 let liveSocket = new LiveSocket("/live", Socket, {
-    hooks: Hooks,
-    longPollFallbackMs: 2500,
-    params: { _csrf_token: csrfToken },
+  hooks: Hooks,
+  longPollFallbackMs: 2500,
+  params: { _csrf_token: csrfToken },
 });
 
 // Show progress bar on live navigation and form submits
 topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" });
-window.addEventListener("phx:page-loading-start", _info => topbar.show(300));
-window.addEventListener("phx:page-loading-stop", _info => topbar.hide());
+window.addEventListener("phx:page-loading-start", (_info) => topbar.show(300));
+window.addEventListener("phx:page-loading-stop", (_info) => topbar.hide());
 
 // connect if there are any LiveViews on the page
 liveSocket.connect();

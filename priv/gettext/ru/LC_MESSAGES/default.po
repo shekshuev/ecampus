@@ -317,8 +317,8 @@ msgstr "Фактический результат"
 
 #: lib/ecampus_web/live/dashboard/index.html.heex:109
 #, elixir-autogen, elixir-format
-msgid "Last quizzes results"
-msgstr "Результаты последних тестов"
+msgid "Last lessons results"
+msgstr "Результаты последних занятий"
 
 #: lib/ecampus_web/live/dashboard/index.html.heex:111
 #, elixir-autogen, elixir-format, fuzzy

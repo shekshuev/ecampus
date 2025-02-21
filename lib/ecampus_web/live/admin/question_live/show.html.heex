@@ -31,25 +31,25 @@
 
 <div class="mt-5">
   <.table id="questions" rows={@question.answers}>
-    <:col :let={answer} label="ID">{answer.id}</:col>
-    <:col :let={answer} label="Sort order">{answer.sort_order}</:col>
-    <:col :let={answer} label="Title">{answer.title}</:col>
-    <:col :let={answer} label="Subtitle">{answer.subtitle}</:col>
-    <:col :let={answer} label="Is correct">{answer.is_correct}</:col>
-    <:col :let={answer} :if={@question.type == :sequence} label="Sequence order number">
+    <:col :let={{_id, answer}} label="ID">{answer.id}</:col>
+    <:col :let={{_id, answer}} label="Sort order">{answer.sort_order}</:col>
+    <:col :let={{_id, answer}} label="Title">{answer.title}</:col>
+    <:col :let={{_id, answer}} label="Subtitle">{answer.subtitle}</:col>
+    <:col :let={{_id, answer}} label="Is correct">{answer.is_correct}</:col>
+    <:col :let={{_id, answer}} :if={@question.type == :sequence} label="Sequence order number">
       {answer.sequence_order_number}
     </:col>
 
-    <:action :let={answer}>
+    <:action :let={{_id, answer}}>
       <.link patch={
-        ~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}/show/answers/#{answer}/edit"
+        ~p"/admin/lessons/#{@lesson_id}/quizzes/#{@quiz_id}/questions/#{@question}/show/answers/#{answer.id}/edit"
       }>
         Edit
       </.link>
     </:action>
-    <:action :let={answer}>
+    <:action :let={{id, answer}}>
       <.link
-        phx-click={JS.push("delete", value: %{id: answer.id}) |> hide("##{answer.id}")}
+        phx-click={JS.push("delete", value: %{id: answer.id}) |> hide("##{id}")}
         data-confirm="Are you sure?"
       >
         Delete

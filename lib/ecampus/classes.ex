@@ -114,7 +114,7 @@ defmodule Ecampus.Classes do
       completed_lessons: 0,
       total_lessons: 0,
       percentage: 0,
-      last_quizzes: [],
+      lesson_quiz_stats: [],
       total_score: 0
     }
 
@@ -139,39 +139,35 @@ defmodule Ecampus.Classes do
     stats = Map.put(stats, :percentage, percentage)
 
     query =
-      from l in Lesson,
+      from q in Quiz,
+        join: l in Lesson,
+        on: q.lesson_id == l.id,
         join: c in Class,
         on: c.lesson_id == l.id,
-        join: q in Quiz,
-        on: q.lesson_id == l.id,
+        join: quest in Question,
+        on: quest.quiz_id == q.id,
         left_join: aq in AnsweredQuestion,
         on: aq.quiz_id == q.id and aq.user_id == ^current_user_id,
-        left_join:
-          max_scores in subquery(
-            from quest in Question,
-              group_by: quest.quiz_id,
-              select: %{
-                quiz_id: quest.quiz_id,
-                max_score: coalesce(sum(quest.grade), 0)
-              }
-          ),
-        on: max_scores.quiz_id == q.id,
         where:
-          c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz and
+          c.begin_date <= ^NaiveDateTime.local_now() and q.type == :quiz and
             c.group_id == ^current_group_id,
-        group_by: [c.id, l.id, max_scores.max_score],
-        order_by: [desc: c.end_date],
-        limit: 5,
+        group_by: l.id,
         select: %{
           lesson_title: l.title,
-          max_score: coalesce(max_scores.max_score, 0),
-          actual_score: fragment("COALESCE(SUM((?->>'grade')::numeric), 0)", aq.answer)
+          max_score: coalesce(sum(quest.grade), 0),
+          actual_score:
+            fragment(
+              """
+              COALESCE(SUM(CASE WHEN ? IS NOT NULL THEN (?->>'grade')::numeric ELSE 0 END), 0)
+              """,
+              aq.answer,
+              aq.answer
+            )
         }
 
-    last_quizzes =
-      Repo.all(query)
+    lesson_quiz_stats = Repo.all(query)
 
-    stats = Map.put(stats, :last_quizzes, last_quizzes)
+    stats = Map.put(stats, :lesson_quiz_stats, lesson_quiz_stats)
 
     query =
       from q in Quiz,
@@ -184,7 +180,7 @@ defmodule Ecampus.Classes do
         left_join: aq in AnsweredQuestion,
         on: aq.quiz_id == q.id and aq.user_id == ^current_user_id,
         where:
-          c.end_date < ^NaiveDateTime.local_now() and q.type == :quiz and
+          c.begin_date < ^NaiveDateTime.local_now() and q.type == :quiz and
             c.group_id == ^current_group_id,
         group_by: q.id,
         select: %{
