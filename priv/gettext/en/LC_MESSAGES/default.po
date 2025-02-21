@@ -317,7 +317,7 @@ msgstr ""
 
 #: lib/ecampus_web/live/dashboard/index.html.heex:109
 #, elixir-autogen, elixir-format
-msgid "Last quizzes results"
+msgid "Last lessons results"
 msgstr ""
 
 #: lib/ecampus_web/live/dashboard/index.html.heex:111

@@ -117,14 +117,16 @@
     </div>
     <div class="card bg-base-200 shadow sm:col-span-2">
       <div class="card-body">
-        <h2 class="card-title">{gettext("Last quizzes results")}</h2>
-        <.table id="last_quizzes" rows={@stats.last_quizzes}>
-          <:col :let={{_id, last_quiz}} label={gettext("Lesson title")}>
-            {last_quiz.lesson_title}
+        <h2 class="card-title">{gettext("Last lessons results")}</h2>
+        <.table id="lesson_quiz_stats" rows={@stats.lesson_quiz_stats}>
+          <:col :let={{_id, lesson_quiz}} label={gettext("Lesson title")}>
+            {lesson_quiz.lesson_title}
           </:col>
-          <:col :let={{_id, last_quiz}} label={gettext("Max score")}>{last_quiz.max_score}</:col>
-          <:col :let={{_id, last_quiz}} label={gettext("Actual score")}>
-            {last_quiz.actual_score}
+          <:col :let={{_id, lesson_quiz}} label={gettext("Max score")}>
+            {lesson_quiz.max_score}
+          </:col>
+          <:col :let={{_id, lesson_quiz}} label={gettext("Actual score")}>
+            {lesson_quiz.actual_score}
           </:col>
         </.table>
       </div>
