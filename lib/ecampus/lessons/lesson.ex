@@ -20,6 +20,11 @@ defmodule Ecampus.Lessons.Lesson do
     timestamps(type: :utc_datetime)
   end
 
+  @derive {
+    Flop.Schema,
+    filterable: [:title, :subject_id], sortable: [:sort_order]
+  }
+
   @doc false
   def changeset(lesson, attrs) do
     lesson

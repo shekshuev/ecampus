@@ -6,14 +6,15 @@ defmodule EcampusWeb.LessonLive.Index do
   alias Ecampus.Subjects
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(%{"subject_id" => subject_id}, _session, socket) do
     subjects = Subjects.list_subjects()
 
     {:ok,
      socket
      |> assign(:subjects, subjects)
+     |> assign(:subject_id, subject_id)
      |> allow_upload(:lesson_json, accept: ~w(.json), max_entries: 1, auto_upload?: true)
-     |> stream(:lessons, Lessons.list_lessons())}
+     |> stream(:lessons, Lessons.list_lessons(%{"subject_id" => subject_id}))}
   end
 
   @impl true

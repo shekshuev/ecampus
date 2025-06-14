@@ -95,38 +95,56 @@ defmodule EcampusWeb.Router do
       live "/subjects/:id", SubjectLive.Show, :show
       live "/subjects/:id/show/edit", SubjectLive.Show, :edit
 
-      live "/lessons", LessonLive.Index, :index
-      live "/lessons/new", LessonLive.Index, :new
-      live "/lessons/:id/edit", LessonLive.Index, :edit
-      live "/lessons/:id", LessonLive.Show, :show
-      live "/lessons/:id/show/edit", LessonLive.Show, :edit
+      live "/subjects/:subject_id/lessons", LessonLive.Index, :index
+      live "/subjects/:subject_id/lessons/new", LessonLive.Index, :new
+      live "/subjects/:subject_id/lessons/:id/edit", LessonLive.Index, :edit
+      live "/subjects/:subject_id/lessons/:id", LessonLive.Show, :show
+      live "/subjects/:subject_id/lessons/:id/show/edit", LessonLive.Show, :edit
 
-      live "/lessons/:lesson_id/topics", LessonTopicLive.Index, :index
-      live "/lessons/:lesson_id/topics/new", LessonTopicLive.Index, :new
-      live "/lessons/:lesson_id/topics/:id/edit", LessonTopicLive.Index, :edit
-      live "/lessons/:lesson_id/topics/:id", LessonTopicLive.Show, :show
-      live "/lessons/:lesson_id/topics/:id/show/edit", LessonTopicLive.Show, :edit
+      live "/subjects/:subject_id/lessons/:lesson_id/topics", LessonTopicLive.Index, :index
+      live "/subjects/:subject_id/lessons/:lesson_id/topics/new", LessonTopicLive.Index, :new
 
-      live "/lessons/:lesson_id/quizzes", QuizLive.Index, :index
-      live "/lessons/:lesson_id/quizzes/new", QuizLive.Index, :new
-      live "/lessons/:lesson_id/quizzes/:id/edit", QuizLive.Index, :edit
-      live "/lessons/:lesson_id/quizzes/:id", QuizLive.Show, :show
-      live "/lessons/:lesson_id/quizzes/:id/show/edit", QuizLive.Show, :edit
+      live "/subjects/:subject_id/lessons/:lesson_id/topics/:id/edit",
+           LessonTopicLive.Index,
+           :edit
 
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions", QuestionLive.Index, :index
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/new", QuestionLive.Index, :new
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:id/edit", QuestionLive.Index, :edit
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:id", QuestionLive.Show, :show
+      live "/subjects/:subject_id/lessons/:lesson_id/topics/:id", LessonTopicLive.Show, :show
 
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:id/show/edit",
+      live "/subjects/:subject_id/lessons/:lesson_id/topics/:id/show/edit",
+           LessonTopicLive.Show,
+           :edit
+
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes", QuizLive.Index, :index
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/new", QuizLive.Index, :new
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:id/edit", QuizLive.Index, :edit
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:id", QuizLive.Show, :show
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:id/show/edit", QuizLive.Show, :edit
+
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions",
+           QuestionLive.Index,
+           :index
+
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions/new",
+           QuestionLive.Index,
+           :new
+
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions/:id/edit",
+           QuestionLive.Index,
+           :edit
+
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions/:id",
+           QuestionLive.Show,
+           :show
+
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions/:id/show/edit",
            QuestionLive.Show,
            :edit
 
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:question_id/show/answers/new",
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions/:question_id/show/answers/new",
            QuestionLive.Show,
            :new_answer
 
-      live "/lessons/:lesson_id/quizzes/:quiz_id/questions/:question_id/show/answers/:id/edit",
+      live "/subjects/:subject_id/lessons/:lesson_id/quizzes/:quiz_id/questions/:question_id/show/answers/:id/edit",
            QuestionLive.Show,
            :edit_answer
 

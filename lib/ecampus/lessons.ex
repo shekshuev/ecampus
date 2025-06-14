@@ -25,8 +25,28 @@ defmodule Ecampus.Lessons do
       [%Lesson{}, ...]
 
   """
-  def list_lessons do
-    Repo.all(Lesson) |> Repo.preload(:subject)
+  def list_lessons(params \\ %{}) do
+    filters =
+      []
+      |> maybe_add_filter(:subject_id, Map.get(params, "subject_id"))
+
+    flop_query = %{
+      page: Map.get(params, :page, 1),
+      page_size: Map.get(params, :page_size, 10),
+      filters: filters,
+      order_by: [:inserted_at],
+      order_directions: [:desc]
+    }
+
+    case Lesson |> Flop.validate_and_run(flop_query) do
+      {:ok, {list, _meta}} -> list
+      {:error, _reason} -> []
+    end
+  end
+
+  @doc false
+  defp maybe_add_filter(filters, field, value) do
+    [%{field: field, value: value} | filters]
   end
 
   @doc """
