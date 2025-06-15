@@ -170,7 +170,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: lib/ecampus_web/components/layouts/app.html.heex:88
+#: lib/ecampus_web/components/layouts/app.html.heex:83
 #, elixir-autogen, elixir-format
 msgid "Classes"
 msgstr ""
@@ -178,11 +178,6 @@ msgstr ""
 #: lib/ecampus_web/components/layouts/app.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "Groups"
-msgstr ""
-
-#: lib/ecampus_web/components/layouts/app.html.heex:83
-#, elixir-autogen, elixir-format
-msgid "Lessons"
 msgstr ""
 
 #: lib/ecampus_web/components/layouts/app.html.heex:57
@@ -260,7 +255,7 @@ msgstr ""
 msgid "Lesson is not available now"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:49
+#: lib/ecampus_web/live/dashboard/index.html.heex:60
 #, elixir-autogen, elixir-format
 msgid "Next class"
 msgstr ""
@@ -275,7 +270,7 @@ msgstr ""
 msgid "To dashboard"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:86
+#: lib/ecampus_web/live/dashboard/index.html.heex:97
 #, elixir-autogen, elixir-format
 msgid "Calculated based on the lesson end date"
 msgstr ""
@@ -285,67 +280,67 @@ msgstr ""
 msgid "Hello"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:83
+#: lib/ecampus_web/live/dashboard/index.html.heex:94
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Lesson passed"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:102
+#: lib/ecampus_web/live/dashboard/index.html.heex:113
 #, elixir-autogen, elixir-format
 msgid "Percentage of all lessons"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:99
+#: lib/ecampus_web/live/dashboard/index.html.heex:110
 #, elixir-autogen, elixir-format
 msgid "Progress"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:91
+#: lib/ecampus_web/live/dashboard/index.html.heex:102
 #, elixir-autogen, elixir-format
 msgid "Total lessons"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:94
+#: lib/ecampus_web/live/dashboard/index.html.heex:105
 #, elixir-autogen, elixir-format
 msgid "Total lessons regardless of subjects"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:113
+#: lib/ecampus_web/live/dashboard/index.html.heex:128
 #, elixir-autogen, elixir-format
 msgid "Actual score"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:109
+#: lib/ecampus_web/live/dashboard/index.html.heex:120
 #, elixir-autogen, elixir-format
 msgid "Last lessons results"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:111
+#: lib/ecampus_web/live/dashboard/index.html.heex:122
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Lesson title"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:112
+#: lib/ecampus_web/live/dashboard/index.html.heex:125
 #, elixir-autogen, elixir-format
 msgid "Max score"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:119
+#: lib/ecampus_web/live/dashboard/index.html.heex:136
 #, elixir-autogen, elixir-format
 msgid "Quizzes success rate"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:131
+#: lib/ecampus_web/live/dashboard/index.html.heex:148
 #, elixir-autogen, elixir-format
 msgid "My group"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:135
+#: lib/ecampus_web/live/dashboard/index.html.heex:152
 #, elixir-autogen, elixir-format
 msgid "Score"
 msgstr ""
 
-#: lib/ecampus_web/live/dashboard/index.html.heex:134
+#: lib/ecampus_web/live/dashboard/index.html.heex:151
 #, elixir-autogen, elixir-format
 msgid "User"
 msgstr ""
@@ -365,7 +360,7 @@ msgstr ""
 msgid "Classes schedule"
 msgstr ""
 
-#: lib/ecampus_web/components/section_under_development.ex:12
+#: lib/ecampus_web/components/section_under_development.ex:15
 #, elixir-autogen, elixir-format
 msgid "Section is under development"
 msgstr ""

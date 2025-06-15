@@ -1,0 +1,57 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100 != 11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10||n%100>=20) ? 1 : 2);\n"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Listing Specialities"
+msgstr "Список специальностей"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Code"
+msgstr "Код"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr "Удалить"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr "Редактировать"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Id"
+msgstr "Id"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "New Speciality"
+msgstr "Создать"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr "Просмотр"
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr "Название"

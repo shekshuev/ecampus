@@ -1,0 +1,57 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Listing Specialities"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:36
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Code"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Id"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "New Speciality"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr ""

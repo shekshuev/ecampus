@@ -17,8 +17,9 @@ defmodule Ecampus.Specialities do
       [%Speciality{}, ...]
 
   """
-  def list_specialities do
-    Repo.all(Speciality)
+  def list_specialities(params) do
+    params |> IO.inspect()
+    Flop.validate_and_run!(Speciality, params, for: Speciality, replace_invalid_params: true)
   end
 
   @doc """

@@ -60,6 +60,7 @@ defmodule Ecampus.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:flop, "~> 0.25.0"},
+      {:flop_phoenix, "~> 0.25.1"},
       {:dotenvy, "~> 0.8.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},

@@ -1,36 +1,51 @@
 <.header>
-  Listing Specialities
+  {dgettext("specialities", "Listing Specialities")}
   <:actions>
     <.link patch={~p"/admin/specialities/new"}>
-      <.button>New Speciality</.button>
+      <.button>{dgettext("specialities", "New Speciality")}</.button>
     </.link>
   </:actions>
 </.header>
 
-<.table
+<.flop_table
   id="specialities"
-  rows={@streams.specialities}
+  items={@streams.specialities}
+  meta={@meta}
+  path={~p"/admin/specialities"}
   row_click={fn {_id, speciality} -> JS.navigate(~p"/admin/specialities/#{speciality}") end}
 >
-  <:col :let={{_id, speciality}} label="Id">{speciality.id}</:col>
-  <:col :let={{_id, speciality}} label="Code">{speciality.code}</:col>
-  <:col :let={{_id, speciality}} label="Description">{speciality.description}</:col>
-  <:col :let={{_id, speciality}} label="Title">{speciality.title}</:col>
+  <:col :let={{_, speciality}} label={dgettext("specialities", "Id")} field={:id}>
+    {speciality.id}
+  </:col>
+
+  <:col :let={{_id, speciality}} label={dgettext("specialities", "Code")} field={:code}>
+    {speciality.code}
+  </:col>
+  <:col :let={{_id, speciality}} label={dgettext("specialities", "Title")} field={:title}>
+    {speciality.title}
+  </:col>
+
   <:action :let={{_id, speciality}}>
     <div class="sr-only">
-      <.link navigate={~p"/admin/specialities/#{speciality}"}>Show</.link>
+      <.link navigate={~p"/admin/specialities/#{speciality}"}>
+        {dgettext("specialities", "Show")}
+      </.link>
     </div>
-    <.link patch={~p"/admin/specialities/#{speciality}/edit"}>Edit</.link>
+    <.link patch={~p"/admin/specialities/#{speciality}/edit"}>
+      {dgettext("specialities", "Edit")}
+    </.link>
   </:action>
   <:action :let={{id, speciality}}>
     <.link
       phx-click={JS.push("delete", value: %{id: speciality.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
+      data-confirm={dgettext("specialities", "Are you sure?")}
     >
-      Delete
+      {dgettext("specialities", "Delete")}
     </.link>
   </:action>
-</.table>
+</.flop_table>
+
+<.flop_pagination meta={@meta} path={~p"/admin/specialities"} />
 
 <.modal
   :if={@live_action in [:new, :edit]}

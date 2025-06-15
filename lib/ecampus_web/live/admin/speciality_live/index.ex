@@ -1,17 +1,25 @@
 defmodule EcampusWeb.SpecialityLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Specialities
   alias Ecampus.Specialities.Speciality
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :specialities, Specialities.list_specialities())}
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
+    {:ok, socket}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    {specialities, meta} = Specialities.list_specialities(params)
+
+    {:noreply,
+     socket
+     |> assign(:meta, meta)
+     |> stream(:specialities, specialities, reset: true)
+     |> apply_action(socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do

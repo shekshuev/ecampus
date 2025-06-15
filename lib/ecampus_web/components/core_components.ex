@@ -516,6 +516,96 @@ defmodule EcampusWeb.CoreComponents do
     """
   end
 
+  attr :id, :string, required: true
+  attr :meta, Flop.Meta, required: true
+  attr :items, :list, required: true
+  attr :path, :any, required: true
+  attr :row_click, :any, default: nil
+
+  slot :action
+  slot :foot
+
+  slot :col, required: true do
+    attr :field, :atom
+    attr :label, :string
+  end
+
+  def flop_table(assigns) do
+    assigns =
+      assign(assigns,
+        opts: [
+          table_attrs: [class: "table w-full"],
+          thead_attrs: [],
+          thead_tr_attrs: [],
+          thead_th_attrs: [],
+          th_wrapper_attrs: [],
+          tbody_attrs: [],
+          tbody_tr_attrs: [class: "hover"],
+          tbody_td_attrs: [],
+          symbol_asc: "▲",
+          symbol_desc: "▼",
+          symbol_unsorted: "",
+          symbol_attrs: []
+        ]
+      )
+
+    ~H"""
+    <Flop.Phoenix.table
+      id={@id}
+      items={@items}
+      meta={@meta}
+      path={@path}
+      row_click={@row_click}
+      opts={@opts}
+      caption=""
+    >
+      <:col :let={row} :for={c <- @col} field={c.field} label={c.label}>
+        {render_slot(c, row)}
+      </:col>
+
+      <:action :let={row} :for={a <- @action}>
+        {render_slot(a, row)}
+      </:action>
+
+      <:foot :for={f <- @foot}>
+        {render_slot(f)}
+      </:foot>
+    </Flop.Phoenix.table>
+    """
+  end
+
+  attr :meta, Flop.Meta, required: true
+  attr :path, :any, default: nil
+  attr :on_paginate, JS, default: nil
+  attr :target, :string, default: nil
+
+  def flop_pagination(assigns) do
+    ~H"""
+    <Flop.Phoenix.pagination
+      class="join"
+      meta={@meta}
+      path={@path}
+      on_paginate={@on_paginate}
+      target={@target}
+      page_links={5}
+      page_list_item_attrs={[class: "join-item btn"]}
+      page_link_attrs={[class: ""]}
+      current_page_link_attrs={[class: "btn-active"]}
+      disabled_link_attrs={[class: "btn-disabled"]}
+    >
+      <:previous attrs={[class: "previous"]}>
+        <button class="join-item btn">←</button>
+      </:previous>
+      <:next attrs={[class: "next"]}>
+        <button class="join-item btn">→</button>
+      </:next>
+      <:ellipsis>
+        <button class="join-item btn btn-disabled">...</button>
+      </:ellipsis>
+    </Flop.Phoenix.pagination>
+    """
+  end
+
   @doc """
   Renders a data list.
 
