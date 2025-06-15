@@ -1,10 +1,12 @@
 defmodule EcampusWeb.SpecialityLive.Show do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Specialities
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
     {:ok, socket}
   end
 
@@ -16,6 +18,6 @@ defmodule EcampusWeb.SpecialityLive.Show do
      |> assign(:speciality, Specialities.get_speciality!(id))}
   end
 
-  defp page_title(:show), do: "Show Speciality"
-  defp page_title(:edit), do: "Edit Speciality"
+  defp page_title(:show), do: dgettext("specialities", "Show")
+  defp page_title(:edit), do: dgettext("specialities", "Edit")
 end

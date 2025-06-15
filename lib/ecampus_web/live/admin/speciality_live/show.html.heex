@@ -1,20 +1,21 @@
 <.header>
-  Speciality {@speciality.id}
-  <:subtitle>This is a speciality record from your database.</:subtitle>
+  {dgettext("specialities", "Speciality")} {@speciality.id}
   <:actions>
     <.link patch={~p"/admin/specialities/#{@speciality}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit speciality</.button>
+      <.button>{dgettext("specialities", "Edit")}</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Code">{@speciality.code}</:item>
-  <:item title="Description">{@speciality.description}</:item>
-  <:item title="Title">{@speciality.title}</:item>
+  <:item title={dgettext("specialities", "Code")}>{@speciality.code}</:item>
+  <:item title={dgettext("specialities", "Description")}>{@speciality.description}</:item>
+  <:item title={dgettext("specialities", "Title")}>{@speciality.title}</:item>
 </.list>
 
-<.back navigate={~p"/admin/specialities"}>Back to specialities</.back>
+<.back navigate={~p"/admin/specialities"}>
+  {dgettext("specialities", "Back to specialities")}
+</.back>
 
 <.modal
   :if={@live_action == :edit}

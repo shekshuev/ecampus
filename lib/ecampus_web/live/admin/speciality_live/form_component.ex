@@ -1,5 +1,6 @@
 defmodule EcampusWeb.SpecialityLive.FormComponent do
   use EcampusWeb, :live_component
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Specialities
 
@@ -14,11 +15,17 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:code]} type="text" label="Code" />
-        <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:title]} type="text" label="Title" />
+        <.input field={@form[:code]} type="text" label={dgettext("specialities", "Code")} />
+        <.input
+          field={@form[:description]}
+          type="text"
+          label={dgettext("specialities", "Description")}
+        />
+        <.input field={@form[:title]} type="text" label={dgettext("specialities", "Title")} />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Speciality</.button>
+          <.button phx-disable-with={dgettext("specialities", "Saving...")}>
+            {dgettext("specialities", "Save")}
+          </.button>
         </:actions>
       </.simple_form>
     </div>

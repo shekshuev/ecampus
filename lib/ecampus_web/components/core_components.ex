@@ -516,6 +516,45 @@ defmodule EcampusWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a table with sortable and paginated columns using `Flop.Phoenix.table/1`.
+
+  This component is intended for use with `Flop` pagination and sorting.
+  It uses Tailwind utility classes and supports dynamic rows, slot-based columns,
+  actions, and optional footer content.
+
+  ## Examples
+
+      <.flop_table id="posts" meta={@meta} items={@posts} path={~p"/posts"}>
+        <:col field={:title} label="Title"><%= &1.title %></:col>
+        <:col field={:author} label="Author"><%= &1.author %></:col>
+        <:action :let={post}>
+          <.link navigate={~p"/posts/edit"}>Edit</.link>
+        </:action>
+      </.flop_table>
+
+  ## Assigns
+
+    * `:id` - Unique DOM id of the table (required)
+    * `:meta` - `%Flop.Meta{}` struct for sorting/pagination (required)
+    * `:items` - The list of items to display (required)
+    * `:path` - The path or function to build query links (required)
+    * `:row_click` - Optional function `(row) -> phx-click event`
+
+  ## Slots
+
+    * `:col` - Required slot for each column.
+      - Attributes:
+        * `:field` - The field to sort by
+        * `:label` - Column header text
+        * `:let` - The row item
+
+    * `:action` - Optional slot to display extra actions (like buttons or links).
+      - `:let` - The row item
+
+    * `:foot` - Optional slot for footer rows (e.g., aggregates or summary rows)
+  """
+
   attr :id, :string, required: true
   attr :meta, Flop.Meta, required: true
   attr :items, :list, required: true
@@ -574,6 +613,25 @@ defmodule EcampusWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders a pagination component using `Flop.Phoenix.pagination/1`.
+
+  This component integrates Tailwind CSS styles (`btn`, `join`, etc.)
+  and supports custom slot-based buttons for previous, next, and ellipsis.
+
+  ## Examples
+
+      <.flop_pagination meta={@meta} path={~p"/posts"} />
+
+  ## Assigns
+
+    * `:meta` - `%Flop.Meta{}` struct with pagination metadata (required)
+    * `:path` - The path or function used to generate pagination links
+    * `:on_paginate` - A JS command to run on pagination click
+    * `:target` - Optional LiveView target if used inside a component
+
+  """
+
   attr :meta, Flop.Meta, required: true
   attr :path, :any, default: nil
   attr :on_paginate, JS, default: nil
@@ -582,7 +640,7 @@ defmodule EcampusWeb.CoreComponents do
   def flop_pagination(assigns) do
     ~H"""
     <Flop.Phoenix.pagination
-      class="join"
+      class="join mt-4"
       meta={@meta}
       path={@path}
       on_paginate={@on_paginate}

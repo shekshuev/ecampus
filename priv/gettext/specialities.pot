@@ -11,47 +11,72 @@
 msgid ""
 msgstr ""
 
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:43
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Listing Specialities"
 msgstr ""
 
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:36
-#, elixir-autogen, elixir-format
-msgid "Are you sure?"
-msgstr ""
-
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:16
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:18
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:21
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:11
 #, elixir-autogen, elixir-format
 msgid "Code"
 msgstr ""
 
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:38
-#, elixir-autogen, elixir-format
-msgid "Delete"
-msgstr ""
-
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:26
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:30
+#: lib/ecampus_web/live/admin/speciality_live/show.ex:22
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr ""
 
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:15
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Id"
 msgstr ""
 
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:32
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:5
 #, elixir-autogen, elixir-format
-msgid "New Speciality"
+msgid "New"
 msgstr ""
 
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:26
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:24
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:24
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:22
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "Description"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:27
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:26
+#, elixir-autogen, elixir-format
+msgid "Saving..."
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Back to specialities"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/speciality_live/show.ex:21
 #, elixir-autogen, elixir-format
 msgid "Show"
 msgstr ""
 
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:19
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:2
 #, elixir-autogen, elixir-format
-msgid "Title"
+msgid "Speciality"
 msgstr ""

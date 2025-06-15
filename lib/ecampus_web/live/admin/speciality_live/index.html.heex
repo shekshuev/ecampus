@@ -2,7 +2,7 @@
   {dgettext("specialities", "Listing Specialities")}
   <:actions>
     <.link patch={~p"/admin/specialities/new"}>
-      <.button>{dgettext("specialities", "New Speciality")}</.button>
+      <.button>{dgettext("specialities", "New")}</.button>
     </.link>
   </:actions>
 </.header>
@@ -26,21 +26,8 @@
   </:col>
 
   <:action :let={{_id, speciality}}>
-    <div class="sr-only">
-      <.link navigate={~p"/admin/specialities/#{speciality}"}>
-        {dgettext("specialities", "Show")}
-      </.link>
-    </div>
     <.link patch={~p"/admin/specialities/#{speciality}/edit"}>
       {dgettext("specialities", "Edit")}
-    </.link>
-  </:action>
-  <:action :let={{id, speciality}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: speciality.id}) |> hide("##{id}")}
-      data-confirm={dgettext("specialities", "Are you sure?")}
-    >
-      {dgettext("specialities", "Delete")}
     </.link>
   </:action>
 </.flop_table>
@@ -51,7 +38,7 @@
   :if={@live_action in [:new, :edit]}
   id="speciality-modal"
   show
-  on_cancel={JS.patch(~p"/admin/specialities")}
+  on_cancel={JS.patch(@current_path)}
 >
   <:title>{@page_title}</:title>
   <.live_component
@@ -59,6 +46,6 @@
     id={@speciality.id || :new}
     action={@live_action}
     speciality={@speciality}
-    patch={~p"/admin/specialities"}
+    patch={@current_path}
   />
 </.modal>

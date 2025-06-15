@@ -12,31 +12,35 @@ defmodule EcampusWeb.SpecialityLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {specialities, meta} = Specialities.list_specialities(params)
+  def handle_params(params, url, socket) do
+    parsed = URI.parse(url)
+    full_path = parsed.path <> if(parsed.query, do: "?" <> parsed.query, else: "")
 
     {:noreply,
      socket
-     |> assign(:meta, meta)
-     |> stream(:specialities, specialities, reset: true)
-     |> apply_action(socket.assigns.live_action, params)}
+     |> apply_action(socket.assigns.live_action, params, full_path)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :edit, %{"id" => id}, _full_path) do
     socket
-    |> assign(:page_title, "Edit Speciality")
+    |> assign(:page_title, dgettext("specialities", "Edit"))
     |> assign(:speciality, Specialities.get_speciality!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, _params, _full_path) do
     socket
-    |> assign(:page_title, "New Speciality")
+    |> assign(:page_title, dgettext("specialities", "New"))
     |> assign(:speciality, %Speciality{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params, full_path) do
+    {specialities, meta} = Specialities.list_specialities(params)
+
     socket
-    |> assign(:page_title, "Listing Specialities")
+    |> assign(:meta, meta)
+    |> assign(:current_path, full_path)
+    |> stream(:specialities, specialities, reset: true)
+    |> assign(:page_title, dgettext("specialities", "Listing Specialities"))
     |> assign(:speciality, nil)
   end
 
