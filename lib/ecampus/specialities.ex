@@ -86,7 +86,9 @@ defmodule Ecampus.Specialities do
 
   """
   def delete_speciality(%Speciality{} = speciality) do
-    Repo.delete(speciality)
+    speciality
+    |> Speciality.delete_changeset()
+    |> Repo.delete()
   end
 
   @doc """

@@ -80,3 +80,38 @@ msgstr "Просмотр"
 #, elixir-autogen, elixir-format
 msgid "Speciality"
 msgstr "Специальность"
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:35
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:37
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr "Удалить"
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:77
+#, elixir-autogen, elixir-format
+msgid "Failed to delete speciality"
+msgstr "Не получилось удалить специальность"
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:71
+#, elixir-autogen, elixir-format
+msgid "Speciality deleted successfully"
+msgstr "Специальность успешно удалена"
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:103
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Speciality created successfully"
+msgstr "Специальность успешно создана"
+
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:88
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Speciality updated successfully"
+msgstr "Специальность успешно обновлена"
+
+#: lib/ecampus/specialities/speciality.ex:47
+#, elixir-autogen, elixir-format
+msgid "Cannot delete speciality with related groups"
+msgstr "Невозможно удалить специальность со связанными с ней группами"

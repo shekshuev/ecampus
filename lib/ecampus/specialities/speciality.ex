@@ -12,6 +12,7 @@ defmodule Ecampus.Specialities.Speciality do
 
   use Ecto.Schema
   import Ecto.Changeset
+  use Gettext, backend: EcampusWeb.Gettext
 
   @derive {
     Flop.Schema,
@@ -42,5 +43,14 @@ defmodule Ecampus.Specialities.Speciality do
     |> validate_required([:code, :title])
     |> validate_length(:code, min: 2, max: 20)
     |> validate_length(:description, min: 10, max: 500)
+  end
+
+  @doc false
+  def delete_changeset(speciality) do
+    Ecto.Changeset.change(speciality)
+    |> foreign_key_constraint(:id,
+      name: "groups_speciality_id_fkey",
+      message: dgettext("specialities", "Cannot delete speciality with related groups")
+    )
   end
 end

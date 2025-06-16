@@ -26,6 +26,17 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
           <.button phx-disable-with={dgettext("specialities", "Saving...")}>
             {dgettext("specialities", "Save")}
           </.button>
+          <%= if @action == :edit do %>
+            <.button
+              phx-click="delete"
+              phx-target={@myself}
+              class="btn-error"
+              type="button"
+              data-confirm={dgettext("specialities", "Are you sure?")}
+            >
+              {dgettext("specialities", "Delete")}
+            </.button>
+          <% end %>
         </:actions>
       </.simple_form>
     </div>
@@ -52,6 +63,22 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
     save_speciality(socket, socket.assigns.action, speciality_params)
   end
 
+  def handle_event("delete", _params, socket) do
+    case Specialities.delete_speciality(socket.assigns.speciality) do
+      {:ok, _deleted} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("specialities", "Speciality deleted successfully"))
+         |> push_navigate(to: ~p"/admin/specialities")}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("specialities", "Failed to delete speciality"))
+         |> push_patch(to: socket.assigns.patch)}
+    end
+  end
+
   defp save_speciality(socket, :edit, speciality_params) do
     case Specialities.update_speciality(socket.assigns.speciality, speciality_params) do
       {:ok, speciality} ->
@@ -59,7 +86,7 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Speciality updated successfully")
+         |> put_flash(:info, dgettext("specialities", "Speciality updated successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -74,7 +101,7 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Speciality created successfully")
+         |> put_flash(:info, dgettext("specialities", "Speciality created successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
