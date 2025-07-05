@@ -24,6 +24,7 @@ defmodule Ecampus.Specialities.Speciality do
           code: String.t(),
           title: String.t(),
           description: String.t(),
+          groups: [Ecampus.Groups.Group.t()] | Ecto.Association.NotLoaded.t(),
           inserted_at: DateTime.t() | nil,
           updated_at: DateTime.t() | nil
         }
@@ -32,6 +33,8 @@ defmodule Ecampus.Specialities.Speciality do
     field :code, :string
     field :description, :string
     field :title, :string
+
+    has_many :groups, Ecampus.Groups.Group
 
     timestamps(type: :utc_datetime)
   end
@@ -49,7 +52,6 @@ defmodule Ecampus.Specialities.Speciality do
   def delete_changeset(speciality) do
     Ecto.Changeset.change(speciality)
     |> foreign_key_constraint(:id,
-      name: "groups_speciality_id_fkey",
       message: dgettext("specialities", "Cannot delete speciality with related groups")
     )
   end

@@ -48,12 +48,4 @@ defmodule EcampusWeb.SpecialityLive.Index do
   def handle_info({EcampusWeb.SpecialityLive.FormComponent, {:saved, speciality}}, socket) do
     {:noreply, stream_insert(socket, :specialities, speciality)}
   end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    speciality = Specialities.get_speciality!(id)
-    {:ok, _} = Specialities.delete_speciality(speciality)
-
-    {:noreply, stream_delete(socket, :specialities, speciality)}
-  end
 end

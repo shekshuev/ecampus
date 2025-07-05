@@ -4,6 +4,9 @@
     <.link patch={~p"/admin/specialities/#{@speciality}/show/edit"} phx-click={JS.push_focus()}>
       <.button>{dgettext("specialities", "Edit")}</.button>
     </.link>
+    <.link patch={~p"/admin/specialities/#{@speciality}/groups"} phx-click={JS.push_focus()}>
+      <.button>{dgettext("specialities", "Groups")}</.button>
+    </.link>
   </:actions>
 </.header>
 

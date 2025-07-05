@@ -17,8 +17,8 @@ defmodule Ecampus.Groups do
       [%Group{}, ...]
 
   """
-  def list_groups do
-    Repo.all(Group) |> Repo.preload(:speciality)
+  def list_groups(params) do
+    Flop.validate_and_run!(Group, params, for: Group, replace_invalid_params: true)
   end
 
   @doc """

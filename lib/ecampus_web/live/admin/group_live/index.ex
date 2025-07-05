@@ -1,55 +1,52 @@
 defmodule EcampusWeb.GroupLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Groups
   alias Ecampus.Groups.Group
-  alias Ecampus.Specialities
 
   @impl true
-  def mount(_params, _session, socket) do
-    specialities = Specialities.list_specialities()
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
+    {:ok, socket}
+  end
 
-    {:ok,
+  @impl true
+  def handle_params(%{"speciality_id" => speciality_id} = params, url, socket) do
+    parsed = URI.parse(url)
+    full_path = parsed.path <> if(parsed.query, do: "?" <> parsed.query, else: "")
+
+    {:noreply,
      socket
-     |> assign(:specialities, specialities)
-     |> stream(:groups, Groups.list_groups())}
+     |> assign(:speciality_id, speciality_id)
+     |> apply_action(socket.assigns.live_action, params, full_path)}
   end
 
-  @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :edit, %{"id" => id}, _full_path) do
     socket
-    |> assign(:page_title, "Edit Group")
+    |> assign(:page_title, dgettext("groups", "Edit Group"))
     |> assign(:group, Groups.get_group!(id))
-    |> assign(:specialities, Specialities.list_specialities())
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, _params, _full_path) do
     socket
-    |> assign(:page_title, "New Group")
+    |> assign(:page_title, dgettext("groups", "New Group"))
     |> assign(:group, %Group{})
-    |> assign(:specialities, Specialities.list_specialities())
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params, full_path) do
+    {groups, meta} = Groups.list_groups(params)
+
     socket
-    |> assign(:page_title, "Listing Groups")
+    |> assign(:meta, meta)
+    |> assign(:current_path, full_path)
+    |> stream(:groups, groups, reset: true)
+    |> assign(:page_title, dgettext("groups", "Listing Groups"))
     |> assign(:group, nil)
   end
 
   @impl true
   def handle_info({EcampusWeb.GroupLive.FormComponent, {:saved, group}}, socket) do
     {:noreply, stream_insert(socket, :groups, group)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    group = Groups.get_group!(id)
-    {:ok, _} = Groups.delete_group(group)
-
-    {:noreply, stream_delete(socket, :groups, group)}
   end
 end

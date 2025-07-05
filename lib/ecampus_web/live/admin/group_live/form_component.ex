@@ -1,5 +1,6 @@
 defmodule EcampusWeb.GroupLive.FormComponent do
   use EcampusWeb, :live_component
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Groups
 
@@ -14,16 +15,24 @@ defmodule EcampusWeb.GroupLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:description]} type="text" label="Description" />
-        <.input
-          field={@form[:speciality_id]}
-          type="select"
-          label="Speciality"
-          options={Enum.map(@specialities, &{&1.title, &1.id})}
-        />
+        <.input field={@form[:title]} type="text" label={dgettext("groups", "Title")} />
+        <.input field={@form[:description]} type="text" label={dgettext("groups", "Description")} />
+        <.input field={@form[:speciality_id]} type="hidden" value={@speciality_id} />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Group</.button>
+          <.button phx-disable-with={dgettext("groups", "Saving...")}>
+            {dgettext("groups", "Save")}
+          </.button>
+          <%= if @action == :edit do %>
+            <.button
+              phx-click="delete"
+              phx-target={@myself}
+              class="btn-error"
+              type="button"
+              data-confirm={dgettext("groups", "Are you sure?")}
+            >
+              {dgettext("groups", "Delete")}
+            </.button>
+          <% end %>
         </:actions>
       </.simple_form>
     </div>
@@ -44,6 +53,22 @@ defmodule EcampusWeb.GroupLive.FormComponent do
   def handle_event("validate", %{"group" => group_params}, socket) do
     changeset = Groups.change_group(socket.assigns.group, group_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+  end
+
+  def handle_event("delete", _params, socket) do
+    case Groups.delete_group(socket.assigns.group) do
+      {:ok, _deleted} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("groups", "Group deleted successfully"))
+         |> push_navigate(to: ~p"/admin/specialities/#{socket.assigns.speciality_id}/groups")}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("groups", "Failed to delete group"))
+         |> push_patch(to: socket.assigns.patch)}
+    end
   end
 
   def handle_event("save", %{"group" => group_params}, socket) do

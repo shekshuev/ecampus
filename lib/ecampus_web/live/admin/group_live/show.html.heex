@@ -1,9 +1,11 @@
 <.header>
-  Group {@group.id}
-  <:subtitle>This is a group record from your database.</:subtitle>
+  {dgettext("groups", "Group")} {@group.id}
   <:actions>
-    <.link patch={~p"/admin/groups/#{@group}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit group</.button>
+    <.link
+      patch={~p"/admin/specialities/#{@speciality_id}/groups/#{@group}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>{dgettext("groups", "Edit")}</.button>
     </.link>
   </:actions>
 </.header>
@@ -11,18 +13,17 @@
 <.list>
   <:item title="Title">{@group.title}</:item>
   <:item title="Description">{@group.description}</:item>
-  <:item title="Speciality">
-    {(@group.speciality && @group.speciality.title) || "No Speciality"}
-  </:item>
 </.list>
 
-<.back navigate={~p"/admin/groups"}>Back to groups</.back>
+<.back navigate={~p"/admin/specialities/#{@speciality_id}/groups"}>
+  {dgettext("groups", "Back to groups")}
+</.back>
 
 <.modal
   :if={@live_action == :edit}
   id="group-modal"
   show
-  on_cancel={JS.patch(~p"/admin/groups/#{@group}")}
+  on_cancel={JS.patch(~p"/admin/specialities/#{@speciality_id}/groups/#{@group}")}
 >
   <:title>{@page_title}</:title>
   <.live_component
@@ -30,7 +31,7 @@
     id={@group.id}
     action={@live_action}
     group={@group}
-    specialities={@specialities}
-    patch={~p"/admin/groups/#{@group}"}
+    speciality_id={@speciality_id}
+    patch={~p"/admin/specialities/#{@speciality_id}/groups/#{@group}"}
   />
 </.modal>

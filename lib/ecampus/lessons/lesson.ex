@@ -6,6 +6,11 @@ defmodule Ecampus.Lessons.Lesson do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    filterable: [:title, :subject_id], sortable: [:sort_order]
+  }
+
   schema "lessons" do
     field :title, :string
     field :topic, :string
@@ -19,11 +24,6 @@ defmodule Ecampus.Lessons.Lesson do
 
     timestamps(type: :utc_datetime)
   end
-
-  @derive {
-    Flop.Schema,
-    filterable: [:title, :subject_id], sortable: [:sort_order]
-  }
 
   @doc false
   def changeset(lesson, attrs) do
