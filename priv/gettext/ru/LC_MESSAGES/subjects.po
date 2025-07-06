@@ -1,0 +1,145 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100 != 11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10||n%100>=20) ? 1 : 2);\n"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:53
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "Back to subjects"
+msgstr "Назад к предметам"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Cover"
+msgstr "Обложка"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:55
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr "Удалить"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:30
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Description"
+msgstr "Описание"
+
+#: lib/ecampus_web/live/admin/subject_live/index.ex:39
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:30
+#: lib/ecampus_web/live/admin/subject_live/show.ex:37
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr "Редактировать"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:94
+#, elixir-autogen, elixir-format
+msgid "Failed to delete subject"
+msgstr "Не получилось удалить предмет"
+
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Id"
+msgstr "Id"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Lessons"
+msgstr "Занятия"
+
+#: lib/ecampus_web/live/admin/subject_live/index.ex:56
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Listing Subjects"
+msgstr "Список предметов"
+
+#: lib/ecampus_web/live/admin/subject_live/index.ex:45
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr "Создать"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "No cover available"
+msgstr "Обложки нет"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:36
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Objectives"
+msgstr "Цели занятия"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:34
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Prerequisites"
+msgstr "Предварительные условия"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:40
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Required texts"
+msgstr "Литература для подготовки к занятию"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:45
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr "Сохранить"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:44
+#, elixir-autogen, elixir-format
+msgid "Saving..."
+msgstr "Сохранение..."
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:29
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:25
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Short title"
+msgstr "Аббревиатура"
+
+#: lib/ecampus_web/live/admin/subject_live/show.ex:36
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr "Просмотр"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Subject"
+msgstr "Предмет"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:135
+#, elixir-autogen, elixir-format
+msgid "Subject created successfully"
+msgstr "Предмет успешно создан"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:88
+#, elixir-autogen, elixir-format
+msgid "Subject deleted successfully"
+msgstr "Предмет успешно удален"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:120
+#, elixir-autogen, elixir-format
+msgid "Subject updated successfully"
+msgstr "Предмет успешно обновлен"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:28
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:22
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr "Название"

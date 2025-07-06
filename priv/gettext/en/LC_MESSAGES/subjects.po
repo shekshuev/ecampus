@@ -1,0 +1,145 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:53
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:34
+#, elixir-autogen, elixir-format
+msgid "Back to subjects"
+msgstr "Back to subjects"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Cover"
+msgstr "Cover"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:55
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr "Delete"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:30
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Description"
+msgstr "Description"
+
+#: lib/ecampus_web/live/admin/subject_live/index.ex:39
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:30
+#: lib/ecampus_web/live/admin/subject_live/show.ex:37
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr "Edit"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:94
+#, elixir-autogen, elixir-format
+msgid "Failed to delete subject"
+msgstr "Failed to delete subject"
+
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Id"
+msgstr "Id"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Lessons"
+msgstr "Lessons"
+
+#: lib/ecampus_web/live/admin/subject_live/index.ex:56
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Listing Subjects"
+msgstr "Listing Subjects"
+
+#: lib/ecampus_web/live/admin/subject_live/index.ex:45
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr "New"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "No cover available"
+msgstr "No cover available"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:36
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Objectives"
+msgstr "Objectives"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:34
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Prerequisites"
+msgstr "Prerequisites"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:40
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Required texts"
+msgstr "Required texts"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:45
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr "Save"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:44
+#, elixir-autogen, elixir-format
+msgid "Saving..."
+msgstr "Saving..."
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:29
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:25
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Short title"
+msgstr "Short title"
+
+#: lib/ecampus_web/live/admin/subject_live/show.ex:36
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr "Show"
+
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Subject"
+msgstr "Subject"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:135
+#, elixir-autogen, elixir-format
+msgid "Subject created successfully"
+msgstr "Subject created successfully"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:88
+#, elixir-autogen, elixir-format
+msgid "Subject deleted successfully"
+msgstr "Subject deleted successfully"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:120
+#, elixir-autogen, elixir-format
+msgid "Subject updated successfully"
+msgstr "Subject updated successfully"
+
+#: lib/ecampus_web/live/admin/subject_live/form_component.ex:28
+#: lib/ecampus_web/live/admin/subject_live/index.html.heex:22
+#: lib/ecampus_web/live/admin/subject_live/show.html.heex:25
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr "Title"

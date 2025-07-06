@@ -11,57 +11,57 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100 != 11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10||n%100>=20) ? 1 : 2);\n"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.ex:43
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:56
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Listing Specialities"
 msgstr "Список специальностей"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:18
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:21
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:27
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:25
 #: lib/ecampus_web/live/admin/speciality_live/show.html.heex:14
 #, elixir-autogen, elixir-format
 msgid "Code"
 msgstr "Код"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.ex:26
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:30
-#: lib/ecampus_web/live/admin/speciality_live/show.ex:22
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:39
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:34
+#: lib/ecampus_web/live/admin/speciality_live/show.ex:37
 #: lib/ecampus_web/live/admin/speciality_live/show.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr "Редактировать"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:17
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Id"
 msgstr "Id"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.ex:32
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:45
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "New"
 msgstr "Создать"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:24
-#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:24
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:33
+#: lib/ecampus_web/live/admin/speciality_live/index.html.heex:28
 #: lib/ecampus_web/live/admin/speciality_live/show.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr "Название"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:22
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:31
 #: lib/ecampus_web/live/admin/speciality_live/show.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Description"
 msgstr "Описание"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:27
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:36
 #, elixir-autogen, elixir-format
 msgid "Save"
 msgstr "Сохранить"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:26
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:35
 #, elixir-autogen, elixir-format
 msgid "Saving..."
 msgstr "Сохранение..."
@@ -71,7 +71,7 @@ msgstr "Сохранение..."
 msgid "Back to specialities"
 msgstr "Назад к списку"
 
-#: lib/ecampus_web/live/admin/speciality_live/show.ex:21
+#: lib/ecampus_web/live/admin/speciality_live/show.ex:36
 #, elixir-autogen, elixir-format
 msgid "Show"
 msgstr "Просмотр"
@@ -81,32 +81,32 @@ msgstr "Просмотр"
 msgid "Speciality"
 msgstr "Специальность"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:35
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:44
 #, elixir-autogen, elixir-format
 msgid "Are you sure?"
 msgstr "Вы уверены?"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:37
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:46
 #, elixir-autogen, elixir-format
 msgid "Delete"
 msgstr "Удалить"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:77
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:88
 #, elixir-autogen, elixir-format
 msgid "Failed to delete speciality"
 msgstr "Не получилось удалить специальность"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:71
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:82
 #, elixir-autogen, elixir-format
 msgid "Speciality deleted successfully"
 msgstr "Специальность успешно удалена"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:104
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:116
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Speciality created successfully"
 msgstr "Специальность успешно создана"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:89
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:101
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Speciality updated successfully"
 msgstr "Специальность успешно обновлена"
