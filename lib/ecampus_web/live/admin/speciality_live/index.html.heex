@@ -12,7 +12,11 @@
   items={@streams.specialities}
   meta={@meta}
   path={~p"/admin/specialities"}
-  row_click={fn {_id, speciality} -> JS.navigate(~p"/admin/specialities/#{speciality}") end}
+  row_click={
+    fn {_id, speciality} ->
+      JS.navigate(~p"/admin/specialities/#{speciality}?return_to=#{@current_path}")
+    end
+  }
 >
   <:col :let={{_, speciality}} label={dgettext("specialities", "Id")} field={:id}>
     {speciality.id}

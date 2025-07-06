@@ -1,10 +1,19 @@
 defmodule EcampusWeb.SpecialityLive.FormComponent do
+  @moduledoc """
+  LiveComponent for creating and editing academic specialities.
+
+  Handles form rendering, validation, saving (create/update), and deletion
+  of `Speciality` entities.
+  """
+
   use EcampusWeb, :live_component
   use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Specialities
+  alias Phoenix.LiveView.Socket
 
   @impl true
+  @spec render(map()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div>
@@ -44,6 +53,7 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
   end
 
   @impl true
+  @spec update(map(), Socket.t()) :: {:ok, Socket.t()}
   def update(%{speciality: speciality} = assigns, socket) do
     {:ok,
      socket
@@ -54,6 +64,7 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
   end
 
   @impl true
+  @spec handle_event(String.t(), map(), Socket.t()) :: {:noreply, Socket.t()}
   def handle_event("validate", %{"speciality" => speciality_params}, socket) do
     changeset = Specialities.change_speciality(socket.assigns.speciality, speciality_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
@@ -79,6 +90,7 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
     end
   end
 
+  @spec save_speciality(Socket.t(), :new | :edit, map()) :: {:noreply, Socket.t()}
   defp save_speciality(socket, :edit, speciality_params) do
     case Specialities.update_speciality(socket.assigns.speciality, speciality_params) do
       {:ok, speciality} ->
@@ -109,5 +121,6 @@ defmodule EcampusWeb.SpecialityLive.FormComponent do
     end
   end
 
+  @spec notify_parent({:saved, Specialities.Speciality.t()}) :: :ok
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
