@@ -22,11 +22,14 @@ defmodule EcampusWeb.SubjectLive.Show do
   @impl true
   @spec handle_params(map(), any(), Phoenix.LiveView.Socket.t()) ::
           {:noreply, Phoenix.LiveView.Socket.t()}
-  def handle_params(%{"id" => id}, _uri, socket) do
+  def handle_params(%{"id" => id} = params, _uri, socket) do
+    return_to = Map.get(params, "return_to", ~p"/admin/subjects")
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:subject, Subjects.get_subject!(id))}
+     |> assign(:subject, Subjects.get_subject!(id))
+     |> assign(:return_to, return_to)}
   end
 
   @spec page_title(:show | :edit) :: String.t()
