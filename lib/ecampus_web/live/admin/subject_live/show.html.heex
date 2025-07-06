@@ -1,18 +1,17 @@
 <.header>
-  Subject {@subject.id}
-  <:subtitle>This is a subject record from your database.</:subtitle>
+  {dgettext("subjects", "Subject")} {@subject.id}
   <:actions>
     <.link patch={~p"/admin/subjects/#{@subject}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit subject</.button>
+      <.button>{dgettext("subjects", "Edit")}</.button>
     </.link>
-    <.link patch={~p"/admin/subjects/#{@subject}/lessons"}>
-      <.button>Subject Lessons</.button>
+    <.link patch={~p"/admin/subjects/#{@subject}/lessons"} phx-click={JS.push_focus()}>
+      <.button>{dgettext("subjects", "Lessons")}</.button>
     </.link>
   </:actions>
 </.header>
 
 <.list>
-  <:item title="Cover">
+  <:item title={dgettext("subjects", "Cover")}>
     <%= if @subject.cover do %>
       <img
         src={Ecampus.Uploaders.SubjectCover.url({@subject.cover, @subject})}
@@ -20,18 +19,20 @@
         class="w-32 h-32 object-cover"
       />
     <% else %>
-      <span>No cover available</span>
+      <span>{dgettext("subjects", "No cover available")}</span>
     <% end %>
   </:item>
-  <:item title="Title">{@subject.title}</:item>
-  <:item title="Short title">{@subject.short_title}</:item>
-  <:item title="Description">{@subject.description}</:item>
-  <:item title="Prerequisites">{@subject.prerequisites}</:item>
-  <:item title="Objectives">{@subject.objectives}</:item>
-  <:item title="Required texts">{@subject.required_texts}</:item>
+  <:item title={dgettext("subjects", "Title")}>{@subject.title}</:item>
+  <:item title={dgettext("subjects", "Short title")}>{@subject.short_title}</:item>
+  <:item title={dgettext("subjects", "Description")}>{@subject.description}</:item>
+  <:item title={dgettext("subjects", "Prerequisites")}>{@subject.prerequisites}</:item>
+  <:item title={dgettext("subjects", "Objectives")}>{@subject.objectives}</:item>
+  <:item title={dgettext("subjects", "Required texts")}>{@subject.required_texts}</:item>
 </.list>
 
-<.back navigate={~p"/admin/subjects"}>Back to subjects</.back>
+<.back navigate={~p"/admin/subjects"}>
+  {dgettext("subjects", "Back to subjects")}
+</.back>
 
 <.modal
   :if={@live_action == :edit}

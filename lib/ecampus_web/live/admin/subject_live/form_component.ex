@@ -1,5 +1,6 @@
 defmodule EcampusWeb.SubjectLive.FormComponent do
   use EcampusWeb, :live_component
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Subjects
 
@@ -15,15 +16,36 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
         phx-submit="save"
         multipart
       >
-        <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:short_title]} type="text" label="Short title" />
-        <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:prerequisites]} type="text" label="Prerequisites" />
-        <.input field={@form[:objectives]} type="text" label="Objectives" />
-        <.input field={@form[:required_texts]} type="text" label="Required texts" />
+        <.input field={@form[:title]} type="text" label={dgettext("subjects", "Title")} />
+        <.input field={@form[:short_title]} type="text" label={dgettext("subjects", "Short title")} />
+        <.input field={@form[:description]} type="text" label={dgettext("subjects", "Description")} />
+        <.input
+          field={@form[:prerequisites]}
+          type="text"
+          label={dgettext("subjects", "Prerequisites")}
+        />
+        <.input field={@form[:objectives]} type="text" label={dgettext("subjects", "Objectives")} />
+        <.input
+          field={@form[:required_texts]}
+          type="text"
+          label={dgettext("subjects", "Required texts")}
+        />
         <.live_file_input upload={@uploads[:cover]} />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Subject</.button>
+          <.button phx-disable-with={dgettext("subjects", "Saving...")}>
+            {dgettext("subjects", "Save")}
+          </.button>
+          <%= if @action == :edit do %>
+            <.button
+              phx-click="delete"
+              phx-target={@myself}
+              class="btn-error"
+              type="button"
+              data-confirm={dgettext("subjects", "Are you sure?")}
+            >
+              {dgettext("subjects", "Delete")}
+            </.button>
+          <% end %>
         </:actions>
       </.simple_form>
     </div>
@@ -47,6 +69,22 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
+  def handle_event("delete", _params, socket) do
+    case Subjects.delete_subject(socket.assigns.subject) do
+      {:ok, _deleted} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, dgettext("subjects", "Subject deleted successfully"))
+         |> push_navigate(to: ~p"/admin/specialities")}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, dgettext("subjects", "Failed to delete subject"))
+         |> push_patch(to: socket.assigns.patch)}
+    end
+  end
+
   def handle_event("save", %{"subject" => subject_params}, socket) do
     uploaded_files =
       consume_uploaded_entries(socket, :cover, fn %{path: path}, entry ->
@@ -67,7 +105,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Subject updated successfully")
+         |> put_flash(:info, dgettext("subjects", "Subject updated successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -82,7 +120,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
 
         {:noreply,
          socket
-         |> put_flash(:info, "Subject created successfully")
+         |> put_flash(:info, dgettext("subjects", "Subject created successfully"))
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

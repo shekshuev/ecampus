@@ -1,41 +1,40 @@
 <.header>
-  Listing Subjects
+  {dgettext("subjects", "Listing Subjects")}
   <:actions>
     <.link patch={~p"/admin/subjects/new"}>
-      <.button>New Subject</.button>
+      <.button>{dgettext("subjects", "New")}</.button>
     </.link>
   </:actions>
 </.header>
 
-<.table
+<.flop_table
   id="subjects"
-  rows={@streams.subjects}
+  items={@streams.subjects}
+  meta={@meta}
+  path={~p"/admin/subjects"}
   row_click={fn {_id, subject} -> JS.navigate(~p"/admin/subjects/#{subject}") end}
 >
-  <:col :let={{_id, subject}} label="Id">{subject.id}</:col>
-  <:col :let={{_id, subject}} label="Title">{subject.title}</:col>
-  <:col :let={{_id, subject}} label="Short title">{subject.short_title}</:col>
+  <:col :let={{_id, subject}} label={dgettext("subjects", "Id")} field={:id}>{subject.id}</:col>
+  <:col :let={{_id, subject}} label={dgettext("subjects", "Title")} field={:title}>
+    {subject.title}
+  </:col>
+  <:col :let={{_id, subject}} label={dgettext("subjects", "Short title")} field={:short_title}>
+    {subject.short_title}
+  </:col>
   <:action :let={{_id, subject}}>
-    <div class="sr-only">
-      <.link navigate={~p"/admin/subjects/#{subject}"}>Show</.link>
-    </div>
-    <.link patch={~p"/admin/subjects/#{subject}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, subject}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: subject.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
+    <.link patch={~p"/admin/subjects/#{subject}/edit"}>
+      {dgettext("subjects", "Edit")}
     </.link>
   </:action>
-</.table>
+</.flop_table>
+
+<.flop_pagination meta={@meta} path={~p"/admin/subjects"} />
 
 <.modal
   :if={@live_action in [:new, :edit]}
   id="subject-modal"
   show
-  on_cancel={JS.patch(~p"/admin/subjects")}
+  on_cancel={JS.patch(@current_path)}
 >
   <:title>{@page_title}</:title>
   <.live_component
@@ -43,6 +42,6 @@
     id={@subject.id || :new}
     action={@live_action}
     subject={@subject}
-    patch={~p"/admin/subjects"}
+    patch={@current_path}
   />
 </.modal>
