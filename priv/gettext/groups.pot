@@ -1,0 +1,102 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:31
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/show.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Back to groups"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:33
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:19
+#: lib/ecampus_web/live/admin/group_live/index.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Description"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/index.html.heex:28
+#: lib/ecampus_web/live/admin/group_live/show.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/index.ex:27
+#: lib/ecampus_web/live/admin/group_live/show.ex:22
+#, elixir-autogen, elixir-format
+msgid "Edit Group"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:69
+#, elixir-autogen, elixir-format
+msgid "Failed to delete group"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Group"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:63
+#, elixir-autogen, elixir-format
+msgid "Group deleted successfully"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/index.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Id"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/index.ex:44
+#: lib/ecampus_web/live/admin/group_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Listing Groups"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/index.ex:33
+#, elixir-autogen, elixir-format
+msgid "New Group"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:23
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:22
+#, elixir-autogen, elixir-format
+msgid "Saving..."
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:18
+#: lib/ecampus_web/live/admin/group_live/index.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/group_live/show.ex:21
+#, elixir-autogen, elixir-format
+msgid "Show Group"
+msgstr ""

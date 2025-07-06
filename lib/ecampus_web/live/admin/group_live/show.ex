@@ -18,6 +18,6 @@ defmodule EcampusWeb.GroupLive.Show do
      |> assign(:speciality_id, speciality_id)}
   end
 
-  defp page_title(:show), do: "Show Group"
-  defp page_title(:edit), do: "Edit Group"
+  defp page_title(:show), do: dgettext("groups", "Show Group")
+  defp page_title(:edit), do: dgettext("groups", "Edit Group")
 end

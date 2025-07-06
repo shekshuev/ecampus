@@ -170,14 +170,9 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: lib/ecampus_web/components/layouts/app.html.heex:83
+#: lib/ecampus_web/components/layouts/app.html.heex:78
 #, elixir-autogen, elixir-format
 msgid "Classes"
-msgstr ""
-
-#: lib/ecampus_web/components/layouts/app.html.heex:73
-#, elixir-autogen, elixir-format
-msgid "Groups"
 msgstr ""
 
 #: lib/ecampus_web/components/layouts/app.html.heex:57
@@ -190,7 +185,7 @@ msgstr ""
 msgid "Specialities"
 msgstr ""
 
-#: lib/ecampus_web/components/layouts/app.html.heex:78
+#: lib/ecampus_web/components/layouts/app.html.heex:73
 #, elixir-autogen, elixir-format
 msgid "Subjects"
 msgstr ""

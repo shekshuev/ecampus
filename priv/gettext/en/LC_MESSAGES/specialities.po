@@ -19,7 +19,7 @@ msgstr "Listing Specialities"
 
 #: lib/ecampus_web/live/admin/speciality_live/form_component.ex:18
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:21
-#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:11
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:14
 #, elixir-autogen, elixir-format
 msgid "Code"
 msgstr "Code"
@@ -45,13 +45,13 @@ msgstr "New"
 
 #: lib/ecampus_web/live/admin/speciality_live/form_component.ex:24
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:24
-#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:13
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr "Title"
 
 #: lib/ecampus_web/live/admin/speciality_live/form_component.ex:22
-#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:12
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Description"
 msgstr "Description"
@@ -66,7 +66,7 @@ msgstr "Save"
 msgid "Saving..."
 msgstr "Saving..."
 
-#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:17
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "Back to specialities"
 msgstr "Back to specialities"
@@ -101,17 +101,22 @@ msgstr "Failed to delete speciality"
 msgid "Speciality deleted successfully"
 msgstr "Speciality deleted successfully"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:103
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:104
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Speciality created successfully"
 msgstr "Speciality created successfully"
 
-#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:88
+#: lib/ecampus_web/live/admin/speciality_live/form_component.ex:89
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Speciality updated successfully"
 msgstr "Speciality updated successfully"
 
-#: lib/ecampus/specialities/speciality.ex:47
+#: lib/ecampus/specialities/speciality.ex:55
 #, elixir-autogen, elixir-format
 msgid "Cannot delete speciality with related groups"
 msgstr "Cannot delete speciality with related groups"
+
+#: lib/ecampus_web/live/admin/speciality_live/show.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Groups"
+msgstr "Groups"
