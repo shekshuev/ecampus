@@ -1,10 +1,19 @@
 defmodule EcampusWeb.SubjectLive.FormComponent do
+  @moduledoc """
+  LiveComponent for creating and editing academic subjects.
+
+  Handles rendering a form, validating input, saving a new or updated subject,
+  uploading a cover image, and deleting a subject.
+  """
+
   use EcampusWeb, :live_component
   use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Subjects
+  alias Phoenix.LiveView.Socket
 
   @impl true
+  @spec render(map()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div>
@@ -53,6 +62,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
   end
 
   @impl true
+  @spec update(map(), Socket.t()) :: {:ok, Socket.t()}
   def update(%{subject: subject} = assigns, socket) do
     {:ok,
      socket
@@ -64,6 +74,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
   end
 
   @impl true
+  @spec handle_event(String.t(), map(), Socket.t()) :: {:noreply, Socket.t()}
   def handle_event("validate", %{"subject" => subject_params}, socket) do
     changeset = Subjects.change_subject(socket.assigns.subject, subject_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
@@ -98,6 +109,7 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
     )
   end
 
+  @spec save_subject(Socket.t(), :edit | :new, map()) :: {:noreply, Socket.t()}
   defp save_subject(socket, :edit, subject_params) do
     case Subjects.update_subject(socket.assigns.subject, subject_params) do
       {:ok, subject} ->
@@ -128,5 +140,6 @@ defmodule EcampusWeb.SubjectLive.FormComponent do
     end
   end
 
+  @spec notify_parent({:saved, Subjects.Subject.t()}) :: :ok
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end
