@@ -1,265 +1,178 @@
 defmodule Ecampus.Lessons do
   @moduledoc """
   The Lessons context.
+
+  Provides functions for listing, retrieving, creating, updating,
+  deleting and importing/exporting lessons with associated topics and quizzes.
   """
 
   import Ecto.Query, warn: false
   alias Ecampus.Repo
 
-  alias Ecampus.Lessons.Lesson
-  alias Ecampus.Quizzes.Quiz
-  alias Ecampus.Quizzes.Question
-  alias Ecampus.Quizzes.Answer
+  alias Ecampus.Lessons.{Lesson, LessonTopic}
+  alias Ecampus.Quizzes.{Quiz, Question, Answer}
 
   @doc """
-  Returns the list of lessons for a given subject.
+  Returns a paginated, filtered, and sorted list of lessons using Flop.
 
   ## Examples
 
-  @doc \"""
-  Returns the list of lessons.
-
-  ## Examples
-
-      iex> list_lessons()
-      [%Lesson{}, ...]
-
+      iex> list_lessons(%{"order_by" => "title", "limit" => 10})
+      {[%Lesson{}, ...], %Flop.Meta{}}
   """
-  def list_lessons(params \\ %{}) do
-    filters =
-      []
-      |> maybe_add_filter(:subject_id, Map.get(params, "subject_id"))
-
-    flop_query = %{
-      page: Map.get(params, :page, 1),
-      page_size: Map.get(params, :page_size, 10),
-      filters: filters,
-      order_by: [:inserted_at],
-      order_directions: [:desc]
-    }
-
-    case Lesson |> Flop.validate_and_run(flop_query) do
-      {:ok, {list, _meta}} -> list
-      {:error, _reason} -> []
-    end
-  end
-
-  @doc false
-  defp maybe_add_filter(filters, field, value) do
-    [%{field: field, value: value} | filters]
+  @spec list_lessons(map()) :: {[Lesson.t()], Flop.Meta.t()} | {:error, Flop.Meta.t()}
+  def list_lessons(params) do
+    params |> IO.inspect(label: "list_lessons params")
+    Flop.validate_and_run!(Lesson, params, for: Lesson, replace_invalid_params: true)
   end
 
   @doc """
-  Gets a single lesson.
+  Gets a single lesson by ID with its subject preloaded.
 
-  Raises `Ecto.NoResultsError` if the Lesson does not exist.
-
-  ## Examples
-
-      iex> get_lesson!(123)
-      %Lesson{}
-
-      iex> get_lesson!(456)
-      ** (Ecto.NoResultsError)
-
+  Raises `Ecto.NoResultsError` if the lesson does not exist.
   """
+  @spec get_lesson!(integer()) :: Lesson.t()
   def get_lesson!(id), do: Repo.get!(Lesson, id) |> Repo.preload(:subject)
 
   @doc """
-  Creates a lesson.
+  Creates a new lesson.
 
   ## Examples
 
-      iex> create_lesson(%{field: value})
+      iex> create_lesson(%{title: "Intro"})
       {:ok, %Lesson{}}
-
-      iex> create_lesson(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
+  @spec create_lesson(map()) :: {:ok, Lesson.t()} | {:error, Ecto.Changeset.t()}
   def create_lesson(attrs \\ %{}) do
-    changeset =
-      %Lesson{}
-      |> Lesson.changeset(attrs)
-
-    with {:ok, lesson} <- Repo.insert(changeset) do
-      {:ok, Repo.preload(lesson, [:subject])}
+    %Lesson{}
+    |> Lesson.changeset(attrs)
+    |> Repo.insert()
+    |> case do
+      {:ok, lesson} -> {:ok, Repo.preload(lesson, [:subject])}
+      error -> error
     end
   end
 
   @doc """
-  Updates a lesson.
+  Updates an existing lesson.
 
   ## Examples
 
-      iex> update_lesson(lesson, %{field: new_value})
+      iex> update_lesson(lesson, %{title: "Updated"})
       {:ok, %Lesson{}}
-
-      iex> update_lesson(lesson, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
+  @spec update_lesson(Lesson.t(), map()) :: {:ok, Lesson.t()} | {:error, Ecto.Changeset.t()}
   def update_lesson(%Lesson{} = lesson, attrs) do
-    changeset =
-      lesson
-      |> Lesson.changeset(attrs)
-
-    with {:ok, lesson} <- Repo.update(changeset) do
-      {:ok, Repo.preload(lesson, [:subject])}
+    lesson
+    |> Lesson.changeset(attrs)
+    |> Repo.update()
+    |> case do
+      {:ok, lesson} -> {:ok, Repo.preload(lesson, [:subject])}
+      error -> error
     end
   end
 
   @doc """
   Deletes a lesson.
-
-  ## Examples
-
-      iex> delete_lesson(lesson)
-      {:ok, %Lesson{}}
-
-      iex> delete_lesson(lesson)
-      {:error, %Ecto.Changeset{}}
-
   """
+  @spec delete_lesson(Lesson.t()) :: {:ok, Lesson.t()} | {:error, Ecto.Changeset.t()}
   def delete_lesson(%Lesson{} = lesson) do
     Repo.delete(lesson)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking lesson changes.
-
-  ## Examples
-
-      iex> change_lesson(lesson)
-      %Ecto.Changeset{data: %Lesson{}}
-
+  Returns a changeset for tracking lesson changes.
   """
+  @spec change_lesson(Lesson.t(), map()) :: Ecto.Changeset.t()
   def change_lesson(%Lesson{} = lesson, attrs \\ %{}) do
     Lesson.changeset(lesson, attrs)
   end
 
-  alias Ecampus.Lessons.LessonTopic
+  # ----- LessonTopic CRUD -----
 
   @doc """
-  Returns the list of lesson_topics.
-
-  ## Examples
-
-      iex> list_lesson_topics()
-      [%LessonTopic{}, ...]
-
+  Returns a list of lesson topics, filtered by lesson_id and ordered by sort_order and id.
   """
+  @spec list_lesson_topics(map()) :: [LessonTopic.t()]
   def list_lesson_topics(params \\ %{}) do
-    query = LessonTopic |> preload([:lesson])
-
-    query =
-      Enum.reduce(params, query, fn
-        {"lesson_id", lesson_id}, acc ->
-          from lt in acc, where: lt.lesson_id == ^lesson_id
-
-        _, acc ->
-          acc
-      end)
-
-    query =
-      query
-      |> order_by([lt], asc: lt.sort_order)
-      |> order_by([lt], asc: lt.id)
-
-    Repo.all(query)
+    LessonTopic
+    |> preload([:lesson])
+    |> filter_lesson_topics(params)
+    |> order_by([lt], asc: lt.sort_order)
+    |> order_by([lt], asc: lt.id)
+    |> Repo.all()
   end
 
+  defp filter_lesson_topics(query, %{"lesson_id" => lesson_id}) do
+    from lt in query, where: lt.lesson_id == ^lesson_id
+  end
+
+  defp filter_lesson_topics(query, _), do: query
+
   @doc """
-  Gets a single lesson_topic.
-
-  Raises `Ecto.NoResultsError` if the Lesson topic does not exist.
-
-  ## Examples
-
-      iex> get_lesson_topic(123)
-      %LessonTopic{}
-
-      iex> get_lesson_topic(456)
-      nil
-
+  Gets a single lesson topic with its lesson preloaded.
   """
+  @spec get_lesson_topic(integer()) :: LessonTopic.t() | nil
   def get_lesson_topic(id), do: Repo.get(LessonTopic, id) |> Repo.preload(:lesson)
 
   @doc """
-  Creates a lesson_topic.
-
-  ## Examples
-
-      iex> create_lesson_topic(%{field: value})
-      {:ok, %LessonTopic{}}
-
-      iex> create_lesson_topic(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Creates a lesson topic.
   """
+  @spec create_lesson_topic(map()) ::
+          {:ok, LessonTopic.t()} | {:error, Ecto.Changeset.t()}
   def create_lesson_topic(attrs \\ %{}) do
-    changeset =
-      %LessonTopic{}
-      |> LessonTopic.changeset(attrs)
-
-    with {:ok, lesson_topic} <- Repo.insert(changeset) do
-      {:ok, Repo.preload(lesson_topic, [:lesson])}
+    %LessonTopic{}
+    |> LessonTopic.changeset(attrs)
+    |> Repo.insert()
+    |> case do
+      {:ok, lt} -> {:ok, Repo.preload(lt, [:lesson])}
+      error -> error
     end
   end
 
   @doc """
-  Updates a lesson_topic.
-
-  ## Examples
-
-      iex> update_lesson_topic(lesson_topic, %{field: new_value})
-      {:ok, %LessonTopic{}}
-
-      iex> update_lesson_topic(lesson_topic, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+  Updates a lesson topic.
   """
-  def update_lesson_topic(%LessonTopic{} = lesson_topic, attrs) do
-    changeset =
-      lesson_topic
-      |> LessonTopic.changeset(attrs)
-
-    with {:ok, lesson_topic} <- Repo.update(changeset) do
-      {:ok, Repo.preload(lesson_topic, [:lesson])}
+  @spec update_lesson_topic(LessonTopic.t(), map()) ::
+          {:ok, LessonTopic.t()} | {:error, Ecto.Changeset.t()}
+  def update_lesson_topic(%LessonTopic{} = lt, attrs) do
+    lt
+    |> LessonTopic.changeset(attrs)
+    |> Repo.update()
+    |> case do
+      {:ok, lt} -> {:ok, Repo.preload(lt, [:lesson])}
+      error -> error
     end
   end
 
   @doc """
-  Deletes a lesson_topic.
-
-  ## Examples
-
-      iex> delete_lesson_topic(lesson_topic)
-      {:ok, %LessonTopic{}}
-
-      iex> delete_lesson_topic(lesson_topic)
-      {:error, %Ecto.Changeset{}}
-
+  Deletes a lesson topic.
   """
-  def delete_lesson_topic(%LessonTopic{} = lesson_topic) do
-    Repo.delete(lesson_topic)
+  @spec delete_lesson_topic(LessonTopic.t()) ::
+          {:ok, LessonTopic.t()} | {:error, Ecto.Changeset.t()}
+  def delete_lesson_topic(%LessonTopic{} = lt) do
+    Repo.delete(lt)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking lesson_topic changes.
-
-  ## Examples
-
-      iex> change_lesson_topic(lesson_topic)
-      %Ecto.Changeset{data: %LessonTopic{}}
-
+  Returns a changeset for tracking lesson topic changes.
   """
-  def change_lesson_topic(%LessonTopic{} = lesson_topic, attrs \\ %{}) do
-    LessonTopic.changeset(lesson_topic, attrs)
+  @spec change_lesson_topic(LessonTopic.t(), map()) :: Ecto.Changeset.t()
+  def change_lesson_topic(%LessonTopic{} = lt, attrs \\ %{}) do
+    LessonTopic.changeset(lt, attrs)
   end
 
+  # ----- Export / Import -----
+
+  @doc """
+  Exports a lesson, its topics, and quizzes with nested questions and answers to a JSON string.
+  """
+  @spec export_lesson(integer()) :: String.t()
   def export_lesson(lesson_id) do
-    lesson = Repo.get!(Lesson, lesson_id) |> Repo.preload([:lesson_topics, :quizzes])
+    lesson =
+      Repo.get!(Lesson, lesson_id)
+      |> Repo.preload([:lesson_topics, :quizzes])
+
     quizzes = Repo.preload(lesson.quizzes, questions: [:answers])
 
     %{
@@ -312,6 +225,12 @@ defmodule Ecampus.Lessons do
     |> Jason.encode!()
   end
 
+  @doc """
+  Imports a lesson with lesson topics and quizzes from JSON data and attaches it to a subject.
+
+  Returns the inserted lesson ID.
+  """
+  @spec import_lesson(String.t(), integer()) :: integer()
   def import_lesson(json_data, subject_id) do
     {:ok, lesson_data} = Jason.decode(json_data)
 

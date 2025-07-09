@@ -1,6 +1,9 @@
 defmodule Ecampus.Specialities do
   @moduledoc """
   The Specialities context.
+
+  Provides functions for listing, retrieving, creating, updating,
+  and deleting academic specialities.
   """
 
   import Ecto.Query, warn: false
@@ -9,14 +12,19 @@ defmodule Ecampus.Specialities do
   alias Ecampus.Specialities.Speciality
 
   @doc """
-  Returns the list of specialities.
+  Returns a paginated, filtered, and sorted list of specialities using Flop.
+
+  Accepts Flop parameters (e.g., filters, order, pagination) and returns
+  a result with metadata.
 
   ## Examples
 
-      iex> list_specialities()
-      [%Speciality{}, ...]
+      iex> list_specialities(%{"order_by" => "title", "limit" => 10})
+      {[%Speciality{}, ...], %Flop.Meta{}}
 
   """
+  @spec list_specialities(map()) ::
+          {[Speciality.t()], Flop.Meta.t()} | {:error, Flop.Meta.t()}
   def list_specialities(params) do
     Flop.validate_and_run!(Speciality, params, for: Speciality, replace_invalid_params: true)
   end
@@ -35,6 +43,7 @@ defmodule Ecampus.Specialities do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_speciality!(integer()) :: Speciality.t()
   def get_speciality!(id), do: Repo.get!(Speciality, id)
 
   @doc """
@@ -49,6 +58,7 @@ defmodule Ecampus.Specialities do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_speciality(map()) :: {:ok, Speciality.t()} | {:error, Ecto.Changeset.t()}
   def create_speciality(attrs \\ %{}) do
     %Speciality{}
     |> Speciality.changeset(attrs)
@@ -67,6 +77,8 @@ defmodule Ecampus.Specialities do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_speciality(Speciality.t(), map()) ::
+          {:ok, Speciality.t()} | {:error, Ecto.Changeset.t()}
   def update_speciality(%Speciality{} = speciality, attrs) do
     speciality
     |> Speciality.changeset(attrs)
@@ -85,6 +97,7 @@ defmodule Ecampus.Specialities do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_speciality(Speciality.t()) :: {:ok, Speciality.t()} | {:error, Ecto.Changeset.t()}
   def delete_speciality(%Speciality{} = speciality) do
     speciality
     |> Speciality.delete_changeset()
@@ -100,6 +113,7 @@ defmodule Ecampus.Specialities do
       %Ecto.Changeset{data: %Speciality{}}
 
   """
+  @spec change_speciality(Speciality.t(), map()) :: Ecto.Changeset.t()
   def change_speciality(%Speciality{} = speciality, attrs \\ %{}) do
     Speciality.changeset(speciality, attrs)
   end

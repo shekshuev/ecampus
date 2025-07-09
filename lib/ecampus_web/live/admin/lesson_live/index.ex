@@ -1,45 +1,55 @@
 defmodule EcampusWeb.LessonLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Lessons
   alias Ecampus.Lessons.Lesson
-  alias Ecampus.Subjects
 
   @impl true
-  def mount(%{"subject_id" => subject_id}, _session, socket) do
-    subjects = Subjects.list_subjects()
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
+    {:ok, socket}
+  end
 
-    {:ok,
+  @impl true
+  def handle_params(%{"subject_id" => subject_id} = params, url, socket) do
+    parsed = URI.parse(url)
+    full_path = parsed.path <> if(parsed.query, do: "?" <> parsed.query, else: "")
+
+    {:noreply,
      socket
-     |> assign(:subjects, subjects)
      |> assign(:subject_id, subject_id)
      |> allow_upload(:lesson_json, accept: ~w(.json), max_entries: 1, auto_upload?: true)
-     |> stream(:lessons, Lessons.list_lessons(%{"subject_id" => subject_id}))}
+     |> apply_action(socket.assigns.live_action, params, full_path)}
   end
 
-  @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  defp apply_action(socket, :edit, %{"id" => id}, _full_path) do
     socket
-    |> assign(:page_title, "Edit Lesson")
+    |> assign(:page_title, dgettext("lessons", "Edit Lesson"))
     |> assign(:lesson, Lessons.get_lesson!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, _params, _full_path) do
     socket
-    |> assign(:page_title, "New Lesson")
+    |> assign(:page_title, dgettext("lessons", "New Lesson"))
     |> assign(:lesson, %Lesson{})
-    |> assign(:subjects, Subjects.list_subjects())
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, %{"subject_id" => subject_id} = params, full_path) do
+    filters =
+      [%{"field" => "subject_id", "op" => "==", "value" => subject_id}] ++
+        Map.get(params, "filters", [])
+
+    params = Map.put(params, "filters", filters)
+
+    {lessons, meta} = Lessons.list_lessons(params)
+
     socket
-    |> assign(:page_title, "Listing Lessons")
+    |> assign(:meta, meta)
+    |> assign(:current_path, full_path)
+    |> stream(:lessons, lessons, reset: true)
+    |> assign(:page_title, dgettext("lessons", "Listing Lessons"))
     |> assign(:lesson, nil)
-    |> assign(:subjects, Subjects.list_subjects())
   end
 
   @impl true
