@@ -12,6 +12,12 @@ defmodule Ecampus.Lessons.Lesson do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {
+    Flop.Schema,
+    filterable: [:title, :topic, :subject_id, :hours_count],
+    sortable: [:id, :title, :topic, :hours_count, :sort_order]
+  }
+
   @type t :: %__MODULE__{
           id: integer(),
           title: String.t(),
@@ -27,12 +33,6 @@ defmodule Ecampus.Lessons.Lesson do
           inserted_at: NaiveDateTime.t() | nil,
           updated_at: NaiveDateTime.t() | nil
         }
-
-  @derive {
-    Flop.Schema,
-    filterable: [:title, :topic, :subject_id, :hours_count],
-    sortable: [:id, :title, :topic, :hours_count, :sort_order]
-  }
 
   schema "lessons" do
     field :title, :string

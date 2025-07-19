@@ -11,8 +11,8 @@
 </.header>
 
 <.list>
-  <:item title="Title">{@group.title}</:item>
-  <:item title="Description">{@group.description}</:item>
+  <:item title={dgettext("groups", "Title")}>{@group.title}</:item>
+  <:item title={dgettext("groups", "Description")}>{@group.description}</:item>
 </.list>
 
 <.back navigate={~p"/admin/specialities/#{@speciality_id}/groups"}>

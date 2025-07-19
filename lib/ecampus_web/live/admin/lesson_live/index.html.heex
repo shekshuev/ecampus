@@ -1,49 +1,48 @@
 <.header>
-  Listing Lessons
+  {dgettext("lessons", "Listing Lessons")}
   <:actions>
-    <.link patch={~p"/admin/lessons/new"}>
-      <.button>New Lesson</.button>
+    <.link patch={~p"/admin/subjects/#{@subject_id}/lessons/new"}>
+      <.button>{dgettext("lessons", "New")}</.button>
     </.link>
-    <form id="upload-form" phx-submit="save" phx-change="validate">
-      <.live_file_input upload={@uploads.lesson_json} />
-      <button type="submit">Upload</button>
-    </form>
   </:actions>
 </.header>
 
-<.table
+<.flop_table
   id="lessons"
-  rows={@streams.lessons}
-  row_click={fn {_id, lesson} -> JS.navigate(~p"/admin/lessons/#{lesson}") end}
+  items={@streams.lessons}
+  meta={@meta}
+  path={~p"/admin/subjects/#{@subject_id}/lessons"}
+  row_click={
+    fn {_id, lesson} ->
+      JS.navigate(~p"/admin/subjects/#{@subject_id}/lessons/#{lesson}?return_to=#{@current_path}")
+    end
+  }
 >
-  <:col :let={{_id, lesson}} label="Id">{lesson.id}</:col>
-  <:col :let={{_id, lesson}} label="Title">{lesson.title}</:col>
-  <:col :let={{_id, lesson}} label="Topic">{lesson.topic}</:col>
-  <:col :let={{_id, lesson}} label="Objectives">{lesson.objectives}</:col>
-  <:col :let={{_id, lesson}} label="Is draft">{lesson.is_draft}</:col>
-  <:col :let={{_id, lesson}} label="Hours count">{lesson.hours_count}</:col>
-  <:col :let={{_id, lesson}} label="Sort order">{lesson.sort_order}</:col>
+  <:col :let={{_id, lesson}} label={dgettext("lessons", "Id")} field={:id}>{lesson.id}</:col>
+  <:col :let={{_id, lesson}} label={dgettext("lessons", "Title")} field={:title}>
+    {lesson.title}
+  </:col>
+  <:col :let={{_id, lesson}} label={dgettext("lessons", "Topic")} field={:topic}>
+    {lesson.topic}
+  </:col>
+  <:col :let={{_id, lesson}} label={dgettext("lessons", "Is draft")} field={:is_draft}>
+    {lesson.is_draft}
+  </:col>
+  <:col :let={{_id, lesson}} label={dgettext("lessons", "Hours count")} field={:hours_count}>
+    {lesson.hours_count}
+  </:col>
   <:action :let={{_id, lesson}}>
-    <div class="sr-only">
-      <.link navigate={~p"/admin/lessons/#{lesson}"}>Show</.link>
-    </div>
-    <.link patch={~p"/admin/lessons/#{lesson}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, lesson}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: lesson.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
+    <.link patch={~p"/admin/subjects/#{@subject_id}/lessons/#{lesson}/edit"}>
+      {dgettext("lessons", "Edit")}
     </.link>
   </:action>
-</.table>
+</.flop_table>
 
 <.modal
   :if={@live_action in [:new, :edit]}
   id="lesson-modal"
   show
-  on_cancel={JS.patch(~p"/admin/lessons")}
+  on_cancel={JS.patch(@current_path)}
 >
   <:title>{@page_title}</:title>
   <.live_component
@@ -51,7 +50,7 @@
     id={@lesson.id || :new}
     action={@live_action}
     lesson={@lesson}
-    subjects={@subjects}
-    patch={~p"/admin/lessons"}
+    subject_id={@subject_id}
+    patch={@current_path}
   />
 </.modal>

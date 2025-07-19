@@ -1,29 +1,27 @@
 defmodule EcampusWeb.LessonLive.Show do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Lessons
-  alias Ecampus.Subjects
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id, "subject_id" => subject_id} = params, _, socket) do
+    return_to = Map.get(params, "return_to", "/admin/subjects")
+
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:lesson, Lessons.get_lesson!(id))
-     |> assign(:subjects, Subjects.list_subjects())}
+     |> assign(:subject_id, subject_id)
+     |> assign(:return_to, return_to)}
   end
 
-  @impl true
-  def handle_event("export_lesson", _, socket) do
-    lesson_json = Lessons.export_lesson(socket.assigns.lesson.id)
-    {:noreply, socket |> push_event("download", %{filename: "lesson.json", content: lesson_json})}
-  end
-
-  defp page_title(:show), do: "Show Lesson"
-  defp page_title(:edit), do: "Edit Lesson"
+  defp page_title(:show), do: dgettext("lessons", "Show Lesson")
+  defp page_title(:edit), do: dgettext("lessons", "Edit Lesson")
 end
