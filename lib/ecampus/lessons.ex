@@ -88,24 +88,10 @@ defmodule Ecampus.Lessons do
 
   # ----- LessonTopic CRUD -----
 
-  @doc """
-  Returns a list of lesson topics, filtered by lesson_id and ordered by sort_order and id.
-  """
-  @spec list_lesson_topics(map()) :: [LessonTopic.t()]
-  def list_lesson_topics(params \\ %{}) do
-    LessonTopic
-    |> preload([:lesson])
-    |> filter_lesson_topics(params)
-    |> order_by([lt], asc: lt.sort_order)
-    |> order_by([lt], asc: lt.id)
-    |> Repo.all()
+  @spec list_lessons_topics(map()) :: {[LessonTopic.t()], Flop.Meta.t()} | {:error, Flop.Meta.t()}
+  def list_lessons_topics(params) do
+    Flop.validate_and_run!(LessonTopic, params, for: LessonTopic, replace_invalid_params: true)
   end
-
-  defp filter_lesson_topics(query, %{"lesson_id" => lesson_id}) do
-    from lt in query, where: lt.lesson_id == ^lesson_id
-  end
-
-  defp filter_lesson_topics(query, _), do: query
 
   @doc """
   Gets a single lesson topic with its lesson preloaded.

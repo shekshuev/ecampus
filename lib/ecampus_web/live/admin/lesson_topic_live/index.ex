@@ -1,52 +1,59 @@
 defmodule EcampusWeb.LessonTopicLive.Index do
   use EcampusWeb, :live_view
+  use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Lessons
   alias Ecampus.Lessons.LessonTopic
+  alias Phoenix.LiveView.Socket
 
   @impl true
-  def mount(%{"lesson_id" => lesson_id}, _session, socket) do
-    lesson_topics = Lessons.list_lesson_topics(%{"lesson_id" => String.to_integer(lesson_id)})
+  @spec mount(map(), map(), Socket.t()) :: {:ok, Socket.t()}
+  def mount(_params, %{"locale" => locale} = _session, socket) do
+    Gettext.put_locale(EcampusWeb.Gettext, locale)
+    {:ok, socket}
+  end
 
-    {:ok,
+  @impl true
+  @spec handle_params(map(), String.t(), Socket.t()) :: {:noreply, Socket.t()}
+  def handle_params(%{"lesson_id" => lesson_id} = params, url, socket) do
+    parsed = URI.parse(url)
+    full_path = parsed.path <> if(parsed.query, do: "?" <> parsed.query, else: "")
+
+    params = Map.update(params, "page_size", "10", fn existing -> existing end)
+
+    {:noreply,
      socket
-     |> assign(:lesson_id, String.to_integer(lesson_id))
-     |> stream(:lesson_topics, lesson_topics)}
+     |> assign(:lesson_id, lesson_id)
+     |> apply_action(socket.assigns.live_action, params, full_path)}
   end
 
-  @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :edit, %{"id" => id}) do
+  @spec apply_action(Socket.t(), :index | :edit | :new, map(), String.t()) :: Socket.t()
+  defp apply_action(socket, :edit, %{"id" => id}, _full_path) do
     socket
-    |> assign(:page_title, "Edit Lesson topic")
+    |> assign(:page_title, dgettext("lesson_topics", "Edit"))
     |> assign(:lesson_topic, Lessons.get_lesson_topic(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, _params, _full_path) do
     socket
-    |> assign(:page_title, "New Lesson topic")
+    |> assign(:page_title, dgettext("lesson_topics", "New"))
     |> assign(:lesson_topic, %LessonTopic{})
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params, full_path) do
+    {lesson_topics, meta} = Lessons.list_lessons_topics(params)
+
     socket
-    |> assign(:page_title, "Listing Lesson topics")
+    |> assign(:meta, meta)
+    |> assign(:current_path, full_path)
+    |> stream(:lesson_topics, lesson_topics, reset: true)
+    |> assign(:page_title, dgettext("lesson_topics", "Listing Lesson Topics"))
     |> assign(:lesson_topic, nil)
   end
 
   @impl true
-  def handle_info({EcampusWeb.LessonTopicLive.FormComponent, {:saved, lesson_topic}}, socket) do
+  @spec handle_info({module(), {:saved, LessonTopic.t()}}, Socket.t()) :: {:noreply, Socket.t()}
+  def handle_info({EcampusWeb.LessonLive.FormComponent, {:saved, lesson_topic}}, socket) do
     {:noreply, stream_insert(socket, :lesson_topics, lesson_topic)}
-  end
-
-  @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
-    lesson_topic = Lessons.get_lesson_topic(id)
-    {:ok, _} = Lessons.delete_lesson_topic(lesson_topic)
-
-    {:noreply, stream_delete(socket, :lesson_topics, lesson_topic)}
   end
 end
