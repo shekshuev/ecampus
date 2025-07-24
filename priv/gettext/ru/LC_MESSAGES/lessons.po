@@ -1,0 +1,142 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100 != 11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10||n%100>=20) ? 1 : 2);\n"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:44
+#, elixir-autogen, elixir-format
+msgid "Are you sure?"
+msgstr ""
+
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:35
+#, elixir-autogen, elixir-format
+msgid "Back to lessons"
+msgstr "Назад к списку"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:46
+#, elixir-autogen, elixir-format
+msgid "Delete"
+msgstr "Удалить"
+
+#: lib/ecampus_web/live/admin/lesson_live/index.ex:40
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:36
+#: lib/ecampus_web/live/admin/lesson_live/show.ex:37
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "Edit"
+msgstr "Редактировать"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:84
+#, elixir-autogen, elixir-format
+msgid "Failed to delete lesson"
+msgstr "Не получилось удалить занятие"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:31
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:31
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:30
+#, elixir-autogen, elixir-format
+msgid "Hours count"
+msgstr "Кол-во часов"
+
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Id"
+msgstr "Id"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:30
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:28
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Is draft"
+msgstr "Черновик"
+
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Lesson"
+msgstr "Занятие"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:116
+#, elixir-autogen, elixir-format
+msgid "Lesson created successfully"
+msgstr "Занятие успешно создано"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:78
+#, elixir-autogen, elixir-format
+msgid "Lesson deleted successfully"
+msgstr "Занятие успешно удалено"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:101
+#, elixir-autogen, elixir-format
+msgid "Lesson updated successfully"
+msgstr "Занятие успешно обновлено"
+
+#: lib/ecampus_web/live/admin/lesson_live/index.ex:57
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "Listing Lessons"
+msgstr "Список занятий"
+
+#: lib/ecampus_web/live/admin/lesson_live/index.ex:46
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr "Создать"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:29
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "Objectives"
+msgstr "Цели"
+
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Quizzes"
+msgstr "Тесты"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:36
+#, elixir-autogen, elixir-format
+msgid "Save"
+msgstr "Сохранить"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:35
+#, elixir-autogen, elixir-format
+msgid "Saving..."
+msgstr "Сохранение..."
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:32
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:31
+#, elixir-autogen, elixir-format
+msgid "Sort order"
+msgstr "Порядок сортировки"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:27
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:22
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Title"
+msgstr "Название"
+
+#: lib/ecampus_web/live/admin/lesson_live/form_component.ex:28
+#: lib/ecampus_web/live/admin/lesson_live/index.html.heex:25
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Topic"
+msgstr "Тема"
+
+#: lib/ecampus_web/live/admin/lesson_live/show.html.heex:14
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Lesson Topics"
+msgstr "Учебные вопросы"
+
+#: lib/ecampus_web/live/admin/lesson_live/show.ex:36
+#, elixir-autogen, elixir-format
+msgid "Show"
+msgstr "Просмотр"

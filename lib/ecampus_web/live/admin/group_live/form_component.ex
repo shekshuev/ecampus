@@ -1,10 +1,19 @@
 defmodule EcampusWeb.GroupLive.FormComponent do
+  @moduledoc """
+  LiveComponent for creating and editing academic groups.
+
+  Renders the form and handles form validation, saving (create/update),
+  and deletion of `Group` entities within a speciality.
+  """
+
   use EcampusWeb, :live_component
   use Gettext, backend: EcampusWeb.Gettext
 
   alias Ecampus.Groups
+  alias Phoenix.LiveView.Socket
 
   @impl true
+  @spec render(map()) :: Phoenix.LiveView.Rendered.t()
   def render(assigns) do
     ~H"""
     <div>
@@ -40,6 +49,7 @@ defmodule EcampusWeb.GroupLive.FormComponent do
   end
 
   @impl true
+  @spec update(map(), Socket.t()) :: {:ok, Socket.t()}
   def update(%{group: group} = assigns, socket) do
     {:ok,
      socket
@@ -50,6 +60,7 @@ defmodule EcampusWeb.GroupLive.FormComponent do
   end
 
   @impl true
+  @spec handle_event(String.t(), map(), Socket.t()) :: {:noreply, Socket.t()}
   def handle_event("validate", %{"group" => group_params}, socket) do
     changeset = Groups.change_group(socket.assigns.group, group_params)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
@@ -75,6 +86,7 @@ defmodule EcampusWeb.GroupLive.FormComponent do
     save_group(socket, socket.assigns.action, group_params)
   end
 
+  @spec save_group(Socket.t(), :new | :edit, map()) :: {:noreply, Socket.t()}
   defp save_group(socket, :edit, group_params) do
     case Groups.update_group(socket.assigns.group, group_params) do
       {:ok, group} ->
@@ -105,5 +117,6 @@ defmodule EcampusWeb.GroupLive.FormComponent do
     end
   end
 
+  @spec notify_parent({:saved, Groups.Group.t()}) :: :ok
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
 end

@@ -37,7 +37,7 @@ msgstr "Delete"
 msgid "Description"
 msgstr "Description"
 
-#: lib/ecampus_web/live/admin/subject_live/index.ex:39
+#: lib/ecampus_web/live/admin/subject_live/index.ex:41
 #: lib/ecampus_web/live/admin/subject_live/index.html.heex:30
 #: lib/ecampus_web/live/admin/subject_live/show.ex:37
 #: lib/ecampus_web/live/admin/subject_live/show.html.heex:5
@@ -60,13 +60,13 @@ msgstr "Id"
 msgid "Lessons"
 msgstr "Lessons"
 
-#: lib/ecampus_web/live/admin/subject_live/index.ex:56
+#: lib/ecampus_web/live/admin/subject_live/index.ex:58
 #: lib/ecampus_web/live/admin/subject_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Listing Subjects"
 msgstr "Listing Subjects"
 
-#: lib/ecampus_web/live/admin/subject_live/index.ex:45
+#: lib/ecampus_web/live/admin/subject_live/index.ex:47
 #: lib/ecampus_web/live/admin/subject_live/index.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "New"

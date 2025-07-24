@@ -11,7 +11,7 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100 != 11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10||n%100>=20) ? 1 : 2);\n"
 
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:31
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:40
 #, elixir-autogen, elixir-format
 msgid "Are you sure?"
 msgstr "Вы уверены?"
@@ -21,30 +21,27 @@ msgstr "Вы уверены?"
 msgid "Back to groups"
 msgstr "Назад к группам"
 
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:33
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:42
 #, elixir-autogen, elixir-format
 msgid "Delete"
 msgstr "Удалить"
 
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:19
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:28
 #: lib/ecampus_web/live/admin/group_live/index.html.heex:23
+#: lib/ecampus_web/live/admin/group_live/show.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Description"
 msgstr "Описание"
 
+#: lib/ecampus_web/live/admin/group_live/index.ex:40
 #: lib/ecampus_web/live/admin/group_live/index.html.heex:28
+#: lib/ecampus_web/live/admin/group_live/show.ex:33
 #: lib/ecampus_web/live/admin/group_live/show.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr "Редактировать"
 
-#: lib/ecampus_web/live/admin/group_live/index.ex:27
-#: lib/ecampus_web/live/admin/group_live/show.ex:22
-#, elixir-autogen, elixir-format
-msgid "Edit Group"
-msgstr "Редактировать группу"
-
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:69
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:80
 #, elixir-autogen, elixir-format
 msgid "Failed to delete group"
 msgstr "Ошибка удаления группы"
@@ -54,7 +51,7 @@ msgstr "Ошибка удаления группы"
 msgid "Group"
 msgstr "Группа"
 
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:63
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:74
 #, elixir-autogen, elixir-format
 msgid "Group deleted successfully"
 msgstr "Группа успешно удалена"
@@ -62,41 +59,38 @@ msgstr "Группа успешно удалена"
 #: lib/ecampus_web/live/admin/group_live/index.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "Id"
-msgstr "ID"
+msgstr "Id"
 
-#: lib/ecampus_web/live/admin/group_live/index.ex:44
+#: lib/ecampus_web/live/admin/group_live/index.ex:57
 #: lib/ecampus_web/live/admin/group_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Listing Groups"
 msgstr "Список групп"
 
+#: lib/ecampus_web/live/admin/group_live/index.ex:46
 #: lib/ecampus_web/live/admin/group_live/index.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "New"
 msgstr "Создать"
 
-#: lib/ecampus_web/live/admin/group_live/index.ex:33
-#, elixir-autogen, elixir-format
-msgid "New Group"
-msgstr "Создать группу"
-
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:23
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:32
 #, elixir-autogen, elixir-format
 msgid "Save"
 msgstr "Сохранить"
 
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:22
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:31
 #, elixir-autogen, elixir-format
 msgid "Saving..."
 msgstr "Сохранение..."
 
-#: lib/ecampus_web/live/admin/group_live/form_component.ex:18
+#: lib/ecampus_web/live/admin/group_live/form_component.ex:27
 #: lib/ecampus_web/live/admin/group_live/index.html.heex:20
+#: lib/ecampus_web/live/admin/group_live/show.html.heex:14
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr "Название"
 
-#: lib/ecampus_web/live/admin/group_live/show.ex:21
+#: lib/ecampus_web/live/admin/group_live/show.ex:32
 #, elixir-autogen, elixir-format
-msgid "Show Group"
-msgstr "Просмотр группы"
+msgid "Show"
+msgstr "Просмотр"

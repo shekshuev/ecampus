@@ -27,6 +27,8 @@ defmodule EcampusWeb.SubjectLive.Index do
     parsed = URI.parse(url)
     full_path = parsed.path <> if(parsed.query, do: "?" <> parsed.query, else: "")
 
+    params = Map.update(params, "page_size", "10", fn existing -> existing end)
+
     {:noreply,
      socket
      |> apply_action(socket.assigns.live_action, params, full_path)}

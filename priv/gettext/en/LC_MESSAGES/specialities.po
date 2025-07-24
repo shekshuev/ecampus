@@ -11,7 +11,7 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.ex:56
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:58
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Listing Specialities"
@@ -24,7 +24,7 @@ msgstr "Listing Specialities"
 msgid "Code"
 msgstr "Code"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.ex:39
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:41
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:34
 #: lib/ecampus_web/live/admin/speciality_live/show.ex:37
 #: lib/ecampus_web/live/admin/speciality_live/show.html.heex:5
@@ -37,7 +37,7 @@ msgstr "Edit"
 msgid "Id"
 msgstr "Id"
 
-#: lib/ecampus_web/live/admin/speciality_live/index.ex:45
+#: lib/ecampus_web/live/admin/speciality_live/index.ex:47
 #: lib/ecampus_web/live/admin/speciality_live/index.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "New"
