@@ -15,7 +15,7 @@ defmodule EcampusWeb.LessonTopicLive.Index do
 
   @impl true
   @spec handle_params(map(), String.t(), Socket.t()) :: {:noreply, Socket.t()}
-  def handle_params(%{"lesson_id" => lesson_id} = params, url, socket) do
+  def handle_params(%{"lesson_id" => lesson_id, "subject_id" => subject_id} = params, url, socket) do
     parsed = URI.parse(url)
     full_path = parsed.path <> if(parsed.query, do: "?" <> parsed.query, else: "")
 
@@ -24,6 +24,7 @@ defmodule EcampusWeb.LessonTopicLive.Index do
     {:noreply,
      socket
      |> assign(:lesson_id, lesson_id)
+     |> assign(:subject_id, subject_id)
      |> apply_action(socket.assigns.live_action, params, full_path)}
   end
 
